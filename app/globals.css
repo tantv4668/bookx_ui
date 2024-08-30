@@ -135,6 +135,7 @@
 		border-radius: 4px;
 	}
 }
+
 @font-face {
 	font-family: 'Manrope';
 	src: url('/fonts/Manrope/Manrope-Regular.ttf') format('truetype');
@@ -173,4 +174,25 @@
 	font-weight: 800;
 	font-style: normal;
 	font-display: swap;
+}
+
+.orderly-progress-container {
+	background-image: linear-gradient(to right, #AC93D8, #AC93D8);
+}
+
+.orderly-progress-container[data-margin-ratio='default'] .orderly-progress-indicator {
+	background-image: linear-gradient(to right, #AC93D8, #AC93D8);
+}
+
+.orderly-progress-container[data-margin-ratio='high'] .orderly-progress-indicator {
+	background-image: linear-gradient(to right, #AC93D8, #AC93D8);
+}
+
+.orderly-progress-container[data-margin-ratio='medium'] .orderly-progress-indicator {
+	background-image: linear-gradient(to right, #AC93D8, #AC93D8);
+}
+
+.orderly-progress-container[data-margin-ratio='low'] .orderly-progress-indicator {
+	background-image: linear-gradient(to right, #AC93D8, #AC93D8);
+
 }

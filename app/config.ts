@@ -49,8 +49,8 @@ export function OrderlyConfig(ctx?: { url: string; domain: string }) {
 			},
 		},
 		app: {
-			brokerId: 'bookx',
-			brokerName: 'Orderly',
+			brokerId: 'book_x',
+			brokerName: 'BookX',
 			appIcons: {
 				// main: {
 				// 	img: '/bookxLogo.png',

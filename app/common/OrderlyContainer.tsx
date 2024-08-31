@@ -84,11 +84,11 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 				// 	testnet: [],
 				// }}
 				topBarProps={{
-					left: (
-						<div className="orderly-h-[48px] orderly-p-3">
-							<img className="orderly-w-[160px] orderly-h-[28px]" src="/bookxLogo.png" />
-						</div>
-					),
+					// left: (
+					// 	<div className="orderly-h-[48px] orderly-p-3">
+					// 		<img className="orderly-w-[160px] orderly-h-[28px]" src="/bookxLogo.png" />
+					// 	</div>
+					// ),
 					nav: <NavbarTab />,
 				}}
 				referral={{
@@ -104,16 +104,16 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 					},
 				}}
 				theme={undefined}
-				// chainFilter={
-				// 	{
-				// 		mainnet: [{ id: 42161 }, { id: 8453 }, { id: 10 }, { id: 169 }],
-				// 		testnet: [{ id: 421614 }, { id: 421613 }],
-				// 	} as any
-				// }
-				// chainFilter={{
-				// 	mainnet: [],
-				// 	testnet: [{ id: ARBITRUM_TESTNET_CHAINID }, { id: MANTLE_TESTNET_CHAINID }],
-				// }}
+			// chainFilter={
+			// 	{
+			// 		mainnet: [{ id: 42161 }, { id: 8453 }, { id: 10 }, { id: 169 }],
+			// 		testnet: [{ id: 421614 }, { id: 421613 }],
+			// 	} as any
+			// }
+			// chainFilter={{
+			// 	mainnet: [],
+			// 	testnet: [{ id: ARBITRUM_TESTNET_CHAINID }, { id: MANTLE_TESTNET_CHAINID }],
+			// }}
 			>
 				{props.children}
 			</OrderlyAppProvider>

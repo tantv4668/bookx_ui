@@ -30,7 +30,7 @@ export function OrderlyConfig(ctx?: { url: string; domain: string }) {
 			],
 			appMetadata: {
 				name: 'Orderly',
-				icon: '/bookxLogo.png',
+				icon: '/bookxIcon.png',
 				description: 'Orderly',
 				recommendedInjectedWallets: [
 					{ name: 'Coinbase', url: 'https://wallet.coinbase.com/' },
@@ -52,12 +52,12 @@ export function OrderlyConfig(ctx?: { url: string; domain: string }) {
 			brokerId: 'book_x',
 			brokerName: 'BookX',
 			appIcons: {
-				// main: {
-				// 	img: '/bookxLogo.png',
-				// },
-				// secondary: {
-				// 	img: '/bookxLogo.png',
-				// },
+				main: {
+					img: '/bookxLogo.png',
+				},
+				secondary: {
+					img: '/bookxLogo.png',
+				},
 			},
 			chainFilter: { mainnet: [Arbitrum, Optimism, Base, Ethereum] },
 			enableSwapDeposit: false,

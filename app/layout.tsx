@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					rel="stylesheet"
 				/> */}
 			</head>
-			<title id="orderly_sdk_demo_title_key">BookX</title>
+			<title id="orderly_sdk_demo_title_key">BookX: Multi-chain Unified Perpetual DEX</title>
 			<meta name="description" content="BookX" />
 			<body>
 				<OrderlyContainer>{children}</OrderlyContainer>

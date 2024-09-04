@@ -222,4 +222,12 @@
 			stroke: #E1F578;
 		}
 	}
+
+	button {
+		svg {
+			path {
+				stroke: #AC93D8;
+			}
+		}
+	}
 }

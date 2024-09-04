@@ -213,5 +213,13 @@
 }
 
 #orderly-account-margin-ratio-value {
-	color: #E1F578 !important;
+	color: #E1F578;
+}
+
+#orderly-bottom-navigation-bar {
+	svg {
+		path {
+			stroke: #E1F578;
+		}
+	}
 }

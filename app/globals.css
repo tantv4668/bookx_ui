@@ -25,7 +25,7 @@
 
 	--orderly-color-success: 3 152 134;
 	/* --orderly-color-success-light: 0 181 159; */
-	--orderly-color-success-light: 47 156 149;
+	--orderly-color-success-light: 225 245 120;
 	--orderly-color-success-darken: 0 119 105;
 	--orderly-color-success-contrast: 255 255 255;
 
@@ -210,4 +210,8 @@
 
 #orderly-desktop-botom-bar-switch-chain-button {
 	border-color: #E1F578;
+}
+
+#orderly-account-margin-ratio-value {
+	color: #E1F578 !important;
 }

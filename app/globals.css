@@ -49,9 +49,9 @@
 
 	--orderly-color-base-foreground: 255 255 255;
 
-	--orderly-color-trading-loss: 255 104 107;
+	--orderly-color-trading-loss: 172 147 219;
 	--orderly-color-trading-loss-contrast: 255 255 255;
-	--orderly-color-trading-profit: 47 156 149;
+	--orderly-color-trading-profit: 255 245 120;
 	--orderly-color-trading-profit-contrast: 255 255 255;
 
 	/* rounded */

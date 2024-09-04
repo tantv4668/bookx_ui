@@ -198,6 +198,16 @@
 }
 
 #orderly-order-entry-buy-button[data-state="active"],
-#orderly-order-entry-sell-button[data-state="active"] {
+#orderly-order-entry-sell-button[data-state="active"],
+#orderly-order-entry-confirm-button,
+#orderly-bottom-nav-bar-connect-button {
 	color: #000;
+}
+
+#orderly-bottom-nav-bar-connect-button {
+	background-color: #E1F578;
+}
+
+#orderly-desktop-botom-bar-switch-chain-button {
+	border-color: #E1F578;
 }

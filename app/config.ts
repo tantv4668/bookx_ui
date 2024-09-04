@@ -62,9 +62,9 @@ export function OrderlyConfig(ctx?: { url: string; domain: string }) {
 			chainFilter: { mainnet: [Arbitrum, Optimism, Base, Ethereum] },
 			enableSwapDeposit: false,
 			footerStatusBarProps: {
-				xUrl: 'https://twitter.com/OrderlyNetwork',
-				telegramUrl: 'https://orderly.network',
-				discordUrl: 'https://discord.com/invite/orderlynetwork',
+				xUrl: 'https://x.com/BookX_Trade',
+				telegramUrl: 'https://t.me/BookX_Community',
+				// discordUrl: 'https://discord.com/invite/orderlynetwork',
 			},
 			shareOptions: {
 				pnl: {

@@ -69,12 +69,15 @@ export function OrderlyConfig(ctx?: { url: string; domain: string }) {
 			shareOptions: {
 				pnl: {
 					backgroundImages: [
-						'/images/poster.jpg',
-						// '/images/poster_bg_2.png',
-						// '/images/poster_bg_3.png',
-						// '/images/poster_bg_4.png',
-						// '/images/poster_bg_5.png',
-						// '/images/poster_bg_6.png',
+						'/images/3.png',
+						'/images/4.png',
+						'/images/5.png',
+						'/images/6.png',
+						'/images/7.png',
+						'/images/8.png',
+						'/images/9.png',
+						'/images/10.png',
+						'/images/11.png',
 					],
 				},
 			},

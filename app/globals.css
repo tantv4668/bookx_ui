@@ -51,7 +51,7 @@
 
 	--orderly-color-trading-loss: 172 147 219;
 	--orderly-color-trading-loss-contrast: 255 255 255;
-	--orderly-color-trading-profit: 255 245 120;
+	--orderly-color-trading-profit: 225 245 120;
 	--orderly-color-trading-profit-contrast: 255 255 255;
 
 	/* rounded */
@@ -195,4 +195,9 @@
 .orderly-progress-container[data-margin-ratio='low'] .orderly-progress-indicator {
 	background-image: linear-gradient(to right, #AC93D8, #AC93D8);
 
+}
+
+#orderly-order-entry-buy-button[data-state="active"],
+#orderly-order-entry-sell-button[data-state="active"] {
+	color: #000;
 }

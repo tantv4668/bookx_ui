@@ -5,7 +5,7 @@ import ReferralContainer from '../../common/ReferralContainer';
 const View: React.FC = () => {
 	return (
 		<ReferralContainer>
-			<Dashboard />
+			{/* <Dashboard /> */}
 		</ReferralContainer>
 	);
 };

@@ -7,7 +7,7 @@ import { CustomConfigStore, ENV_NAME } from './CustomConfigStore';
 import NavbarTab from './NavbarTab';
 import { _orderlySymbolKey } from '../constant';
 import { useRouter } from 'next/navigation';
-import { CustomContractManager } from './CustomContract';
+// import { CustomContractManager } from './CustomContract';
 import { ARBITRUM_TESTNET_CHAINID, MANTLE_TESTNET_CHAINID } from '@orderly.network/types';
 export type NetworkId = 'testnet' | 'mainnet';
 
@@ -41,7 +41,7 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 	const env = networkId === 'mainnet' ? 'prod' : HostEnvMap[window.location.hostname] || 'staging';
 
 	const configStore = new CustomConfigStore({ networkId, env });
-	const contracts = new CustomContractManager(configStore);
+	// const contracts = new CustomContractManager(configStore);
 
 	return (
 		<ConnectorProvider options={onboard as any}>

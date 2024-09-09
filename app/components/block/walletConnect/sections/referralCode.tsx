@@ -1,7 +1,8 @@
 'use client';
 import { CircleCloseIcon } from '@/app/components/assets/icons/circleClose';
 import { Input } from '@/app/components/globals/input';
-import { OrderlyAppContext } from '@/app/components/provider';
+import { OrderlyAppContext } from '@orderly.network/react';
+// import { OrderlyAppContext } from '@/app/components/provider';
 import { cn } from '@/app/components/utils/css';
 import { FC, useContext, useEffect, useMemo, useRef, useState } from 'react';
 

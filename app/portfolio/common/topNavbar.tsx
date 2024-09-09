@@ -3,10 +3,11 @@ import { FC, ReactNode, useCallback, useContext, useEffect, useState } from 'rea
 import { StatusContext, WsNetworkStatus, useAccount, useMaintenanceStatus } from '@orderly.network/hooks';
 import TopTips from '@/app/components/block/accountStatus/sections/topTips';
 import { showAccountConnectorModal } from '@/app/components/block/walletConnect';
-import { OrderlyAppContext } from '@/app/components/provider';
+// import { OrderlyAppContext } from '@/app/components/provider';
 import { AccountStatus } from '@/app/components/block/desktop/accountStatus.desktop';
 import { Logo } from '@/app/components/logo';
 import { AccountStatusEnum } from '@/app/components/types/constants';
+import { OrderlyAppContext } from '@orderly.network/react';
 
 export type TopNavbarProps = {
 	left?: ReactNode;
@@ -19,6 +20,8 @@ export const TopNavbar: FC = (props) => {
 	const { errors, accountMenuItems, onClickAccountMenuItem, topBar, topBarProps } = useContext(OrderlyAppContext);
 
 	const { left, nav, right } = topBarProps || {};
+
+	console.log('??topBar', topBar);
 
 	const { ws: wsStatus } = useContext(StatusContext);
 

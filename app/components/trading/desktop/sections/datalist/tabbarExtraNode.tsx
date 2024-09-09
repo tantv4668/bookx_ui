@@ -8,8 +8,8 @@ import { UnPnlPriceBasisCheckBox, UnPnlPriceBasisType } from './unPnlPriceBasisC
 import { SettingsIcon } from '@/app/components/assets/icons/settings';
 import { Divider } from '@/app/components/divider';
 import { useTabContext } from '@orderly.network/react/esm/tab/tabContext';
-import { Label } from '@/app/components/label';
 import { Checkbox } from '@/app/components/globals/checkbox';
+import { Label } from '@/app/components/globals/label';
 
 export interface TabBarExtraNodeProps {
 	decimalPrecision: any;

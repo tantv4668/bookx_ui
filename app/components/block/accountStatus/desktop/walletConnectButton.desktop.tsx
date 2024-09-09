@@ -10,13 +10,14 @@ import { Tooltip, TooltipArrow, TooltipContent, TooltipTrigger } from '@radix-ui
 import { DesktopDropMenuItem } from './accountStatus.desktop';
 import { isTestnet } from '@orderly.network/utils';
 import { cn } from '@/app/components/utils/css';
-import { OrderlyAppContext } from '@/app/components/provider';
+// import { OrderlyAppContext } from '@/app/components/provider';
 import { Divider } from '@/app/components/divider';
 import { Text } from '@/app/components/text';
 import { CopyDesktopIcon } from '@/app/components/assets/icons/copy.desktop';
 import { ShareIcon } from '@/app/components/assets/icons/share';
 import { DisconnectIcon } from '@/app/components/assets/icons/disconnect';
 import { Blockie } from '@/app/components/globals/avatar';
+import { OrderlyAppContext } from '@orderly.network/react';
 
 const IconTooltip = (props: { trigger: ReactNode; tooltipContent: string }) => (
 	<Tooltip>
@@ -128,7 +129,7 @@ export const DesktopWalletConnnectButton: FC<
 					<WalletConnectButton
 						status={status}
 						address={props.address}
-						className="orderly-rounded-lg orderly-h-[32px] "
+						className="orderly-rounded-full orderly-h-[32px] "
 						onConnect={props.onConnect}
 					/>
 				</div>

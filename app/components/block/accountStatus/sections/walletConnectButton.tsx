@@ -1,8 +1,9 @@
 'use client';
 import { FC, useContext, useMemo } from 'react';
 import { AccountStatusEnum } from '@orderly.network/types';
-import { Sheet } from 'lucide-react';
-import { OrderlyAppContext } from '@/app/components/provider';
+// import { Sheet } from 'lucide-react';
+import { OrderlyAppContext } from '@orderly.network/react';
+// import { OrderlyAppContext } from '@/app/components/provider';
 import { Text } from '@/app/components/text';
 import Button from '@/app/components/globals/button';
 import { cn } from '@/app/components/utils/css';
@@ -45,7 +46,7 @@ export const WalletConnectButton: FC<Props> = (props) => {
 				loading={props.loading}
 				// variant={"gradient"}
 				className={cn(
-					'orderly-bg-paleLime orderly-text-black hover:orderly-text-black orderly-text-4xs hover:orderly-opacity-80 orderly-h-[30px]',
+					'orderly-bg-[#AC93D8] orderly-text-black hover:orderly-text-black orderly-text-4xs hover:orderly-opacity-80 orderly-h-[30px]',
 					props.className,
 				)}
 				onClick={() => props.onConnect?.()}

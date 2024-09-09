@@ -1,7 +1,8 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { StatusContext, useMaintenanceStatus, WsNetworkStatus } from '@orderly.network/hooks';
-import { OrderlyAppContext } from '@/app/components/provider';
+import { OrderlyAppContext } from '@orderly.network/react';
+// import { OrderlyAppContext } from '@/app/components/provider';
 import { MaintenanceDialog } from './maintenanceDialog';
 import { MaintenanceStatusTips } from './maintenanceStatusTips';
 import { WsStatus } from './WsStatus';

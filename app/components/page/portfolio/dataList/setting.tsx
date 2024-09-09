@@ -18,7 +18,8 @@ const Setting: React.FC = (props) => {
 				</div>
 				<div>
 					<Switch
-						className="orderly-bg-charcoal orderly-w-9 orderly-h-5"
+						color="charcoal"
+						className="!orderly-bg-charcoal orderly-w-9 orderly-h-5"
 						thumbClassName="orderly-w-4 orderly-h-4 orderly-bg-slateGray"
 					/>
 				</div>

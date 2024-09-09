@@ -9,6 +9,7 @@ const switchVariants = cva('', {
 			primary: 'data-[state=checked]:orderly-bg-primary data-[state=unchecked]:orderly-bg-base-100',
 			profit: 'data-[state=checked]:orderly-bg-trade-profit data-[state=unchecked]:orderly-bg-base-100',
 			loss: 'data-[state=checked]:orderly-bg-trade-loss data-[state=unchecked]:orderly-bg-base-100',
+			charcoal: 'data-[state=checked]:orderly-bg-charcoal'
 		},
 		// size:{
 		//   default:"",

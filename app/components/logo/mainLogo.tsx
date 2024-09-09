@@ -3,7 +3,8 @@ import { useMediaQuery } from '@orderly.network/hooks';
 import { MEDIA_TABLET } from '@orderly.network/types';
 import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
 import { cn } from '../utils/css';
-import { OrderlyAppContext } from '../provider';
+import { OrderlyAppContext } from '@orderly.network/react';
+// import { OrderlyAppContext } from '../provider';
 
 export interface LogoProps {
 	link?: string;

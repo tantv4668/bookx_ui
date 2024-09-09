@@ -6,7 +6,7 @@ import { useChains, OrderlyContext, useWalletConnector, useMediaQuery } from '@o
 import { isTestnet } from '@orderly.network/utils';
 import { OrderlyAppContext } from '@/app/components/provider';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/app/components/dropdown/dropdown';
-import Button from '@/app/components/button';
+import Button from '@/app/components/globals/button';
 import { cn } from '@/app/components/utils/css';
 import { ArrowIcon } from '@/app/components/assets/icons/arrow';
 import { ChainListView } from '../../../pickers/chainPicker';

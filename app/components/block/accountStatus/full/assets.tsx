@@ -19,7 +19,7 @@ import { isTestnet } from '@orderly.network/utils';
 import { modal } from '@/app/components/modal';
 import { WalletConnectSheet } from '../../walletConnect';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/app/components/collapsible';
-import Button from '@/app/components/button';
+import Button from '@/app/components/globals/button';
 import { NetworkImage } from '@/app/components/assets/icons/networkImage';
 import { MemorizedAssetsDetail } from './assetsDetail';
 import { Progress } from '@/app/components/progress';
@@ -68,7 +68,7 @@ export const Assets: FC<AssetsProps> = (props) => {
 		return getTestUSDC({
 			chain_id: account.wallet?.chainId.toString(),
 			user_address: state.address,
-			broker_id: "book_x",
+			broker_id: 'book_x',
 		}).then(
 			(res: any) => {
 				setDisableGetTestUSDC(false);

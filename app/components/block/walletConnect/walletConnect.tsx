@@ -3,7 +3,7 @@ import { FC, useCallback, useContext, useMemo, useState } from 'react';
 import { AccountStatusEnum } from '@orderly.network/types';
 import { StepItem } from './sections/step';
 import { useAccount, useCheckReferralCode, useGetReferralCode, useMutation } from '@orderly.network/hooks';
-import Button from '../../button';
+import Button from '../../globals/button';
 import { toast } from '../../toast';
 import { RememberMe } from './sections/rememberMe';
 import { ReferralCode } from './sections/referralCode';

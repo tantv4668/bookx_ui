@@ -9,7 +9,7 @@ import { OrderlyAppContext } from '@/app/components/provider';
 import { useTranslation } from '@/app/components/i18n';
 import { cn } from '@/app/components/utils/css';
 import { Dialog, DialogBody, DialogContent, DialogHeader, DialogTrigger } from '@/app/components/dialog';
-import Button from '@/app/components/button';
+import Button from '@/app/components/globals/button';
 import { ChainListView } from '../../pickers/chainPicker';
 
 export interface Props {

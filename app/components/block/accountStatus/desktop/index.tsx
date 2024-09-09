@@ -1,5 +1,5 @@
 'use client';
-import Button from '../../../button';
+import Button from '../../../globals/button';
 import { Assets } from './assets';
 import { Divider } from '../../../divider';
 import { FC, useContext } from 'react';

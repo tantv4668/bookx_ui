@@ -14,7 +14,7 @@ import { MoveDownIcon } from "../../assets/icons/moveDown";
 import { NetworkImage } from "../../assets/icons/networkImage";
 import { WalletPicker } from "../pickers/walletPicker";
 import { Divider } from "../../divider";
-import { TokenQtyInput } from "../../input/tokenQtyInput";
+import { TokenQtyInput } from "../../globals/input/tokenQtyInput";
 import { Summary } from "./sections/summary";
 
 export type DST = {

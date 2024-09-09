@@ -20,7 +20,7 @@ import {
 import { toast } from '../../../toast';
 // import { MemorizedLeverage } from "@/block/accountStatus/desktop/leverage";
 // import { MemorizedAssetsDetail } from "@/block/accountStatus/desktop/assetsDetail";
-import Button from '../../../button';
+import Button from '../../../globals/button';
 import { AccountStatusEnum } from '@orderly.network/types';
 import { isTestnet } from '@orderly.network/utils';
 import { getMarginRatioColor } from '../utils';
@@ -77,7 +77,7 @@ export const Assets: FC<AssetsProps> = (props) => {
 		return getTestUSDC({
 			chain_id: account.wallet?.chainId.toString(),
 			user_address: state.address,
-			broker_id: "book_x",
+			broker_id: 'book_x',
 		}).then(
 			(res: any) => {
 				setDisableGetTestUSDC(false);

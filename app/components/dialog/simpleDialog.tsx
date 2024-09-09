@@ -3,7 +3,7 @@ import type { FC, PropsWithChildren, ReactNode } from 'react';
 import { DialogContent, DialogHeader, DialogDescription, Dialog, DialogTitle, DialogFooter } from '../dialog/dialog';
 import { useMemo, useState } from 'react';
 import { cn } from '../utils/css';
-import Button from '../button';
+import Button from '../globals/button';
 
 export interface BaseDialogProps {
 	open: boolean;

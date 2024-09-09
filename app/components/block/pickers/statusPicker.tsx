@@ -1,7 +1,7 @@
 'use client';
 import { FC } from 'react';
 import { BasePickerProps } from './types';
-import { Select } from '../../select';
+import { Select } from '../../globals/select';
 
 export interface StatusPickerProps extends BasePickerProps<any> {}
 

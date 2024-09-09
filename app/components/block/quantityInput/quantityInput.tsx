@@ -3,7 +3,7 @@ import { FC, useMemo, useRef } from "react";
 import { Decimal } from "@orderly.network/utils";
 import { type API } from "@orderly.network/types";
 import { TokenSelect } from "../pickers/tokenPicker";
-import Button from "../../button";
+import Button from "../../globals/button";
 import { Divider } from "../../divider";
 import { cn } from "../../utils/css";
 import { Spinner } from "../../spinner";

@@ -5,7 +5,7 @@ import { SettlePnlContent } from '../settlePnlContent';
 import { AssetsContext } from '@/app/components/provider';
 import { modal } from '@/app/components/modal';
 import { Numeral } from '@/app/components/text/numeral';
-import Button from '@/app/components/button';
+import Button from '@/app/components/globals/button';
 
 interface UnsettledInfoProps {
 	unsettledPnL: number;

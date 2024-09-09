@@ -12,11 +12,11 @@ import { isTestnet } from '@orderly.network/utils';
 import { cn } from '@/app/components/utils/css';
 import { OrderlyAppContext } from '@/app/components/provider';
 import { Divider } from '@/app/components/divider';
-import { Blockie } from '@/app/components/avatar';
 import { Text } from '@/app/components/text';
 import { CopyDesktopIcon } from '@/app/components/assets/icons/copy.desktop';
 import { ShareIcon } from '@/app/components/assets/icons/share';
 import { DisconnectIcon } from '@/app/components/assets/icons/disconnect';
+import { Blockie } from '@/app/components/globals/avatar';
 
 const IconTooltip = (props: { trigger: ReactNode; tooltipContent: string }) => (
 	<Tooltip>
@@ -124,11 +124,11 @@ export const DesktopWalletConnnectButton: FC<
 	return (
 		<DropdownMenu open={state.address ? open : false} onOpenChange={state.address ? setOpen : undefined}>
 			<DropdownMenuTrigger>
-				<div className="orderly-h-[48px] orderly-flex orderly-items-center">
+				<div className="orderly-h-[32px] orderly-flex orderly-items-center">
 					<WalletConnectButton
 						status={status}
 						address={props.address}
-						className="orderly-rounded-full"
+						className="orderly-rounded-lg orderly-h-[32px] "
 						onConnect={props.onConnect}
 					/>
 				</div>
@@ -151,7 +151,7 @@ export const DesktopWalletConnnectButton: FC<
 					<IconTooltip
 						trigger={
 							<CopyDesktopIcon
-								onClick={onCopy}
+								// onClick={onCopy}
 								size={20}
 								className="orderly-text-base-contrast-36 hover:orderly-text-base-contrast"
 							/>

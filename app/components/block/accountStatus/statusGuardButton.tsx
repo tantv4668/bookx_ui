@@ -1,6 +1,6 @@
 'use client';
 import { FC, PropsWithChildren, ReactNode, useCallback, useContext, useMemo } from 'react';
-import { Button } from '../../button/button';
+import { Button } from '../../globals/button/button';
 import { useAccount } from '@orderly.network/hooks';
 import { AccountStatusEnum } from '@orderly.network/types';
 import { OrderlyAppContext } from '../../provider';

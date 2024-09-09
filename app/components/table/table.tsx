@@ -25,11 +25,12 @@ export interface TableProps<RecordType> extends TBodyProps<RecordType> {
 	showMaskElement?: boolean;
 	loadMore?: () => void;
 	id?: string;
+	isApiKeyTab?: boolean;
 }
 
 export const Table = <RecordType extends unknown>(props: TableProps<RecordType>) => {
 	const wrapRef = useRef<HTMLDivElement>(null);
-	const { dataSource, columns, showMaskElement = true, ...rest } = props;
+	const { dataSource, columns, showMaskElement = true, isApiKeyTab = false, ...rest } = props;
 
 	const [maskLayout, setMaskLayout] = useState({
 		left: 0,
@@ -45,7 +46,7 @@ export const Table = <RecordType extends unknown>(props: TableProps<RecordType>)
 
 		let content: ReactNode = <Spinner />;
 		if (props.dataSource?.length === 0 && !props.loading) {
-			content = <EmptyView />;
+			content = !isApiKeyTab ? <EmptyView /> : '';
 		}
 		return (
 			<div

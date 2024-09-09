@@ -19,12 +19,12 @@ const Portfolio: FC = (props) => {
 
 	return (
 		<Layout>
-			<Header className="orderly-app-trading-header orderly-border-b orderly-border-divider">
+			<Header className="orderly-app-trading-header orderly-border-b orderly-border-semiTransparentWhite orderly-bg-gunmetal">
 				<TopNavbar />
 			</Header>
 
-			<Layout style={{ paddingBottom: '42px' }}>
-				<Content className="orderly-overflow-hidden orderly-pt-[20px] orderly-pb-[32px] orderly-px-[60px] desktop:orderly-px-[40px]">
+			<Layout>
+				<Content className="orderly-bg-richBlack orderly-overflow-hidden orderly-pb-[32px]">
 					<DataList />
 				</Content>
 			</Layout>

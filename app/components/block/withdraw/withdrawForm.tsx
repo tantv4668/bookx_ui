@@ -17,7 +17,7 @@ import { NetworkImage } from '../../assets/icons/networkImage';
 import { cn } from '../../utils/css';
 import { Summary } from './sections/summary';
 import { MoveDownIcon } from '../../assets/icons/moveDown';
-import { TokenQtyInput } from '../../input/tokenQtyInput';
+import { TokenQtyInput } from '../../globals/input/tokenQtyInput';
 import { QuantityInput } from '../quantityInput';
 
 type DST = {

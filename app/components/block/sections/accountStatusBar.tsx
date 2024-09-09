@@ -5,7 +5,7 @@ import { AccountTotal } from './accountTotal';
 import { Logo } from '../../logo';
 import { Text } from '../../text';
 import { OrderlyAppContext } from '../../provider';
-import Button from '../../button';
+import Button from '../../globals/button';
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '../../sheet';
 import { AccountInfo } from '../accountStatus/sections/accountInfo';
 import { Chains } from '../accountStatus/sections/chains';

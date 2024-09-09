@@ -1,5 +1,5 @@
 'use client';
-import Button from '@/app/components/button';
+import Button from '@/app/components/globals/button';
 import { toast } from '../../../toast';
 import { FC, useCallback, useState } from 'react';
 

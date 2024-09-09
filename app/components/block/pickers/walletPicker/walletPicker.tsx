@@ -4,7 +4,7 @@ import { API, Chain, CurrentChain } from '@orderly.network/types';
 import { ChainSelect } from '../chainPicker';
 import { OrderlyContext } from '@orderly.network/hooks';
 import { Chains } from '@orderly.network/hooks/esm/orderly/useChains';
-import { Input } from '@/app/components/input';
+import { Input } from '@/app/components/globals/input';
 
 export type Wallet = {
 	// token: string;

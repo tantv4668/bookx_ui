@@ -17,8 +17,8 @@ import { Tooltip } from "@/app/components/tooltip";
 import { Numeral } from "@/app/components/text/numeral";
 import { cn } from "@/app/components/utils/css";
 import { useEndReached } from "@/app/components/listView/useEndReached";
-import { Column, Table } from "@/app/components/table";
 import { Text } from "@/app/components/text";
+import { Column, Table } from "@/app/components/table";
 
 type AssetHistoryProps = {};
 

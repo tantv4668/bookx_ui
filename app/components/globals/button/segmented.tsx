@@ -1,6 +1,6 @@
 'use client';
 import React, { type PropsWithChildren, FC } from "react";
-import { cn } from "../utils/css";
+import { cn } from "../../utils/css";
 
 export type SegmentedItem = {
   id?: string;

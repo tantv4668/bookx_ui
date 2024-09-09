@@ -12,10 +12,10 @@ import {
 
 // import { ActionSheet } from "@/sheet/actionSheet/actionSheet";
 // import { ChevronDown } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../dropdown/dropdown';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../../dropdown/dropdown';
 import React from 'react';
-import { cn } from '../utils/css';
-import { ArrowIcon } from '../assets/icons/arrow';
+import { cn } from '../../utils/css';
+import { ArrowIcon } from '../../assets/icons/arrow';
 
 export type SelectOption = {
 	value: string | number;

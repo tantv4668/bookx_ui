@@ -3,8 +3,8 @@ import React, { useMemo, type ButtonHTMLAttributes } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { Slot } from "@radix-ui/react-slot";
-import { cn } from "../utils/css";
-import { Spinner } from "../spinner";
+import { cn } from "../../utils/css";
+import { Spinner } from "../../spinner";
 
 const buttonVariants = cva(
   [

@@ -8,7 +8,7 @@ import { AccountStatusEnum } from '@orderly.network/types';
 import { Chains } from './sections/chains';
 import { OrderlyAppContext } from '../../provider';
 import { Text } from '../../text';
-import Button from '../../button';
+import Button from '../../globals/button';
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '../../sheet';
 import { Logo } from '../../logo';
 

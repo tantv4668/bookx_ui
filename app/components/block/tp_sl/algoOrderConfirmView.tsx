@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useSymbolsInfo } from '@orderly.network/hooks';
 import { AlgoOrderEntity, AlgoOrderRootType } from '@orderly.network/types';
 import { commify } from '@orderly.network/utils';
@@ -7,7 +7,7 @@ import { API } from '@orderly.network/types';
 import { NetworkImage } from '../../assets/icons/networkImage';
 import { cn } from '../../utils/css';
 import { Numeral } from '../../text';
-import Button from '../../button';
+import Button from '../../globals/button';
 
 export const AlgoOrderConfirmView: FC<{
 	order: AlgoOrderEntity;

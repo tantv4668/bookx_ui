@@ -16,6 +16,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import React from 'react';
 import { cn } from '../../utils/css';
 import { ArrowIcon } from '../../assets/icons/arrow';
+// import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@orderly.network/react';
 
 export type SelectOption = {
 	value: string | number;
@@ -139,7 +140,7 @@ const Select: FC<SelectProps> = ({ className, contentClassName, size, disabled, 
 				// @ts-ignore
 				// container={containerRef.current}
 				align="start"
-				style={{ minWidth: `${width}px` }}
+				style={{ minWidth: `${width}px`, borderRadius: '4px' }}
 				className={contentClassName}
 				// onPointerDownOutside={(event) => {
 				//
@@ -153,17 +154,17 @@ const Select: FC<SelectProps> = ({ className, contentClassName, size, disabled, 
 							textValue={option.value}
 							key={index}
 							className={cn(
-								'orderly-text-base-contrast/60 hover:orderly-bg-base-700 orderly-text-3xs desktop:orderly-text-2xs',
+								'orderly-text-white hover:orderly-bg-base-700 orderly-bg-darkGunmetal orderly-text-[12px] hover:orderly-bg-charcoalBlue orderly-min-w-[70px] orderly-h-6',
 								option.value === props.value &&
 									(color === 'buy'
 										? 'orderly-text-trade-profit'
 										: color === 'sell'
 										? 'orderly-text-trade-loss'
-										: 'orderly-text-base-contract'),
+										: 'orderly-text-white'),
 								option.className,
 								option.value === props.value && option.activeClassName,
 							)}
-							onSelect={(evnet: any) => {
+							onSelect={() => {
 								// @ts-ignore
 								props.onChange?.(option.value);
 							}}

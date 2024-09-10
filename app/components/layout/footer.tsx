@@ -1,9 +1,9 @@
 'use client';
 import { FC, PropsWithChildren, useContext, useEffect, useRef } from 'react';
-import { LayoutContext } from './layoutContext';
 import { LayoutBaseProps } from './types';
 import { Slot } from '@radix-ui/react-slot';
 import { cn } from '@orderly.network/react';
+import { LayoutContext } from './layoutContext';
 
 export interface FooterProps extends LayoutBaseProps {
 	fixed?: boolean;
@@ -15,7 +15,7 @@ export const Footer: FC<PropsWithChildren<FooterProps>> = (props) => {
 	const { setFooterHeight, isTopLevel } = useContext(LayoutContext);
 
 	if (!isTopLevel) {
-		throw new Error('Footer component must be in top layout component.');
+		// throw new Error('Footer component must be in top layout component.');
 	}
 
 	useEffect(() => {
@@ -23,7 +23,7 @@ export const Footer: FC<PropsWithChildren<FooterProps>> = (props) => {
 
 		if (boundingClientRect && boundingClientRect.height) {
 			// console.log(boundingClientRect);
-			setFooterHeight(boundingClientRect.height);
+			// setFooterHeight(boundingClientRect.height);
 		}
 	}, []);
 	const Comp = asChild ? Slot : 'div';

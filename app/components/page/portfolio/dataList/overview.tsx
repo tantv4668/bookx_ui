@@ -5,9 +5,160 @@ import { EyeIcon } from '@/app/components/assets/icons/eye';
 import { WithdrawIcon } from '@/app/components/assets/icons/withdrawIcon';
 import Button from '@/app/components/globals/button';
 import LineChartComponent from '@/app/components/lineChart';
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { getPreviousDate } from '@/app/components/utils/getPreviousDate';
+import OverviewTable from './overviewTable';
+import { Column } from '@/app/components/table';
+import { Text } from '@/app/components/text';
+import { DepositsWithdrawalsIcon } from '@/app/components/assets/icons/DepositsWithdrawalsIcon';
+import { FundingIcon } from '@/app/components/assets/icons/fundingIcon';
+import { DistributionIcon } from '@/app/components/assets/icons/distributionIcon';
+import { Select } from '@/app/components/globals/select';
+// import { Select } from '@orderly.network/react';
+
+export enum EnumPortfolioTab {
+	DepositsWithdrawals = 'Deposits & Withdrawals',
+	Funding = 'Funding',
+	Distribution = 'Distribution',
+}
 
 const Overview: React.FC = (props) => {
+	const [activeTab, setActiveTab] = useState<string>(EnumPortfolioTab.DepositsWithdrawals);
+	const [index, setIndex] = useState<number>(0);
+
+	const [dayAssets, setDayAssets] = useState<string>('7D');
+	const [dayPerformance, setDayPerformance] = useState<string>('7D');
+
+	const dataSource: any = []; //get api
+	const isLoading: boolean = false; //get api
+
+	const columnsDepositsWithdrawals = useMemo<Column[]>(() => {
+		return [
+			{
+				title: 'Token',
+				dataIndex: 'token	',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+			{
+				title: 'Time',
+				dataIndex: 'time	',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+			{
+				title: 'TxID',
+				dataIndex: 'TxID',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+			{
+				title: 'Status',
+				dataIndex: 'status',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+			{
+				title: 'Type',
+				dataIndex: 'type',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+			{
+				title: 'Amount',
+				dataIndex: 'amount',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+		];
+	}, []);
+
+	const columnsFunding = useMemo<Column[]>(() => {
+		return [
+			{
+				title: 'Instrument',
+				dataIndex: 'instrument	',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+			{
+				title: 'Time',
+				dataIndex: 'time',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+			{
+				title: 'Funding rate / Annual rate',
+				dataIndex: 'rate',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+			{
+				title: 'Payment type',
+				dataIndex: 'type',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+			{
+				title: 'Funding fee (USDC)',
+				dataIndex: 'fee',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+		];
+	}, []);
+
+	const columnsDistribution = useMemo<Column[]>(() => {
+		return [
+			{
+				title: 'Token',
+				dataIndex: 'token	',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+			{
+				title: 'Time',
+				dataIndex: 'time	',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+			{
+				title: 'Status',
+				dataIndex: 'status',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+			{
+				title: 'Type',
+				dataIndex: 'type',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+			{
+				title: 'Amount',
+				dataIndex: 'amount',
+				render(value, record, index) {
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+				},
+			},
+		];
+	}, []);
+
 	const dataUser = {
 		USDC: '0.00',
 		info: [
@@ -25,17 +176,57 @@ const Overview: React.FC = (props) => {
 			},
 		],
 	};
-	const dataChart = [
-		{ name: 'Jan', uv: 4000, pv: 2400, amt: 2400 },
-		{ name: 'Feb', uv: 3000, pv: 1398, amt: 2210 },
-		{ name: 'Mar', uv: 2000, pv: 9800, amt: 2290 },
-		{ name: 'Apr', uv: 2780, pv: 3908, amt: 2000 },
-		{ name: 'May', uv: 1890, pv: 4800, amt: 2181 },
-		{ name: 'Jun', uv: 2390, pv: 3800, amt: 2500 },
-		{ name: 'Jul', uv: 3490, pv: 4300, amt: 2100 },
+
+	const startDay = getPreviousDate(7);
+
+	const data = [
+		{ name: startDay, value: 600 },
+		{ name: '', value: 450 },
+		{ name: '', value: 200 },
+		{ name: '', value: 150 },
+		{ name: '', value: 150 },
+		{ name: '', value: 160 },
+		{ name: 'now', value: 160 },
+		// Add more data as needed
 	];
+
+	const options = [
+		{ label: '7D', value: '7D' },
+		{ label: '30D', value: '30D' },
+		{ label: '90D', value: '90D' },
+	];
+
+	const dataTab = [
+		{
+			title: 'Deposits & Withdrawals',
+			icon: <DepositsWithdrawalsIcon size={16} />,
+			value: EnumPortfolioTab.DepositsWithdrawals,
+			component: <OverviewTable columns={columnsDepositsWithdrawals} dataSource={dataSource} isLoading={isLoading} />,
+		},
+		{
+			title: 'Funding',
+			icon: <FundingIcon size={16} />,
+			value: EnumPortfolioTab.Funding,
+			component: <OverviewTable columns={columnsFunding} dataSource={dataSource} isLoading={isLoading} />,
+		},
+		{
+			title: 'Distribution',
+			icon: <DistributionIcon size={16} />,
+			value: EnumPortfolioTab.Distribution,
+			component: <OverviewTable columns={columnsDistribution} dataSource={dataSource} isLoading={isLoading} />,
+		},
+	];
+
+	const handleActiveTab = (value: string) => {
+		setActiveTab(value);
+	};
+
+	useEffect(() => {
+		setIndex(dataTab.findIndex((obj) => obj.value === activeTab));
+	}, [dataTab, activeTab]);
+
 	return (
-		<div className="w-full orderly-text-white">
+		<div className="orderly-flex orderly-flex-col orderly-gap-4 orderly-w-full orderly-text-white ">
 			<div className="orderly-grid orderly-grid-cols-2 orderly-gap-4">
 				<div className="orderly-card-root orderly-card orderly-rounded-xl orderly-shadow orderly-p-6 orderly-bg-gunmetal orderly-minH-[240px] orderly-w-full">
 					<div className="orderly-flex orderly-justify-between orderly-items-center">
@@ -98,21 +289,119 @@ const Overview: React.FC = (props) => {
 						})}
 					</div>
 				</div>
+
 				<div className="orderly-card-root orderly-card orderly-rounded-xl orderly-shadow orderly-p-6 orderly-bg-gunmetal orderly-minH-[240px] orderly-w-full">
 					<div className="orderly-flex orderly-justify-between orderly-items-center orderly-mb-4">
 						<p className="orderly-card-header-title orderly-font-semibold orderly-leading-none orderly-tracking-tight orderly-text-lg">
 							Assets
 						</p>
-						<Button
-							type="button"
-							className="orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-w-[56px] orderly-items-center orderly-justify-between orderly-whitespace-nowrap orderly-rounded-md orderly-px-2 orderly-space-x-2 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
-						>
-							7D
-							<DownIcon />
-						</Button>
+						<Select
+							options={[
+								{ label: '7D', value: '7D' },
+								{ label: '30D', value: '30D' },
+								{ label: '90D', value: '90D' },
+							]}
+							value={dayAssets}
+							onChange={(e) => setDayAssets(e)}
+							className="orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-min-w-[56px] orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
+						/>
 					</div>
-					<LineChartComponent data={dataChart} />
+					<LineChartComponent data={data} />
 				</div>
+			</div>
+
+			<div className="orderly-card-root orderly-card orderly-rounded-xl orderly-shadow orderly-p-6 orderly-bg-gunmetal orderly-minH-[240px] orderly-w-full">
+				<div className="orderly-flex orderly-justify-between orderly-items-center orderly-mb-4">
+					<p className="orderly-card-header-title orderly-font-semibold orderly-leading-none orderly-tracking-tight orderly-text-lg">
+						Performance
+					</p>
+					<Select
+						options={[
+							{ label: '7D', value: '7D' },
+							{ label: '30D', value: '30D' },
+							{ label: '90D', value: '90D' },
+						]}
+						value={dayPerformance}
+						onChange={(e) => setDayPerformance(e)}
+						className="orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-min-w-[56px] orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
+					/>
+				</div>
+
+				<div className="orderly-grid orderly-grid-cols-3 orderly-gap-4 orderly-my-4">
+					<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-md orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-gradient-gunmetal orderly-w-full">
+						<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">7D ROI</div>
+						<div>--</div>
+					</div>
+					<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-md orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-gradient-gunmetal orderly-w-full">
+						<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">7D PnL</div>
+						<div>--</div>
+					</div>
+					<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-md orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-gradient-gunmetal orderly-w-full">
+						<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">7D Volume (USDC)</div>
+						<div>--</div>
+					</div>
+				</div>
+
+				<div className="orderly-grid orderly-grid-cols-2 orderly-gap-4">
+					<div>
+						<p className="orderly-mb-3 orderly-card-header-title orderly-font-semibold orderly-leading-none orderly-tracking-tight orderly-text-sm">
+							Daily PnL
+						</p>
+						<div className="orderly-box orderly-rounded-md orderly-border orderly-border-semiTransparentWhite">
+							<LineChartComponent data={data} height={184} />
+						</div>
+					</div>
+
+					<div>
+						<p className="orderly-mb-3 orderly-card-header-title orderly-font-semibold orderly-leading-none orderly-tracking-tight orderly-text-sm">
+							Cumulative PnL
+						</p>
+						<div className="orderly-box orderly-rounded-md orderly-border orderly-border-semiTransparentWhite">
+							<LineChartComponent data={data} height={184} />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div className="orderly-card-root orderly-card orderly-rounded-xl orderly-shadow orderly-p-6 orderly-bg-gunmetal orderly-minH-[240px] orderly-w-full">
+				<div className="orderly-flex orderly-gap-1">
+					{dataTab.map((data, index) => {
+						return (
+							<div
+								key={index}
+								onClick={() => handleActiveTab(data.value)}
+								className={`orderly-cursor-pointer orderly-h-9 orderly-w-[auto] orderly-flex orderly-gap-1 orderly-items-center orderly-px-3 orderly-rounded-md orderly-text-left orderly-group orderly-transition-colors 
+								${
+									activeTab === data.value
+										? '!orderly-text-white orderly-bg-charcoalBlue'
+										: 'orderly-text-translucentWhite orderly-bg-darkGunmetal'
+								}`}
+							>
+								<span>{data.icon}</span>
+								{data.title}
+							</div>
+						);
+					})}
+				</div>
+
+				<div className="orderly-flex orderly-gap-3 orderly-mt-3">
+					<Button
+						type="button"
+						className="orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-w-[56px] orderly-items-center orderly-justify-between orderly-whitespace-nowrap orderly-rounded-md orderly-px-2 orderly-space-x-2 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
+					>
+						7D
+						<DownIcon />
+					</Button>
+					<Button
+						type="button"
+						className="orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-w-[56px] orderly-items-center orderly-justify-between orderly-whitespace-nowrap orderly-rounded-md orderly-px-2 orderly-space-x-2 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
+					>
+						7D
+						<DownIcon />
+					</Button>
+				</div>
+
+				<div className="orderly-mx-3 orderly-my-6">{dataTab[index].component}</div>
 			</div>
 		</div>
 	);

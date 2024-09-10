@@ -64,11 +64,10 @@ export const SystemStatusBar: FC<FooterStatusBarProps> = (props) => {
 		<>
 			<div id="orderly-bottom-navigation-bar" className="orderly-flex orderly-items-center">
 				<NetworkStatus />
-				<div className="orderly-pl-2">
-					<Divider vertical />
-				</div>
 
-				<span className="orderly-text-base-contrast-54 orderly-text-4xs orderly-font-semibold orderly-pr-2">
+				<div className="orderly-border-l orderly-border-semiTransparentWhite orderly-h-5 orderly-mx-2" />
+
+				<span className="orderly-text-translucent orderly-text-[11px] orderly-font-semibold orderly-pr-2">
 					Join our community
 				</span>
 
@@ -76,7 +75,7 @@ export const SystemStatusBar: FC<FooterStatusBarProps> = (props) => {
 			</div>
 
 			<div className="orderly-flex orderly-items-center">
-				<span className="orderly-text-base-contrast-54 orderly-text-4xs orderly-font-semibold orderly-pr-2 orderly-justify-end">
+				<span className="orderly-text-translucent orderly-text-[11px] orderly-font-semibold orderly-pr-2 orderly-justify-end">
 					Powered by
 				</span>
 				{powerBy}

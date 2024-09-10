@@ -28,6 +28,8 @@ const ApiKey: React.FC = (props) => {
 
 	const { state } = useAccount();
 
+	console.log('??state', state);
+
 	const { onWalletConnect, onSetChain, onWalletDisconnect, accountMenuItems, onClickAccountMenuItem } =
 		useContext(OrderlyAppContext);
 
@@ -123,11 +125,11 @@ const ApiKey: React.FC = (props) => {
 
 			<div className="orderly-overflow-y-auto">
 				<Table
-					isApiKeyTab
+					isApiKeyTab={state.status === 0}
 					dataSource={dataSource}
 					columns={columns}
 					loading={isLoading}
-					className="orderly-text-2xs"
+					className="orderly-text-2xs order"
 					headerClassName={cn(
 						'orderly-px-3 orderly-py-[3px] orderly-h-10 orderly-border-b orderly-border-line orderly-text-[#ffffff5c] orderly-text-[13px]',
 						'orderly-border-b orderly-border-b-semiTransparentWhite',
@@ -138,7 +140,7 @@ const ApiKey: React.FC = (props) => {
 							'orderly-h-[40px] orderly-border-b-[1px] orderly-border-b-solid orderly-border-semiTransparentWhite',
 					})}
 				/>
-				{dataSource && dataSource.length === 0 && (
+				{dataSource && dataSource.length === 0 && state.status !== 4 && (
 					<div className="orderly-flex orderly-flex-col orderly-gap-4 orderly-justify-center orderly-items-center orderly-mt-8 orderly-mb-4">
 						<AccountStatus
 							isApiKeyTab

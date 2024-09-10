@@ -40,8 +40,6 @@ export const MainLogo: FC<LogoProps> = ({
 	}, [size]);
 
 	const logoElement = useMemo(() => {
-		console.log('???');
-
 		if (appIcons?.main?.img) {
 			return <img src={appIcons?.main?.img} height={_size} />;
 		}

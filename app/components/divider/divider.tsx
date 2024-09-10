@@ -16,6 +16,7 @@ const dividerVariants = cva(
         // primary: "before:border-primary after:border-primary",
         // secondary: "before:border-secondary after:border-secondary",
         tertiary: "orderly-border-divider",
+        semiTransparentWhite: "orderly-border-semiTransparentWhite"
       },
     },
     defaultVariants: {

@@ -12,6 +12,7 @@ const config: Config = {
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+				'gradient-gunmetal': 'linear-gradient(0deg, #1b1d22 0, #26292e 100%)',
 			},
 			backgroundColor: {
 				gunmetal: '#131519',
@@ -25,15 +26,19 @@ const config: Config = {
 				charcoal: '#34394A',
 				slateGray: '#676A72',
 				eerieBlack: '#1E2025',
+				darkGunmetal: '#1b2028',
+				darkBronze: '#765821',
 			},
 			colors: {
 				paleLime: '#E1F578',
 				lightPurple: '#ac93db',
 				translucent: '#FFFFFF8A',
 				translucentWhite: '#ffffff5c',
+				lightGoldenrod: '#FFCF73',
 			},
 			borderColor: {
 				semiTransparentWhite: '#ffffff1f',
+				lightGoldenrod: '#FFCF73',
 			},
 		},
 	},

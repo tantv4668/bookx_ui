@@ -35,6 +35,11 @@ const NavbarTab: React.FC = () => {
 				value: 'portfolio',
 				path: () => '/portfolio',
 			},
+			{
+				title: 'Docs',
+				value: 'Docs',
+				path: () => 'https://docs.bookx.trade',
+			},
 			// {
 			// 	title: 'Referral',
 			// 	value: 'referral',
@@ -50,7 +55,7 @@ const NavbarTab: React.FC = () => {
 	);
 
 	const onTabChange = (tab: Tab) => {
-		router.push(tab.path());
+		tab.title !== 'Docs' ? router.push(tab.path()) : window.open(tab.path(), '_blank');
 	};
 
 	useEffect(() => {

@@ -32,7 +32,8 @@ export const ChainListView: FC<ChainListViewProps> = (props) => {
         <div className="orderly-flex orderly-flex-col">
           {props.mainChains.map((chain, index) => {
             return (
-              <ChainCell
+              <div key={index}>
+                <ChainCell
                 key={chain.chain_id}
                 name={chain.name}
                 id={chain.chain_id}
@@ -40,6 +41,7 @@ export const ChainListView: FC<ChainListViewProps> = (props) => {
                 bridgeless={chain.bridgeless}
                 selected={props.currentChainId === chain.chain_id}
               />
+              </div>
             );
           })}
         </div>
@@ -62,7 +64,8 @@ export const ChainListView: FC<ChainListViewProps> = (props) => {
         <div className="orderly-flex orderly-flex-col">
           {props.testChains.map((chain, index) => {
             return (
-              <ChainCell
+              <div key={index}>
+                <ChainCell
                 key={chain.chain_id}
                 name={chain.name}
                 id={chain.chain_id}
@@ -70,6 +73,7 @@ export const ChainListView: FC<ChainListViewProps> = (props) => {
                 bridgeless={chain.bridgeless}
                 selected={props.currentChainId === chain.chain_id}
               />
+              </div>
             );
           })}
         </div>

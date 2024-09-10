@@ -8,6 +8,7 @@ import { AccountStatus } from '@/app/components/block/desktop/accountStatus.desk
 import { Logo } from '@/app/components/logo';
 import { AccountStatusEnum } from '@/app/components/types/constants';
 import { OrderlyAppContext } from '@orderly.network/react';
+import Link from 'next/link';
 
 export type TopNavbarProps = {
 	left?: ReactNode;
@@ -20,8 +21,6 @@ export const TopNavbar: FC = (props) => {
 	const { errors, accountMenuItems, onClickAccountMenuItem, topBar, topBarProps } = useContext(OrderlyAppContext);
 
 	const { left, nav, right } = topBarProps || {};
-
-	console.log('??topBar', topBar);
 
 	const { ws: wsStatus } = useContext(StatusContext);
 
@@ -43,10 +42,10 @@ export const TopNavbar: FC = (props) => {
 		<>
 			{topBar || (
 				<div className="orderly-h-[48px] orderly-flex">
-					<div className="orderly-flex orderly-flex-1">
+					<div className="orderly-flex orderly-flex-1 orderly-items-center">
 						<Logo />
 						{left}
-						<div className="orderly-flex-1">{nav}</div>
+						<div>{nav}</div>
 					</div>
 
 					{right || (
@@ -62,8 +61,7 @@ export const TopNavbar: FC = (props) => {
 					)}
 				</div>
 			)}
-
-			<TopTips />
+			{/* <TopTips /> */}
 		</>
 	);
 };

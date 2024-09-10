@@ -1,5 +1,5 @@
 'use client';
-import { Slider } from "../../../slider";
+import { Slider } from "@/app/components/slider";
 import { toast } from "../../../toast";
 import { useLeverage } from "@orderly.network/hooks";
 import { FC, useMemo, useState } from "react";

@@ -57,7 +57,7 @@ export const DataList = () => {
 	// const height = `calc(100vh - ${headerHeight + footerHeight + (pageHeaderHeight ?? 0) + 20 + 32}px)`;
 
 	return (
-		<div className="orderly-overflow-hidden orderly-max-w-[1408px] orderly-min-w-[736px] orderly-mx-auto">
+		<div className="orderly-overflow-hidden orderly-w-full orderly-mx-auto">
 			<div className="orderly-flex">
 				<div
 					style={{

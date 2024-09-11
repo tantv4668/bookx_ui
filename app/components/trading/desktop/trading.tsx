@@ -1,3 +1,4 @@
+// 'use client';
 // import { FC, useContext, useEffect, useRef, useState } from "react";
 // import Split from "@uiw/react-split";
 // import { AccountInfoElement } from "./elements/accountInfo";

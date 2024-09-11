@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { Referral } from '@orderly.network/referral';
 import ReferralContainer from '../common/ReferralContainer';

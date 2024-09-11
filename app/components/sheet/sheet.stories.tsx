@@ -1,3 +1,4 @@
+'use client';
 import type { Meta, StoryObj } from "@storybook/react";
 // @ts-ignore
 import React from "react";

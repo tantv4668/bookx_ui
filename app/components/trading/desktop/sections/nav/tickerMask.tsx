@@ -1,3 +1,4 @@
+'use client';
 import { cn } from "@/app/components/utils/css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FC } from "react";

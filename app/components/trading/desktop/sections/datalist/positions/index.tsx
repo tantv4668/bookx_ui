@@ -1,3 +1,4 @@
+'use client';
 import { FC, useContext } from 'react';
 import { usePositionStream } from '@orderly.network/hooks';
 import { API, AccountStatusEnum } from '@orderly.network/types';

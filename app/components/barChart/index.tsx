@@ -1,19 +1,12 @@
 'use client';
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { CustomTooltip } from '../globals/CustomTooltip';
 
-const LineChartComponent = ({ data, height, startDay }: any) => {
-	const maxY = Math.max(...data.map((d: any) => d.value));
-
-	const ticks = [];
-	const tickInterval = maxY / 4;
-	for (let i = 0; i <= 4; i++) {
-		ticks.push(0 + i * tickInterval);
-	}
+const BarChartComponent = ({ data, height, startDay }: any) => {
 	return (
 		<ResponsiveContainer width="100%" height={height || 152}>
-			<LineChart
+			<BarChart
 				data={data}
 				margin={{
 					top: 10,
@@ -21,20 +14,21 @@ const LineChartComponent = ({ data, height, startDay }: any) => {
 					left: -15,
 					bottom: 10,
 				}}
+				barCategoryGap="0%"
 			>
 				<CartesianGrid strokeDasharray="0 0" stroke="#ffffff1f" vertical={false} />
 				<XAxis
 					stroke="#ffffff1f"
 					dataKey="name"
 					tick={({ x, y, payload, index }) => {
-						const newX = index === 0 ? x : x - 10;
+						const newX = index === 0 ? x + 5 : x + 15;
 						return (
 							<g transform={`translate(${newX},${y})`}>
 								<text
 									x={0}
 									y={0}
 									dy={16}
-									textAnchor={index === 0 ? 'start' : index === data.length - 1 ? 'middle' : 'middle'}
+									textAnchor={index === 0 ? 'end' : index === data.length - 1 ? 'start' : 'middle'}
 									fontSize={10}
 									fill="#8A8B8D"
 								>
@@ -44,7 +38,7 @@ const LineChartComponent = ({ data, height, startDay }: any) => {
 						);
 					}}
 					tickLine={false}
-					interval="preserveStartEnd"
+					// interval="preserveStartEnd"
 					padding={{ left: 0, right: 0 }}
 				/>
 				<YAxis
@@ -65,10 +59,23 @@ const LineChartComponent = ({ data, height, startDay }: any) => {
 					itemStyle={{ color: '#FFD700' }}
 					content={<CustomTooltip />}
 				/>
-				<Line type="monotone" dataKey="value" stroke="#E1F578" dot={false} />
-			</LineChart>
+				<Bar
+					dataKey="value"
+					shape={({ value, x, y, width, height }: any) => (
+						<rect
+							x={x}
+							y={value < 0 ? y - Math.abs(height) : y}
+							width={width}
+							height={value < 0 ? -height : height}
+							fill={value > 0 ? '#E1F578' : '#AC93DB'}
+						/>
+					)}
+					fill={'#AC93DB'}
+					fillOpacity={0}
+				/>
+			</BarChart>
 		</ResponsiveContainer>
 	);
 };
 
-export default LineChartComponent;
+export default BarChartComponent;

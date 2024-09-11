@@ -14,7 +14,8 @@ import { DepositsWithdrawalsIcon } from '@/app/components/assets/icons/DepositsW
 import { FundingIcon } from '@/app/components/assets/icons/fundingIcon';
 import { DistributionIcon } from '@/app/components/assets/icons/distributionIcon';
 import { Select } from '@/app/components/globals/select';
-// import { Select } from '@orderly.network/react';
+import BarChartComponent from '@/app/components/barChart';
+import InputDay from '@/app/components/globals/inputDay';
 
 export enum EnumPortfolioTab {
 	DepositsWithdrawals = 'Deposits & Withdrawals',
@@ -22,12 +23,57 @@ export enum EnumPortfolioTab {
 	Distribution = 'Distribution',
 }
 
+const dataBar = [
+	{ name: 'sda', value: 400 },
+	{ name: 'asd', value: -300 },
+	{ name: 'das', value: 200 },
+	{ name: 'wqw', value: -278 },
+	{ name: 'qwe', value: 189 },
+	{ name: 'wqe', value: -239 },
+	{ name: 'xzx', value: 349 },
+];
+
+const data = [
+	{ name: 'wqe', value: 600 },
+	{ name: 'da', value: 450 },
+	{ name: 'li', value: 200 },
+	{ name: 'd', value: 150 },
+	{ name: 'as', value: 150 },
+	{ name: 'ad', value: 160 },
+	{ name: 'zxc', value: 160 },
+	{ name: 'wqe', value: 600 },
+	{ name: 'da', value: 450 },
+	{ name: 'li', value: 200 },
+	{ name: 'd', value: 150 },
+	{ name: 'as', value: 150 },
+];
+
+const options = [
+	{ label: '7D', value: '7D' },
+	{ label: '30D', value: '30D' },
+	{ label: '90D', value: '90D' },
+];
+
+const depositsWithdrawalsOptions = [
+	{ label: 'All', value: 'All' },
+	{ label: 'Deposit', value: 'Deposit' },
+	{ label: 'Withdrawal', value: 'Withdrawal' },
+];
+
+const DistributionOptions = [
+	{ label: 'All', value: 'All' },
+	{ label: 'Referral commission', value: 'Referral commission' },
+	{ label: 'Referee rebate', value: 'Referee rebate' },
+	{ label: 'Broker fee', value: 'Broker fee' },
+];
+
 const Overview: React.FC = (props) => {
 	const [activeTab, setActiveTab] = useState<string>(EnumPortfolioTab.DepositsWithdrawals);
 	const [index, setIndex] = useState<number>(0);
 
 	const [dayAssets, setDayAssets] = useState<string>('7D');
 	const [dayPerformance, setDayPerformance] = useState<string>('7D');
+	const [valueSelectTab, setValueSelectTab] = useState<string>('All');
 
 	const dataSource: any = []; //get api
 	const isLoading: boolean = false; //get api
@@ -179,23 +225,6 @@ const Overview: React.FC = (props) => {
 
 	const startDay = getPreviousDate(7);
 
-	const data = [
-		{ name: startDay, value: 600 },
-		{ name: '', value: 450 },
-		{ name: '', value: 200 },
-		{ name: '', value: 150 },
-		{ name: '', value: 150 },
-		{ name: '', value: 160 },
-		{ name: 'now', value: 160 },
-		// Add more data as needed
-	];
-
-	const options = [
-		{ label: '7D', value: '7D' },
-		{ label: '30D', value: '30D' },
-		{ label: '90D', value: '90D' },
-	];
-
 	const dataTab = [
 		{
 			title: 'Deposits & Withdrawals',
@@ -219,6 +248,7 @@ const Overview: React.FC = (props) => {
 
 	const handleActiveTab = (value: string) => {
 		setActiveTab(value);
+		setValueSelectTab('All');
 	};
 
 	useEffect(() => {
@@ -296,17 +326,13 @@ const Overview: React.FC = (props) => {
 							Assets
 						</p>
 						<Select
-							options={[
-								{ label: '7D', value: '7D' },
-								{ label: '30D', value: '30D' },
-								{ label: '90D', value: '90D' },
-							]}
+							options={options}
 							value={dayAssets}
 							onChange={(e) => setDayAssets(e)}
-							className="orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-min-w-[56px] orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
+							className="orderly-bg-[#1C1E22] orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-min-w-[56px] orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
 						/>
 					</div>
-					<LineChartComponent data={data} />
+					<LineChartComponent data={data} startDay={startDay} />
 				</div>
 			</div>
 
@@ -316,14 +342,10 @@ const Overview: React.FC = (props) => {
 						Performance
 					</p>
 					<Select
-						options={[
-							{ label: '7D', value: '7D' },
-							{ label: '30D', value: '30D' },
-							{ label: '90D', value: '90D' },
-						]}
+						options={options}
 						value={dayPerformance}
 						onChange={(e) => setDayPerformance(e)}
-						className="orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-min-w-[56px] orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
+						className="orderly-bg-[#1C1E22] orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-min-w-[56px] orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
 					/>
 				</div>
 
@@ -348,7 +370,7 @@ const Overview: React.FC = (props) => {
 							Daily PnL
 						</p>
 						<div className="orderly-box orderly-rounded-md orderly-border orderly-border-semiTransparentWhite">
-							<LineChartComponent data={data} height={184} />
+							<BarChartComponent data={dataBar} height={184} startDay={startDay} />
 						</div>
 					</div>
 
@@ -357,7 +379,7 @@ const Overview: React.FC = (props) => {
 							Cumulative PnL
 						</p>
 						<div className="orderly-box orderly-rounded-md orderly-border orderly-border-semiTransparentWhite">
-							<LineChartComponent data={data} height={184} />
+							<LineChartComponent data={data} height={184} startDay={startDay} />
 						</div>
 					</div>
 				</div>
@@ -384,24 +406,17 @@ const Overview: React.FC = (props) => {
 					})}
 				</div>
 
-				<div className="orderly-flex orderly-gap-3 orderly-mt-3">
-					<Button
-						type="button"
-						className="orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-w-[56px] orderly-items-center orderly-justify-between orderly-whitespace-nowrap orderly-rounded-md orderly-px-2 orderly-space-x-2 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
-					>
-						7D
-						<DownIcon />
-					</Button>
-					<Button
-						type="button"
-						className="orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-w-[56px] orderly-items-center orderly-justify-between orderly-whitespace-nowrap orderly-rounded-md orderly-px-2 orderly-space-x-2 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
-					>
-						7D
-						<DownIcon />
-					</Button>
+				<div className="orderly-flex orderly-gap-3 orderly-my-3">
+					<Select
+						options={index === 0 ? depositsWithdrawalsOptions : index === 2 ? DistributionOptions : []}
+						value={valueSelectTab}
+						onChange={(e) => setValueSelectTab(e)}
+						className="orderly-bg-[#1C1E22] orderly-min-w-[96px] orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
+					/>
+					<InputDay />
 				</div>
 
-				<div className="orderly-mx-3 orderly-my-6">{dataTab[index].component}</div>
+				<div className="orderly-mx-3 orderly-mb-6">{dataTab[index].component}</div>
 			</div>
 		</div>
 	);

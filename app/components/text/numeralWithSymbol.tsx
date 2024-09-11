@@ -1,3 +1,4 @@
+'use client';
 import { FC } from "react";
 import { Numeral, NumeralProps } from "./numeral";
 import { useSymbolsInfo } from "@orderly.network/hooks";

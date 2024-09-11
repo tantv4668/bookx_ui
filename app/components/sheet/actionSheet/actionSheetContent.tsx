@@ -1,3 +1,4 @@
+'use client';
 import { Divider } from "../../divider";
 import { ActionDivision } from "./actionDivision";
 import { ActionItem, type BaseActionSheetItem } from "./actionItem";

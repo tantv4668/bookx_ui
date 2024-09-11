@@ -1,3 +1,4 @@
+'use client';
 import { SymbolProvider } from '@/app/components/provider';
 import { Markets } from './markets';
 import { Ticker } from './ticker';

@@ -1,3 +1,4 @@
+'use client';
 import { FC, useState } from 'react';
 import { MemorizedTradeHistoryFull } from './tradingHistory';
 import { MemorizedOrderBook } from './orderbook';

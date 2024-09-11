@@ -1,3 +1,4 @@
+'use client';
 import { FC, memo } from "react";
 import { useMarketTradeStream } from "@orderly.network/hooks";
 import { useTabContext } from "@/app/components/tab/tabContext";

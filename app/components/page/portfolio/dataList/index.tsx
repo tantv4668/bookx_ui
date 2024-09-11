@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 // import AssetHistory from './assetHistory';
 // import FundingFee from './fundingFee';
 // import Liquidations from './liquidations';
@@ -9,6 +9,7 @@ import { PortfolioIcon } from '@/app/components/assets/icons/portfolioIcon';
 import Overview from './overview';
 import Setting from './setting';
 import ApiKey from './apiKey';
+import { OrderlyAppContext } from '@orderly.network/react';
 
 export enum EPortfolioTab {
 	DepositsWithdrawals = 'deposits_withdrawals',
@@ -25,6 +26,8 @@ export enum EnumPortfolioTab {
 export const DataList = () => {
 	const [activeTab, setActiveTab] = useState<string>(EnumPortfolioTab.Overview);
 	const [index, setIndex] = useState<number>(0);
+
+	const { errors } = useContext(OrderlyAppContext);
 
 	const dataTab = [
 		{
@@ -61,7 +64,7 @@ export const DataList = () => {
 			<div className="orderly-flex">
 				<div
 					style={{
-						minHeight: 'calc(100vh - 116px)',
+						minHeight: errors?.ChainNetworkNotSupport ? 'calc(100vh - 162px)' : 'calc(100vh - 116px)',
 					}}
 					className="orderly-w-[160px] orderly-flex orderly-flex-col orderly-p-4 orderly-m-3 orderly-bg-gunmetal orderly-border orderly-border-semiTransparentWhite orderly-rounded-xl"
 				>

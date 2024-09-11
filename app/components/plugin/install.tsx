@@ -1,5 +1,6 @@
 // interface PluginRegistry {}
 
+'use client';
 import { ReactNode } from "react";
 import { ExtensionProvider } from "./pluginContext";
 import { ExtensionPosition } from "./types";

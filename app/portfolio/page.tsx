@@ -1,3 +1,4 @@
+'use client';
 import { FC, useContext } from 'react';
 import { TopNavbar } from './common/topNavbar';
 import { Layout } from '../components/layout';

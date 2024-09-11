@@ -1,3 +1,4 @@
+'use client';
 import { useOrderStream } from "@orderly.network/hooks";
 import { OrderStatus } from "@orderly.network/types";
 import { useMemo } from "react";

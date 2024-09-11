@@ -1,3 +1,4 @@
+'use client';
 import { useMemo } from "react";
 import { useChains, useWalletConnector } from "@orderly.network/hooks";
 import { isTestnet } from "@orderly.network/utils";

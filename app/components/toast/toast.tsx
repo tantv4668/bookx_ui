@@ -1,3 +1,4 @@
+'use client';
 import * as React from "react";
 // @ts-ignore
 import * as ToastPrimitives from "@radix-ui/react-toast";

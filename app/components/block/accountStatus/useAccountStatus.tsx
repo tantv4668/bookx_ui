@@ -1,7 +1,6 @@
 'use client';
 import React, { useCallback } from "react";
 import { modal } from "../../modal";
-import { toast } from "../../toast";
 
 export const useAccountStatus = () => {
   const onSettle = useCallback(() => {

@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import { FC, useEffect, useState } from "react";
 import { Circle } from "lucide-react";

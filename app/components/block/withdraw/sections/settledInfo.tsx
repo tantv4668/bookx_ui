@@ -1,4 +1,4 @@
-'use clinet';
+'use client';
 import { RotateCw } from 'lucide-react';
 import { FC, useCallback, useContext } from 'react';
 import { SettlePnlContent } from '../settlePnlContent';

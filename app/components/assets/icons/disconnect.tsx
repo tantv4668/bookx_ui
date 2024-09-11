@@ -1,6 +1,5 @@
 'use client';
 import React, { FC } from "react";
-import { SVGProps } from "react";
 
 interface DisconnectProps {
   size: number;

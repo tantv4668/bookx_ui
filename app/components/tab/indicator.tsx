@@ -1,3 +1,4 @@
+'use client';
 import { FC, useMemo } from "react";
 import { cn } from "../utils/css";
 

@@ -1,3 +1,4 @@
+'use client';
 import React, { useMemo } from 'react';
 import { usePrivateQuery } from '@orderly.network/hooks';
 import { NetworkImage } from '@/app/components/assets/icons/networkImage';

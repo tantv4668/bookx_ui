@@ -8,7 +8,7 @@ import { Sider } from './sider';
 import { PageHeader } from './pageHeader';
 
 export * from '../layout/paper';
-export { Page } from '../layout/page';
+export { Page } from './pageLayout';
 
 type Layout = typeof BaseLayout & {
 	Header: typeof Header;

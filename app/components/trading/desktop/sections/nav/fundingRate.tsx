@@ -1,3 +1,4 @@
+'use client';
 import { FC, memo } from "react";
 import { useFundingRate } from "@orderly.network/hooks";
 import { Statistic } from "@/app/components/statistic";

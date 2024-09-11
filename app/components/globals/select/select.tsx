@@ -118,7 +118,7 @@ const Select: FC<SelectProps> = ({ className, contentClassName, size, disabled, 
 				<div
 					ref={triggerRef}
 					className={cn(
-						'orderly-inline-flex orderly-flex-row orderly-items-center orderly-rounded focus-within:orderly-outline orderly-space-x-2 orderly-cursor-pointer',
+						'orderly-bg-[#1C1E22] orderly-inline-flex orderly-flex-row orderly-items-center orderly-rounded focus-within:orderly-outline orderly-space-x-2 orderly-cursor-pointer',
 						selectVariants({
 							size,
 							disabled: disabled || options.length === 0,
@@ -126,7 +126,7 @@ const Select: FC<SelectProps> = ({ className, contentClassName, size, disabled, 
 							color,
 							fullWidth,
 						}),
-						open && 'orderly-bg-base-600',
+						// open && 'orderly-bg-base-600',
 					)}
 				>
 					<div className="orderly-flex-1 orderly-text-3xs desktop:orderly-text-2xs orderly-text-inherit">
@@ -141,7 +141,7 @@ const Select: FC<SelectProps> = ({ className, contentClassName, size, disabled, 
 				// container={containerRef.current}
 				align="start"
 				style={{ minWidth: `${width}px`, borderRadius: '4px' }}
-				className={contentClassName}
+				className={`orderly-bg-darkGunmetal ${contentClassName}`}
 				// onPointerDownOutside={(event) => {
 				//
 				// }}
@@ -154,7 +154,7 @@ const Select: FC<SelectProps> = ({ className, contentClassName, size, disabled, 
 							textValue={option.value}
 							key={index}
 							className={cn(
-								'orderly-text-white hover:orderly-bg-base-700 orderly-bg-darkGunmetal orderly-text-[12px] hover:orderly-bg-charcoalBlue orderly-min-w-[70px] orderly-h-6',
+								'orderly-text-white orderly-bg-darkGunmetal orderly-text-[12px] hover:orderly-bg-charcoalBlue orderly-min-w-[70px] orderly-h-6',
 								option.value === props.value &&
 									(color === 'buy'
 										? 'orderly-text-trade-profit'

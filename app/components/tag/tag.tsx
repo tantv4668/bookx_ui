@@ -1,3 +1,4 @@
+'use client';
 import { cn } from "@orderly.network/react";
 import { VariantProps, cva } from "class-variance-authority";
 import { FC, PropsWithChildren } from "react";

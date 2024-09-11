@@ -1,3 +1,4 @@
+'use client';
 import { type FC, HTMLAttributes, useMemo } from "react";
 
 export interface TradingPairProps {

@@ -1,3 +1,4 @@
+'use client';
 import { FC, PropsWithChildren, ReactNode } from "react";
 import { Sheet, SheetContent, SheetHeader } from "./sheet";
 

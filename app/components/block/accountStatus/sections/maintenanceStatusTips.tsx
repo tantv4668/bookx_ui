@@ -55,8 +55,8 @@ export function MaintenanceStatusTips({
       </div>
       <CloseSmallIcon
         size={24}
-        className="orderly-absolute orderly-right-4 orderly-text-[# orderly-opacity-[.36] hover:orderly-opacity-[.98] orderly-cursor-pointer absolut-item-center"
-        onClick={onCloseTips}
+        // className="orderly-absolute orderly-right-4 orderly-text-[# orderly-opacity-[.36] hover:orderly-opacity-[.98] orderly-cursor-pointer absolut-item-center"
+        // onClick={onCloseTips}
       />
     </div>
   );

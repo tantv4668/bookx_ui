@@ -1,3 +1,4 @@
+'use client';
 import { FC } from "react";
 import { convertValueToPercentage } from "./utils";
 import { cn } from "../utils/css";

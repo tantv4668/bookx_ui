@@ -28,6 +28,9 @@ const config: Config = {
 				eerieBlack: '#1E2025',
 				darkGunmetal: '#1b2028',
 				darkBronze: '#765821',
+				darkSlateBlue: '#394156',
+				raisinBlack: '#181C23',
+				licorice: '#1D1A26',
 			},
 			colors: {
 				paleLime: '#E1F578',
@@ -35,10 +38,15 @@ const config: Config = {
 				translucent: '#FFFFFF8A',
 				translucentWhite: '#ffffff5c',
 				lightGoldenrod: '#FFCF73',
+				translucentWhite_80: '#FFFFFFCC',
+				red: '#ff686b',
 			},
 			borderColor: {
 				semiTransparentWhite: '#ffffff1f',
 				lightGoldenrod: '#FFCF73',
+			},
+			width: {
+				'fill-available': '-webkit-fill-available',
 			},
 		},
 	},

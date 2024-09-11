@@ -5,7 +5,7 @@ import { EyeIcon } from '@/app/components/assets/icons/eye';
 import { WithdrawIcon } from '@/app/components/assets/icons/withdrawIcon';
 import Button from '@/app/components/globals/button';
 import LineChartComponent from '@/app/components/lineChart';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { getPreviousDate } from '@/app/components/utils/getPreviousDate';
 import OverviewTable from './overviewTable';
 import { Column } from '@/app/components/table';
@@ -16,6 +16,11 @@ import { DistributionIcon } from '@/app/components/assets/icons/distributionIcon
 import { Select } from '@/app/components/globals/select';
 import BarChartComponent from '@/app/components/barChart';
 import InputDay from '@/app/components/globals/inputDay';
+import { AccountStatus } from '@/app/components/block/desktop/accountStatus.desktop';
+import { useAccount } from '@orderly.network/hooks';
+import { OrderlyAppContext } from '@orderly.network/react';
+import { AccountStatusEnum } from '@/app/components/types/constants';
+import { showAccountConnectorModal } from '@/app/components/block/walletConnect';
 
 export enum EnumPortfolioTab {
 	DepositsWithdrawals = 'Deposits & Withdrawals',
@@ -70,6 +75,22 @@ const DistributionOptions = [
 const Overview: React.FC = (props) => {
 	const [activeTab, setActiveTab] = useState<string>(EnumPortfolioTab.DepositsWithdrawals);
 	const [index, setIndex] = useState<number>(0);
+
+	const { state } = useAccount();
+
+	const { onWalletConnect, accountMenuItems, onClickAccountMenuItem } = useContext(OrderlyAppContext);
+
+	const onConnect = useCallback(() => {
+		onWalletConnect().then((result: { wallet: any; status: AccountStatusEnum }) => {
+			if (result && result.status < AccountStatusEnum.EnableTrading) {
+				showAccountConnectorModal({
+					status: result.status,
+				}).catch((err: any) => {
+					console.log('cancel', err);
+				});
+			}
+		});
+	}, []);
 
 	const [dayAssets, setDayAssets] = useState<string>('7D');
 	const [dayPerformance, setDayPerformance] = useState<string>('7D');
@@ -266,14 +287,20 @@ const Overview: React.FC = (props) => {
 						<div className="orderly-flex orderly-text-black orderly-gap-3">
 							<Button
 								type="button"
-								className="orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors disabled:orderly-cursor-not-allowed disabled:orderly-bg-base-3 disabled:orderly-text-translucent disabled:hover:orderly-bg-base-3 orderly-px-3 orderly-rounded-md orderly-h-8 orderly-text-sm hover:orderly-opacity-70 hover:orderly-text-black active:orderly-bg-base-4/50 orderly-bg-blueGray orderly-text-primary-contrast"
+								disabled={state.status !== 4}
+								className={`${
+									state.status === 4 && 'hover:orderly-opacity-70'
+								} orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors orderly-px-3 orderly-rounded-md orderly-h-8 orderly-text-sm hover:orderly-text-black active:orderly-bg-base-4/50 orderly-bg-blueGray orderly-text-primary-contrast disabled:orderly-cursor-not-allowed disabled:orderly-bg-darkSlateBlue disabled:orderly-text-translucent !disabled:hover:orderly-bg-darkSlateBlue`}
 							>
 								<WithdrawIcon />
 								Withdraw
 							</Button>
 							<Button
 								type="button"
-								className="orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors disabled:orderly-cursor-not-allowed disabled:orderly-bg-base-3 disabled:orderly-text-translucent disabled:hover:orderly-bg-base-3 orderly-px-3 orderly-rounded-md orderly-h-8 orderly-text-sm hover:orderly-opacity-70 hover:orderly-text-black active:orderly-bg-primary/50 orderly-bg-paleLime orderly-text-primary-contrast"
+								disabled={state.status !== 4}
+								className={`${
+									state.status === 4 && 'hover:orderly-opacity-70'
+								}  orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors orderly-px-3 orderly-rounded-md orderly-h-8 orderly-text-sm hover:orderly-text-black active:orderly-bg-primary/50 orderly-bg-paleLime orderly-text-primary-contrast disabled:orderly-cursor-not-allowed disabled:orderly-bg-darkSlateBlue disabled:orderly-text-translucent !disabled:hover:orderly-bg-darkSlateBlue`}
 							>
 								<span className="orderly-rotate-180">
 									<WithdrawIcon />
@@ -288,36 +315,53 @@ const Overview: React.FC = (props) => {
 							<EyeIcon size={16} />
 						</div>
 						<div className="orderly-text-paleLime orderly-bg-clip-text orderly-font-bold orderly-text-3xl orderly-text-[28px]">
-							{dataUser.USDC}
-							<span className="orderly-text-white orderly-opacity-80 orderly-numeral-unit orderly-text-base orderly-text-base-contrast-80 orderly-h-9 orderly-ml-1">
+							{state.status === 0 ? <span className="orderly-text-[16px]">--</span> : dataUser.USDC}
+							<span className="orderly-text-white orderly-opacity-80 orderly-numeral-unit orderly-text-base orderly-h-9 orderly-ml-1">
 								USDC
 							</span>
 						</div>
 					</div>
-					<div className="orderly-box orderly-grid orderly-grid-cols-3 orderly-h-12">
-						{dataUser.info.map((data, index) => {
-							return (
-								<div key={index} className="orderly-text-base orderly-flex orderly-flex-col orderly-items-start">
-									<div className="orderly-text-xs orderly-text-translucent orderly-statistic-label">{data.title}</div>
-									<div className="orderly-text-white orderly-box orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap">
-										{index === 0 && (
-											<span className="orderly-opacity-55 orderly-text-lg orderly-font-semibold">{data.value}</span>
-										)}
-										{index === 0 && (
-											<span className="orderly-opacity-55 orderly-text-sm orderly-font-semibold">({data.value}%)</span>
-										)}
-										{index === 1 && <span className="orderly-text-lg orderly-font-semibold">{data.value}x</span>}
-										{index === 1 && (
-											<span className="orderly-opacity-55 orderly-text-lg orderly-font-semibold orderly-ml-1">
-												<EditIcon />
-											</span>
-										)}
-										{index === 2 && <span className="orderly-text-lg orderly-font-semibold">{data.value}</span>}
+					{state.status === 0 ? (
+						<div className="orderly-w-full">
+							<AccountStatus
+								isApiKeyTab
+								status={state.status}
+								address={state.address}
+								accountInfo={undefined}
+								className="orderly-w-full"
+								onConnect={onConnect}
+								dropMenuItem={accountMenuItems}
+								onClickDropMenuItem={onClickAccountMenuItem}
+							/>
+						</div>
+					) : (
+						<div className="orderly-box orderly-grid orderly-grid-cols-3 orderly-h-12">
+							{dataUser.info.map((data, index) => {
+								return (
+									<div key={index} className="orderly-text-base orderly-flex orderly-flex-col orderly-items-start">
+										<div className="orderly-text-xs orderly-text-translucent orderly-statistic-label">{data.title}</div>
+										<div className="orderly-text-white orderly-box orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap">
+											{index === 0 && (
+												<span className="orderly-opacity-55 orderly-text-lg orderly-font-semibold">{data.value}</span>
+											)}
+											{index === 0 && (
+												<span className="orderly-opacity-55 orderly-text-sm orderly-font-semibold">
+													({data.value}%)
+												</span>
+											)}
+											{index === 1 && <span className="orderly-text-lg orderly-font-semibold">{data.value}x</span>}
+											{index === 1 && (
+												<span className="orderly-opacity-55 orderly-text-lg orderly-font-semibold orderly-ml-1">
+													<EditIcon />
+												</span>
+											)}
+											{index === 2 && <span className="orderly-text-lg orderly-font-semibold">{data.value}</span>}
+										</div>
 									</div>
-								</div>
-							);
-						})}
-					</div>
+								);
+							})}
+						</div>
+					)}
 				</div>
 
 				<div className="orderly-card-root orderly-card orderly-rounded-xl orderly-shadow orderly-p-6 orderly-bg-gunmetal orderly-minH-[240px] orderly-w-full">

@@ -105,7 +105,7 @@ export const Chains: FC<ChainsProps> = (props) => {
 				onCloseAutoFocus={(e) => e.preventDefault()}
 				align="end"
 				sideOffset={-1}
-				className="orderly-max-h-[360px] orderly-max-w-[260px] orderly-overflow-y-auto orderly-bg-base-800 orderly-hide-scrollbar orderly-rounded-borderRadius orderly-shadow-[0px_12px_20px_0px_rgba(0,0,0,0.25)]"
+				className="orderly-max-h-[360px] orderly-max-w-[260px] orderly-overflow-y-auto orderly-bg-licorice orderly-hide-scrollbar orderly-rounded-borderRadius orderly-shadow-[0px_12px_20px_0px_rgba(0,0,0,0.25)]"
 			>
 				<ChainListView
 					// @ts-ignore

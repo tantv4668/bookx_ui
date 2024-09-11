@@ -5,10 +5,11 @@ import { SVGProps } from 'react';
 interface CopyDesktopIcon {
 	size?: number;
 	className?: string;
+	onClick?: () => void;
 }
 
 export const CopyDesktopIcon: FC<CopyDesktopIcon> = (props) => {
-	const { size = 20, className, ...rest } = props;
+	const { size = 20, onClick, className, ...rest } = props;
 	return (
 		<svg
 			width={`${size}px`}
@@ -17,6 +18,7 @@ export const CopyDesktopIcon: FC<CopyDesktopIcon> = (props) => {
 			fill="currentColor"
 			xmlns="http://www.w3.org/2000/svg"
 			{...rest}
+			onClick={onClick}
 			className={className}
 		>
 			<mask

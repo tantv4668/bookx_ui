@@ -46,7 +46,7 @@ export const WalletConnectButton: FC<Props> = (props) => {
 				loading={props.loading}
 				// variant={"gradient"}
 				className={cn(
-					'orderly-bg-[#AC93D8] orderly-text-black hover:orderly-text-black orderly-text-4xs hover:orderly-opacity-80 orderly-h-[30px]',
+					'orderly-bg-[#AC93D8] orderly-text-white hover:orderly-text-white orderly-text-4xs hover:orderly-opacity-80 orderly-h-[30px] orderly-w-full',
 					props.className,
 				)}
 				onClick={() => props.onConnect?.()}
@@ -62,7 +62,7 @@ export const WalletConnectButton: FC<Props> = (props) => {
 			size={'small'}
 			// variant={"gradient"}
 			className={cn(
-				'orderly-bg-primary orderly-text-base-contrast orderly-text-4xs hover:orderly-text-base-80 orderly-h-[30px]',
+				'orderly-bg-primary orderly-text-white orderly-text-4xs hover:orderly-text-white orderly-h-[30px]',
 				props.className,
 			)}
 			loading={props.loading}

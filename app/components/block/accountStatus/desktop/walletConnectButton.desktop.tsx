@@ -24,7 +24,7 @@ const IconTooltip = (props: { trigger: ReactNode; tooltipContent: string }) => (
 		<TooltipTrigger>{props.trigger}</TooltipTrigger>
 		<TooltipContent
 			align="center"
-			className="data-[state=delayed-open]:data-[side=top]:orderly-animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:orderly-animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:orderly-animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:orderly-animate-slideUpAndFade orderly-text-base-contrast orderly-select-none orderly-rounded orderly-bg-base-400 orderly-px-[15px] orderly-py-[10px] orderly-text-3xs orderly-leading-none orderly-shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] orderly-will-change-[transform,opacity]"
+			className="data-[state=delayed-open]:data-[side=top]:orderly-animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:orderly-animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:orderly-animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:orderly-animate-slideUpAndFade orderly-text-translucentWhite_80 orderly-select-none orderly-rounded orderly-bg-base-400 orderly-px-[15px] orderly-py-[10px] orderly-text-3xs orderly-leading-none orderly-shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] orderly-will-change-[transform,opacity]"
 		>
 			{props.tooltipContent}
 			<TooltipArrow className="orderly-fill-base-400" />
@@ -36,7 +36,7 @@ const MenuItem = (props: { icon: ReactNode; title: string; className?: string; o
 	<div
 		id={props.id}
 		className={cn(
-			'orderly-flex orderly-cursor-pointer orderly-items-center orderly-w-full orderly-fill-base-contrast-36 orderly-text-base-contrast-36 hover:orderly-fill-base-contrast hover:orderly-text-base-contrast orderly-py-4',
+			'orderly-flex orderly-cursor-pointer orderly-items-center orderly-w-full orderly-fill-translucentWhite_80 orderly-text-translucentWhite_80 hover:orderly-fill-translucentWhite_80 hover:orderly-text-translucentWhite_80 orderly-py-4',
 			props.className,
 		)}
 		onClick={props.onClick}
@@ -124,19 +124,19 @@ export const DesktopWalletConnnectButton: FC<
 
 	return (
 		<DropdownMenu open={state.address ? open : false} onOpenChange={state.address ? setOpen : undefined}>
-			<DropdownMenuTrigger>
-				<div className="orderly-h-[32px] orderly-flex orderly-items-center">
+			<DropdownMenuTrigger className="orderly-w-full">
+				<div className="orderly-h-[32px] orderly-flex orderly-items-center orderly-w-full">
 					<WalletConnectButton
 						status={status}
 						address={props.address}
-						className="orderly-rounded-full orderly-h-[32px] "
+						className="orderly-rounded-full orderly-h-[32px] orderly-w-full"
 						onConnect={props.onConnect}
 					/>
 				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
 				align="end"
-				className="orderly-bg-base-800 orderly-w-[220px] orderly-px-4 orderly-rounded-borderRadius orderly-shadow-[0px_12px_20px_0px_rgba(0,0,0,0.25)] orderly-z-50"
+				className="orderly-bg-licorice orderly-w-[220px] orderly-px-4 orderly-rounded-borderRadius orderly-shadow-[0px_12px_20px_0px_rgba(0,0,0,0.25)] orderly-z-50"
 				alignOffset={10}
 				onCloseAutoFocus={(e) => e.preventDefault()}
 				// sideOffset={14}
@@ -144,7 +144,7 @@ export const DesktopWalletConnnectButton: FC<
 				<div className="orderly-flex  orderly-gap-3 orderly-py-5">
 					<div className="orderly-flex-1 orderly-flex orderly-items-center">
 						<Blockie address={state.address!} />
-						<Text className="orderly-text-xs orderly-text-base-contrast-80 orderly-ml-2" rule={'address'}>
+						<Text className="orderly-text-xs orderly-text-translucentWhite_80 orderly-ml-2" rule={'address'}>
 							{account.address}
 						</Text>
 					</div>
@@ -152,9 +152,9 @@ export const DesktopWalletConnnectButton: FC<
 					<IconTooltip
 						trigger={
 							<CopyDesktopIcon
-								// onClick={onCopy}
+								onClick={onCopy}
 								size={20}
-								className="orderly-text-base-contrast-36 hover:orderly-text-base-contrast"
+								className="orderly-text-translucentWhite_80 hover:orderly-text-translucentWhite_80"
 							/>
 						}
 						tooltipContent="Copy address"
@@ -165,7 +165,7 @@ export const DesktopWalletConnnectButton: FC<
 							<ShareIcon
 								onClick={onOpenExploer}
 								size={20}
-								className="orderly-text-base-contrast-36 hover:orderly-text-base-contrast"
+								className="orderly-text-translucentWhite_80 hover:orderly-text-translucentWhite_80"
 							/>
 						}
 						tooltipContent="View in block explorer"
@@ -178,7 +178,7 @@ export const DesktopWalletConnnectButton: FC<
 					id="orderly-desktop-disconnect-wallet"
 					icon={<DisconnectIcon size={24} />}
 					title="Disconnect"
-					className="hover:orderly-fill-danger-light hover:orderly-text-danger-light"
+					className="hover:orderly-fill-danger-light hover:orderly-text-danger-light orderly-text-translucentWhite hover:orderly-text-red"
 					onClick={() => {
 						setOpen(false);
 						onWalletDisconnect?.();

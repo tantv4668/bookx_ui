@@ -28,9 +28,9 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: "orderly-border orderly-bg-base-700 orderly-text-foreground",
+        default: "orderly-border orderly-bg-eerieBlack orderly-text-foreground",
         destructive:
-          "orderly-destructive orderly-group orderly-border-destructive orderly-bg-destructive orderly-text-destructive-foreground",
+          "orderly-destructive orderly-group orderly-border-destructive orderly-bg-eerieBlack orderly-text-destructive-foreground",
       },
     },
     defaultVariants: {
@@ -61,7 +61,7 @@ const ToastAction = React.forwardRef<
   <ToastPrimitives.Action
     ref={ref}
     className={cn(
-      "orderly-inline-flex orderly-h-8 orderly-shrink-0 orderly-items-center orderly-justify-center orderly-rounded orderly-border orderly-bg-transparent orderly-px-3 orderly-text-3xs orderly-font-medium orderly-transition-colors hover:orderly-bg-secondary focus:orderly-outline-none focus:orderly-ring-1 focus:orderly-ring-ring disabled:orderly-pointer-events-none disabled:orderly-opacity-50 group-[.destructive]:orderly-border-muted/40 group-[.destructive]:hover:orderly-border-destructive/30 group-[.destructive]:hover:orderly-bg-destructive group-[.destructive]:hover:orderly-text-destructive-foreground group-[.destructive]:focus:orderly-ring-destructive",
+      "orderly-inline-flex orderly-h-8 orderly-shrink-0 orderly-items-center orderly-justify-center orderly-rounded orderly-border orderly-bg-transparent orderly-px-3 orderly-text-sm orderly-font-medium orderly-transition-colors hover:orderly-bg-secondary focus:orderly-outline-none focus:orderly-ring-1 focus:orderly-ring-ring disabled:orderly-pointer-events-none disabled:orderly-opacity-50 group-[.destructive]:orderly-border-muted/40 group-[.destructive]:hover:orderly-border-destructive/30 group-[.destructive]:hover:orderly-bg-destructive group-[.destructive]:hover:orderly-text-destructive-foreground group-[.destructive]:focus:orderly-ring-destructive",
       className
     )}
     {...props}
@@ -95,7 +95,7 @@ const ToastTitle = React.forwardRef<
   <ToastPrimitives.Title
     ref={ref}
     className={cn(
-      "orderly-text-3xs orderly-font-semibold [&+div]:orderly-text-4xs",
+      "orderly-text-[12px] orderly-font-semibold [&+div]:orderly-text-md",
       className
     )}
     {...props}
@@ -109,7 +109,7 @@ const ToastDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Description
     ref={ref}
-    className={cn("orderly-text-3xs orderly-opacity-90", className)}
+    className={cn("orderly-text-sm orderly-opacity-90", className)}
     {...props}
   />
 ));

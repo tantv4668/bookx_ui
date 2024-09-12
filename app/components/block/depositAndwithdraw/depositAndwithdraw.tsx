@@ -1,7 +1,6 @@
 'use client';
 import { TabPane, Tabs } from '../../tab';
 import { FC, useEffect, useState } from 'react';
-import { Withdraw } from '../withdraw';
 import { Sheet, SheetContent } from '../../sheet';
 import { Dialog, DialogContent } from '../../dialog';
 import { ArrowDownToLineIcon } from '../../assets/icons/arrowDownToLine';
@@ -9,6 +8,7 @@ import { DepositSlot } from './slot';
 import { AssetsProvider } from '../../provider';
 import { useModal } from '../../modal';
 import { create } from '../../modal/modalHelper';
+import { Withdraw } from '@orderly.network/react';
 
 type activeName = 'deposit' | 'withdraw';
 

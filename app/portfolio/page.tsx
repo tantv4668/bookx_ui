@@ -8,6 +8,7 @@ import { DataList } from '../components/page/portfolio/dataList';
 import { Footer } from '../components/layout/footer';
 import { SystemStatusBar } from '../components/block/systemStatusBar';
 import TopTips from '../components/block/accountStatus/sections/topTips';
+import View from './view';
 
 const Portfolio: FC = (props) => {
 	return (
@@ -15,7 +16,7 @@ const Portfolio: FC = (props) => {
 			<Header className="orderly-app-trading-header orderly-border-b orderly-border-semiTransparentWhite orderly-bg-gunmetal">
 				<TopNavbar />
 			</Header>
-			
+
 			<TopTips />
 
 			<Layout>

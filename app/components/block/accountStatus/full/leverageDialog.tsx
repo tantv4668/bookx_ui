@@ -49,7 +49,12 @@ export const LeverageDialog: FC<any> = (props) => {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>{props.children}</DialogTrigger>
-			<DialogContent onOpenAutoFocus={(e) => e.preventDefault()} closable>
+			<DialogContent
+				onOpenAutoFocus={(e) => e.preventDefault()}
+				closable
+				maxWidth={'sm'}
+				className="orderly-max-w-[420px]"
+			>
 				<DialogHeader>
 					<DialogTitle>Account Leverage</DialogTitle>
 				</DialogHeader>
@@ -63,7 +68,7 @@ export const LeverageDialog: FC<any> = (props) => {
 							</Numeral>
 						</div>
 					</div>
-					<div className="ordelry-my-5 orderly-h-[80px]">
+					<div className="orderly-my-5 orderly-h-[80px]">
 						<LeverageEditor maxLeverage={maxLeverage} leverageLevers={leverageLevers} onSave={onSave} />
 					</div>
 				</DialogBody>

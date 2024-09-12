@@ -20,7 +20,7 @@ export const modalCallbacks: ModalCallbacks = {};
 export const hideModalCallbacks: ModalCallbacks = {};
 
 let dispatch: React.Dispatch<ModalAction> = () => {
-	throw new Error('No dispatch method detected, did you embed your app with Modal.Provider?');
+	// throw new Error('No dispatch method detected, did you embed your app with Modal.Provider?');
 };
 
 //------- reducer actions --------

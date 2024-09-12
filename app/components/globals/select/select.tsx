@@ -154,7 +154,7 @@ const Select: FC<SelectProps> = ({ className, contentClassName, size, disabled, 
 							textValue={option.value}
 							key={index}
 							className={cn(
-								'orderly-text-white orderly-bg-darkGunmetal orderly-text-[12px] hover:orderly-bg-charcoalBlue orderly-min-w-[70px] orderly-h-6',
+								'orderly-text-white orderly-bg-darkGunmetal orderly-text-[12px] !hover:orderly-bg-charcoalBlue orderly-min-w-[70px] orderly-h-6',
 								option.value === props.value &&
 									(color === 'buy'
 										? 'orderly-text-trade-profit'

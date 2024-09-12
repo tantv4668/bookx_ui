@@ -7,8 +7,10 @@ import { CustomConfigStore, ENV_NAME } from './CustomConfigStore';
 import NavbarTab from './NavbarTab';
 import { _orderlySymbolKey } from '../constant';
 import { useRouter } from 'next/navigation';
+import Protect from 'react-app-protect';
+import 'react-app-protect/dist/index.css';
 // import { CustomContractManager } from './CustomContract';
-import { ARBITRUM_TESTNET_CHAINID, MANTLE_TESTNET_CHAINID } from '@orderly.network/types';
+// import { ARBITRUM_TESTNET_CHAINID, MANTLE_TESTNET_CHAINID } from '@orderly.network/types';
 export type NetworkId = 'testnet' | 'mainnet';
 
 const HostEnvMap: Record<string, ENV_NAME> = {
@@ -104,18 +106,20 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 					},
 				}}
 				theme={undefined}
-			// chainFilter={
-			// 	{
-			// 		mainnet: [{ id: 42161 }, { id: 8453 }, { id: 10 }, { id: 169 }],
-			// 		testnet: [{ id: 421614 }, { id: 421613 }],
-			// 	} as any
-			// }
-			// chainFilter={{
-			// 	mainnet: [],
-			// 	testnet: [{ id: ARBITRUM_TESTNET_CHAINID }, { id: MANTLE_TESTNET_CHAINID }],
-			// }}
+				// chainFilter={
+				// 	{
+				// 		mainnet: [{ id: 42161 }, { id: 8453 }, { id: 10 }, { id: 169 }],
+				// 		testnet: [{ id: 421614 }, { id: 421613 }],
+				// 	} as any
+				// }
+				// chainFilter={{
+				// 	mainnet: [],
+				// 	testnet: [{ id: ARBITRUM_TESTNET_CHAINID }, { id: MANTLE_TESTNET_CHAINID }],
+				// }}
 			>
-				{props.children}
+				<Protect sha512="7696b2234e4fb4883e4c344cbae61219c639881075f199a18759fffa56a08c66014b1eb3b270ace3e9ce0b15f669a48bac245e3a1021ed9961307a85b56add97">
+					{props.children}
+				</Protect>
 			</OrderlyAppProvider>
 		</ConnectorProvider>
 	);

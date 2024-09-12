@@ -12,13 +12,13 @@ import { ChainDialog } from '../pickers/chainPicker/chainDialog';
 import { modal } from '../../modal';
 import { useQuery } from '@orderly.network/hooks';
 import { Logo } from '../../logo';
-import { OrderlyAppContext } from '../../provider';
 import { NetworkImage } from '../../assets/icons/networkImage';
 import { cn } from '../../utils/css';
 import { Summary } from './sections/summary';
 import { MoveDownIcon } from '../../assets/icons/moveDown';
 import { TokenQtyInput } from '../../globals/input/tokenQtyInput';
 import { QuantityInput } from '../quantityInput';
+import { OrderlyAppContext } from '@orderly.network/react';
 
 type DST = {
 	symbol: string;

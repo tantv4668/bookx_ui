@@ -7,6 +7,7 @@ const View: React.FC = () => {
 	return (
 		<ReferralContainer>
 			{/* <Dashboard /> */}
+			<></>
 		</ReferralContainer>
 	);
 };

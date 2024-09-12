@@ -45,7 +45,7 @@ export function useModal(modal?: any, args?: any): ModalHandler {
   }
 
   if (!modalId) {
-    throw new Error("modalId is required");
+    // throw new Error("modalId is required");
   }
 
   const id = modalId as string;

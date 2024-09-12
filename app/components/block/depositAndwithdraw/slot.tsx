@@ -1,7 +1,7 @@
 'use client';
-import { Deposit } from '../deposit/deposit';
 import { ExtensionSlot } from '../../plugin/slot';
 import { ExtensionPosition, installExtension } from '../../plugin';
+import { Deposit } from '@orderly.network/react';
 
 installExtension<DepositSlotProps>({
 	name: 'default-deposit',

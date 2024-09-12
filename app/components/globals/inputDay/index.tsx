@@ -7,7 +7,6 @@ import 'rsuite/DateRangePicker/styles/index.css';
 
 export default function InputDay() {
 	const [value, setValue] = useState<any>([null, null]);
-	console.log('??', value);
 
 	return (
 		<DateRangePicker

@@ -28,8 +28,6 @@ const ApiKey: React.FC = (props) => {
 
 	const { state } = useAccount();
 
-	console.log('??state', state);
-
 	const { onWalletConnect, onSetChain, onWalletDisconnect, accountMenuItems, onClickAccountMenuItem } =
 		useContext(OrderlyAppContext);
 

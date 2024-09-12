@@ -4,13 +4,11 @@ import { FC, useCallback, useContext, useMemo, useState } from 'react';
 import { ARBITRUM_MAINNET_CHAINID_HEX, ARBITRUM_TESTNET_CHAINID_HEX, API } from '@orderly.network/types';
 import { useChains, OrderlyContext, useWalletConnector, useMediaQuery } from '@orderly.network/hooks';
 import { isTestnet } from '@orderly.network/utils';
-import { OrderlyAppContext } from '@orderly.network/react';
-// import { OrderlyAppContext } from '@/app/components/provider';
+import { ChainListView, OrderlyAppContext } from '@orderly.network/react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/app/components/dropdown/dropdown';
 import Button from '@/app/components/globals/button';
 import { cn } from '@/app/components/utils/css';
 import { ArrowIcon } from '@/app/components/assets/icons/arrow';
-import { ChainListView } from '../../../pickers/chainPicker';
 import { NetworkImage } from '@/app/components/assets/icons/networkImage';
 
 interface ChainsProps {

@@ -27,12 +27,13 @@ import {
 	dayOptions,
 	fundingOptions,
 } from './dataOverview';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 import { colourStyles } from './colourStyles';
 import AssetHistory from './assetHistory';
 import FundingFee from './fundingFee';
 import { EyeOffIcon } from '@/app/components/assets/icons/eyeOff';
 import Distribution from './distribution';
+import { SelectDownIcon } from '@/app/components/assets/icons/selectDownIcon';
 
 export enum EnumPortfolioTab {
 	DepositsWithdrawals = 'Deposits & Withdrawals',
@@ -159,6 +160,19 @@ const Overview: React.FC = (props) => {
 	useEffect(() => {
 		setIndex(dataTab.findIndex((obj) => obj.value === activeTab));
 	}, [dataTab, activeTab]);
+
+	const DropdownIndicator = (props: any) => {
+		const { menuIsOpen } = props.selectProps;
+		return (
+			<components.DropdownIndicator {...props}>
+				{!menuIsOpen ? (
+					<SelectDownIcon className="-orderly-mt-[2px]" />
+				) : (
+					<SelectDownIcon className="-orderly-mt-[2px] orderly-rotate-180" />
+				)}
+			</components.DropdownIndicator>
+		);
+	};
 
 	return (
 		<div className="orderly-flex orderly-flex-col orderly-gap-4 orderly-w-full orderly-text-white ">
@@ -380,7 +394,7 @@ const Overview: React.FC = (props) => {
 							options={index === 0 ? depositsWithdrawalsOptions : index === 2 ? DistributionOptions : []}
 							value={valueSelectTab}
 							onChange={(e) => setValueSelectTab(e)}
-							className="orderly-bg-[#1C1E22] orderly-min-w-[96px] orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
+							className="!orderly-bg-[#1C1E22] orderly-min-w-[96px] orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
 						/>
 					) : (
 						<Select
@@ -392,6 +406,7 @@ const Overview: React.FC = (props) => {
 							styles={colourStyles}
 							value={valueSelectInput}
 							onChange={handleChangeSelectInput}
+							components={{ DropdownIndicator }}
 						/>
 					)}
 					<InputDay setStartEndDay={setStartEndDay} startEndDay={startEndDay} />

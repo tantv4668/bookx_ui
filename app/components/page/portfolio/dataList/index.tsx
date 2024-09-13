@@ -88,7 +88,7 @@ export const DataList = () => {
 					}] orderly-flex orderly-flex-col orderly-p-4 orderly-m-3 orderly-bg-gunmetal orderly-border orderly-border-semiTransparentWhite orderly-rounded-xl`}
 				>
 					<div className="orderly-text-translucent orderly-text-xs orderly-flex orderly-justify-between">
-						{showTab && <span>Portfolio</span>}
+						{showTab && <span className="orderly-text-[13px]">Portfolio</span>}
 						<div
 							className={`orderly-cursor-pointer ${!showTab && 'orderly-rotate-90 orderly-mx-[auto]'}`}
 							onClick={handleShowHideTab}

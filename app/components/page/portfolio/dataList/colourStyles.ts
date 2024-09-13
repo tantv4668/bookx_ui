@@ -8,9 +8,9 @@ export const colourStyles: any = {
 		'fontSize': '12px',
 		'minHeight': '24px',
 		'minWidth': '96px',
-		'padding': '0px 8px',
+		'padding': '0px 8px 0px 6px',
 		'color': '#FFFFFF8A',
-		'borderRadius': '4px',
+		'borderRadius': '6px',
 		':hover': {
 			borderColor: '#FFFFFF1F',
 		},
@@ -66,6 +66,7 @@ export const colourStyles: any = {
 	singleValue: (provided: any) => ({
 		...provided,
 		color: '#FFFFFF8A',
-		fontSize: '12px',
+		fontSize: '13px',
+		fontWeight: '600',
 	}),
 };

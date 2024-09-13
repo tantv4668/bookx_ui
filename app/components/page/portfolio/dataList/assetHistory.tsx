@@ -167,7 +167,7 @@ const AssetHistory: React.FC<AssetHistoryProps> = (props) => {
   }, [chains]);
 
   return (
-    <div className="orderly-overflow-y-auto orderly-h-[100vh] orderly-pb-[300px]">
+    <div className={dataSource && dataSource.length > 0 ? "orderly-overflow-y-auto" : ""}>
       <Table
         dataSource={dataSource}
         columns={columns}

@@ -78,13 +78,13 @@ export const DataList = () => {
 
 	return (
 		<div className="orderly-overflow-hidden orderly-w-full orderly-mx-auto">
-			<div className="orderly-flex">
+			<div className="orderly-flex orderly-w-full">
 				<div
 					style={{
 						minHeight: errors?.ChainNetworkNotSupport ? 'calc(100vh - 162px)' : 'calc(100vh - 116px)',
 					}}
 					className={`orderly-w-[${
-						!showTab ? 'auto' : '160px'
+						!showTab ? 'auto' : '184px'
 					}] orderly-flex orderly-flex-col orderly-p-4 orderly-m-3 orderly-bg-gunmetal orderly-border orderly-border-semiTransparentWhite orderly-rounded-xl`}
 				>
 					<div className="orderly-text-translucent orderly-text-xs orderly-flex orderly-justify-between">
@@ -115,9 +115,7 @@ export const DataList = () => {
 						})}
 					</div>
 				</div>
-				<div className={`orderly-mx-3 orderly-my-6 orderly-w-[calc(100%-${!showTab ? '100px' : '184px'})]`}>
-					{dataTab[index].component}
-				</div>
+				<div className={`orderly-mx-3 orderly-my-6 orderly-w-[calc(100%)]`}>{dataTab[index].component}</div>
 			</div>
 		</div>
 	);

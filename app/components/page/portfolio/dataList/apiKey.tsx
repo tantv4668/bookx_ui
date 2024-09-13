@@ -2,18 +2,15 @@
 import { RightIcon } from '@/app/components/assets/icons/rightIcon';
 import Button from '@/app/components/globals/button';
 import { cn } from '@/app/components/utils/css';
-import { useAccount, usePrivateInfiniteQuery } from '@orderly.network/hooks';
-import React, { useCallback, useContext, useMemo } from 'react';
-import { generateKeyFun } from '../utils';
-import { NetworkImage } from '@/app/components/assets/icons/networkImage';
+import { useAccount } from '@orderly.network/hooks';
+import React, { useMemo } from 'react';
 import { Text } from '@/app/components/text';
-import { AccountStatus } from '@/app/components/block/desktop/accountStatus.desktop';
-import { OrderlyAppContext } from '@orderly.network/react';
-// import { OrderlyAppContext } from '@/app/components/provider';
-import { showAccountConnectorModal } from '@/app/components/block/walletConnect';
-import { AccountStatusEnum } from '@/app/components/types/constants';
 import { Column, Table } from '@/app/components/table';
 import { shortenAddress } from '@/app/components/utils/string';
+import Link from 'next/link';
+import { CreateApiKeyDialog } from '@/app/components/dialog/createApiKeyDialog';
+import { CopyIDIcon } from '@/app/components/assets/icons/copyIDIcon';
+import { toast } from '../../../toast';
 
 const ApiKey: React.FC = (props) => {
 	// const { data, size, setSize, isLoading } = usePrivateInfiniteQuery(
@@ -29,20 +26,11 @@ const ApiKey: React.FC = (props) => {
 
 	const { state } = useAccount();
 
-	const { onWalletConnect, onSetChain, onWalletDisconnect, accountMenuItems, onClickAccountMenuItem } =
-		useContext(OrderlyAppContext);
-
-	const onConnect = useCallback(() => {
-		onWalletConnect().then((result: { wallet: any; status: AccountStatusEnum }) => {
-			if (result && result.status < AccountStatusEnum.EnableTrading) {
-				showAccountConnectorModal({
-					status: result.status,
-				}).catch((err: any) => {
-					console.log('cancel', err);
-				});
-			}
+	const handleCopyID = (accountId: string) => {
+		navigator.clipboard.writeText(accountId).then(() => {
+			toast.success('Copied to clipboard');
 		});
-	}, []);
+	};
 
 	const columns = useMemo<Column[]>(() => {
 		return [
@@ -94,7 +82,14 @@ const ApiKey: React.FC = (props) => {
 			<div className="orderly-grid orderly-grid-cols-2 orderly-gap-4 orderly-mb-4">
 				<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-xl orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-eerieBlack orderly-w-full">
 					<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">Account ID</div>
-					<div>{(state.accountId && shortenAddress(state.accountId)) || '--'}</div>
+					<div className="orderly-flex orderly-gap-2 orderly-items-center">
+						{(state.accountId && shortenAddress(state.accountId)) || '--'}
+						{state.accountId && (
+							<span onClick={() =>state.accountId && handleCopyID(state.accountId)} className="orderly-cursor-pointer">
+								<CopyIDIcon />
+							</span>
+						)}
+					</div>
 				</div>
 				<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-xl orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-eerieBlack orderly-w-full">
 					<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">UID</div>
@@ -102,29 +97,38 @@ const ApiKey: React.FC = (props) => {
 				</div>
 			</div>
 
-			<div className="orderly-box orderly-size-width orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap orderly-text-sm orderly-border-b-2 orderly-border-semiTransparentWhite orderly-pb-4 orderly-gap-4">
-				<div className="orderly-box orderly-size-width orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-gap-1">
+			<div className="orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap orderly-text-sm orderly-border-b-2 orderly-border-semiTransparentWhite orderly-pb-4 orderly-gap-4">
+				<div className="orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-gap-1 orderly-w-full">
 					<div className="orderly-text-translucent">
 						Create API keys to suit your trading needs. For your security, don't share your API keys with anyone.
 					</div>
-					<div className="orderly-text-lightPurple orderly-box orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap  orderly-fill-primary-light orderly-cursor-pointer orderly-text-2xs md:orderly-text-xs xl:orderly-text-sm">
+					<Link
+						href={'https://orderly.network/docs/build-on-evm/evm-api/api-authentication'}
+						target="_blank"
+						className="orderly-text-lightPurple orderly-box orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap  orderly-fill-primary-light orderly-cursor-pointer orderly-text-2xs md:orderly-text-xs xl:orderly-text-sm"
+					>
 						<span>Read API guide</span>
 						<RightIcon />
-					</div>
+					</Link>
 				</div>
-				<Button
-					disabled={true}
-					type="button"
-					className="orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors disabled:orderly-cursor-not-allowed disabled:orderly-bg-base-3 disabled:orderly-text-translucent disabled:hover:orderly-bg-base-3 orderly-px-3 orderly-rounded-md orderly-h-8 orderly-text-sm hover:orderly-opacity-70 hover:orderly-text-black active:orderly-bg-base-4/50 orderly-bg-blueGray orderly-text-primary-contrast"
-				>
-					<span className="orderly-text-sm">+</span>
-					Create API key
-				</Button>
+				<CreateApiKeyDialog>
+					<Button
+						disabled={state.status === 0}
+						type="button"
+						className={`orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors disabled:orderly-cursor-not-allowed disabled:orderly-bg-base-3 disabled:orderly-text-translucent orderly-px-4 orderly-rounded-md orderly-h-8 orderly-text-sm active:orderly-bg-base-4/50 ${
+							state.status === 0
+								? '!orderly-bg-blueGray !orderly-text-primary-contrast'
+								: 'orderly-text-black !orderly-bg-paleLime hover:orderly-opacity-70 hover:orderly-text-black hover:orderly-bg-paleLime'
+						}`}
+					>
+						<span className="orderly-text-sm">+</span>
+						Create API key
+					</Button>
+				</CreateApiKeyDialog>
 			</div>
 
-			<div className="orderly-overflow-y-auto">
+			<div className={dataSource && dataSource.length > 0 ? "orderly-overflow-y-auto" : ""}>
 				<Table
-					isApiKeyTab={state.status === 0}
 					dataSource={dataSource}
 					columns={columns}
 					loading={isLoading}
@@ -139,23 +143,6 @@ const ApiKey: React.FC = (props) => {
 							'orderly-h-[40px] orderly-border-b-[1px] orderly-border-b-solid orderly-border-semiTransparentWhite',
 					})}
 				/>
-				{dataSource && dataSource.length === 0 && state.status !== 4 && (
-					<div className="orderly-flex orderly-flex-col orderly-gap-4 orderly-justify-center orderly-items-center orderly-mt-8 orderly-mb-4">
-						<AccountStatus
-							isApiKeyTab
-							status={state.status}
-							address={state.address}
-							accountInfo={undefined}
-							className="orderly-mr-3"
-							onConnect={onConnect}
-							dropMenuItem={accountMenuItems}
-							onClickDropMenuItem={onClickAccountMenuItem}
-						/>
-						<div className="orderly-text-[12px] orderly-white orderly-opacity-35 orderly-box orderly-leading-none">
-							Please Connect wallet before starting to trade
-						</div>
-					</div>
-				)}
 			</div>
 		</div>
 	);

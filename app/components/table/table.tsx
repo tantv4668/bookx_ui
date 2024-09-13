@@ -1,16 +1,20 @@
 'use client';
-import { FC, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { Column } from './col';
 import { TableHeader } from './thead';
 import { ColGroup } from './colgroup';
 import { TableProvider } from './tableContext';
-import { useDebouncedCallback } from '@orderly.network/hooks';
+import { useAccount, useDebouncedCallback } from '@orderly.network/hooks';
 import { FixedDivide } from './fixedDivide';
 import { TBody, TBodyProps } from './tbody';
 import { Spinner } from '../spinner';
 import { EmptyView } from '../listView/emptyView';
 import { cn } from '../utils/css';
 import { EndReachedBox } from '../listView/endReachedBox';
+import { AccountStatus } from '../block/desktop/accountStatus.desktop';
+import { OrderlyAppContext } from '@orderly.network/react';
+import { showAccountConnectorModal } from '../block/walletConnect';
+import { AccountStatusEnum } from '../types/constants';
 
 export interface TableProps<RecordType> extends TBodyProps<RecordType> {
 	columns: Column<RecordType>[];
@@ -25,12 +29,27 @@ export interface TableProps<RecordType> extends TBodyProps<RecordType> {
 	showMaskElement?: boolean;
 	loadMore?: () => void;
 	id?: string;
-	isApiKeyTab?: boolean;
 }
 
 export const Table = <RecordType extends unknown>(props: TableProps<RecordType>) => {
 	const wrapRef = useRef<HTMLDivElement>(null);
-	const { dataSource, columns, showMaskElement = true, isApiKeyTab = false, ...rest } = props;
+	const { dataSource, columns, showMaskElement = true, ...rest } = props;
+
+	const { state } = useAccount();
+
+	const { onWalletConnect, accountMenuItems, onClickAccountMenuItem } = useContext(OrderlyAppContext);
+
+	const onConnect = useCallback(() => {
+		onWalletConnect().then((result: { wallet: any; status: AccountStatusEnum }) => {
+			if (result && result.status < AccountStatusEnum.EnableTrading) {
+				showAccountConnectorModal({
+					status: result.status,
+				}).catch((err: any) => {
+					console.log('cancel', err);
+				});
+			}
+		});
+	}, []);
 
 	const [maskLayout, setMaskLayout] = useState({
 		left: 0,
@@ -45,12 +64,31 @@ export const Table = <RecordType extends unknown>(props: TableProps<RecordType>)
 		}
 
 		let content: ReactNode = <Spinner />;
+		if (state.status === 0) {
+			return (
+				<div className="orderly-flex orderly-flex-col orderly-gap-4 orderly-justify-center orderly-items-center orderly-mt-8 orderly-mb-4">
+					<AccountStatus
+						hideChain
+						status={state.status}
+						address={state.address}
+						accountInfo={undefined}
+						className="orderly-mr-3"
+						onConnect={onConnect}
+						dropMenuItem={accountMenuItems}
+						onClickDropMenuItem={onClickAccountMenuItem}
+					/>
+					<div className="orderly-text-[12px] orderly-white orderly-opacity-35 orderly-box orderly-leading-none">
+						Please Connect wallet before starting to trade
+					</div>
+				</div>
+			);
+		}
 		if (props.dataSource?.length === 0 && !props.loading) {
-			content = !isApiKeyTab ? <EmptyView /> : '';
+			content = <EmptyView />;
 		}
 		return (
 			<div
-				className="orderly-absolute orderly-flex orderly-z-20 orderly-flex-col orderly-justify-center orderly-items-center orderly-bg-base-900/30 orderly-backdrop-blur-sm"
+				className="orderly-flex orderly-z-20 orderly-flex-col orderly-justify-center orderly-items-center orderly-bg-base-900/30 orderly-backdrop-blur-sm"
 				style={{
 					...maskLayout,
 				}}

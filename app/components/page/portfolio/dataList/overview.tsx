@@ -6,9 +6,6 @@ import Button from '@/app/components/globals/button';
 import LineChartComponent from '@/app/components/lineChart';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { getPreviousDate } from '@/app/components/utils/getPreviousDate';
-import OverviewTable from './overviewTable';
-import { Column } from '@/app/components/table';
-import { Text } from '@/app/components/text';
 import { DepositsWithdrawalsIcon } from '@/app/components/assets/icons/DepositsWithdrawalsIcon';
 import { FundingIcon } from '@/app/components/assets/icons/fundingIcon';
 import { DistributionIcon } from '@/app/components/assets/icons/distributionIcon';
@@ -30,10 +27,12 @@ import {
 	dayOptions,
 	fundingOptions,
 } from './dataOverview';
-import Select, { components } from 'react-select';
+import Select from 'react-select';
 import { colourStyles } from './colourStyles';
 import AssetHistory from './assetHistory';
 import FundingFee from './fundingFee';
+import { EyeOffIcon } from '@/app/components/assets/icons/eyeOff';
+import Distribution from './distribution';
 
 export enum EnumPortfolioTab {
 	DepositsWithdrawals = 'Deposits & Withdrawals',
@@ -49,13 +48,21 @@ const Overview: React.FC = (props) => {
 	const [valueSelectTab, setValueSelectTab] = useState<string>('All');
 	const [searchFunding, setSearchFunding] = useState('');
 	const [filterFundingOptions, setFilterFundingOptions] = useState(fundingOptions);
-
-	const dataSource: any = []; //get api
-	const isLoading: boolean = false; //get api
+	const [showValue, setShowValue] = useState<boolean>(false);
 
 	const { state } = useAccount();
 
 	const { onWalletConnect, accountMenuItems, onClickAccountMenuItem } = useContext(OrderlyAppContext);
+
+	const handleShowHideUSDC = () => {
+		setShowValue(!showValue);
+		window.localStorage.setItem('showValue', JSON.stringify(!showValue));
+	};
+
+	useEffect(() => {
+		const showValueLocalStorage = window.localStorage.getItem('showValue');
+		setShowValue(!(showValueLocalStorage === `false`));
+	}, []);
 
 	const onConnect = useCallback(() => {
 		onWalletConnect().then((result: { wallet: any; status: AccountStatusEnum }) => {
@@ -67,133 +74,6 @@ const Overview: React.FC = (props) => {
 				});
 			}
 		});
-	}, []);
-
-	const columnsDepositsWithdrawals = useMemo<Column[]>(() => {
-		return [
-			{
-				title: 'Token',
-				dataIndex: 'token	',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-			{
-				title: 'Time',
-				dataIndex: 'time	',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-			{
-				title: 'TxID',
-				dataIndex: 'TxID',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-			{
-				title: 'Status',
-				dataIndex: 'status',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-			{
-				title: 'Type',
-				dataIndex: 'type',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-			{
-				title: 'Amount',
-				dataIndex: 'amount',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-		];
-	}, []);
-
-	const columnsFunding = useMemo<Column[]>(() => {
-		return [
-			{
-				title: 'Instrument',
-				dataIndex: 'instrument	',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-			{
-				title: 'Time',
-				dataIndex: 'time',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-			{
-				title: 'Funding rate / Annual rate',
-				dataIndex: 'rate',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-			{
-				title: 'Payment type',
-				dataIndex: 'type',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-			{
-				title: 'Funding fee (USDC)',
-				dataIndex: 'fee',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-		];
-	}, []);
-
-	const columnsDistribution = useMemo<Column[]>(() => {
-		return [
-			{
-				title: 'Token',
-				dataIndex: 'token	',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-			{
-				title: 'Time',
-				dataIndex: 'time	',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-			{
-				title: 'Status',
-				dataIndex: 'status',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-			{
-				title: 'Type',
-				dataIndex: 'type',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-			{
-				title: 'Amount',
-				dataIndex: 'amount',
-				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
-				},
-			},
-		];
 	}, []);
 
 	const dataUser = {
@@ -216,28 +96,29 @@ const Overview: React.FC = (props) => {
 
 	const startDay = getPreviousDate(7);
 
-	const dataTab = [
-		{
-			title: 'Deposits & Withdrawals',
-			icon: <DepositsWithdrawalsIcon size={16} />,
-			value: EnumPortfolioTab.DepositsWithdrawals,
-			component: <OverviewTable columns={columnsDepositsWithdrawals} dataSource={dataSource} isLoading={isLoading} />,
-			// component: <AssetHistory />,
-		},
-		{
-			title: 'Funding',
-			icon: <FundingIcon size={16} />,
-			value: EnumPortfolioTab.Funding,
-			// component: <OverviewTable columns={columnsFunding} dataSource={dataSource} isLoading={isLoading} />,
-			component: <FundingFee />,
-		},
-		{
-			title: 'Distribution',
-			icon: <DistributionIcon size={16} />,
-			value: EnumPortfolioTab.Distribution,
-			component: <OverviewTable columns={columnsDistribution} dataSource={dataSource} isLoading={isLoading} />,
-		},
-	];
+	const dataTab = useMemo(
+		() => [
+			{
+				title: 'Deposits & Withdrawals',
+				icon: <DepositsWithdrawalsIcon size={16} />,
+				value: EnumPortfolioTab.DepositsWithdrawals,
+				component: <AssetHistory />,
+			},
+			{
+				title: 'Funding',
+				icon: <FundingIcon size={16} />,
+				value: EnumPortfolioTab.Funding,
+				component: <FundingFee />,
+			},
+			{
+				title: 'Distribution',
+				icon: <DistributionIcon size={16} />,
+				value: EnumPortfolioTab.Distribution,
+				component: <Distribution />,
+			},
+		],
+		[valueSelectTab],
+	);
 
 	const handleInputChangeSelectInput = (value: string) => {
 		setSearchFunding(value);
@@ -271,10 +152,10 @@ const Overview: React.FC = (props) => {
 							<DepositAndWithdrawDialog isWithdraw>
 								<Button
 									type="button"
-									disabled={state.status !== 4}
+									disabled={state.status === 0}
 									className={`${
 										state.status === 4 && 'hover:orderly-opacity-70'
-									} orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors orderly-px-3 orderly-rounded-md orderly-h-8 orderly-text-sm hover:orderly-text-black active:orderly-bg-base-4/50 !orderly-bg-blueGray hover:orderly-bg-blueGray orderly-text-black disabled:orderly-cursor-not-allowed disabled:orderly-bg-darkSlateBlue disabled:orderly-text-translucent !disabled:hover:orderly-bg-darkSlateBlue`}
+									} orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors orderly-px-3 orderly-rounded-md orderly-h-8 orderly-text-sm hover:orderly-text-black active:orderly-bg-base-4/50 !orderly-bg-lightPurple hover:orderly-bg-lightPurple orderly-text-black disabled:orderly-cursor-not-allowed disabled:orderly-bg-darkSlateBlue disabled:orderly-text-translucent !disabled:hover:orderly-bg-darkSlateBlue`}
 								>
 									<WithdrawIcon />
 									Withdraw
@@ -283,7 +164,7 @@ const Overview: React.FC = (props) => {
 							<DepositAndWithdrawDialog>
 								<Button
 									type="button"
-									disabled={state.status !== 4}
+									disabled={state.status === 0}
 									className={`${
 										state.status === 4 && 'hover:orderly-opacity-70'
 									}  orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors orderly-px-3 orderly-rounded-md orderly-h-8 orderly-text-sm hover:orderly-text-black active:orderly-bg-primary/50 !orderly-bg-paleLime hover:orderly-bg-paleLime orderly-text-black disabled:orderly-cursor-not-allowed disabled:orderly-bg-darkSlateBlue disabled:orderly-text-translucent !disabled:hover:orderly-bg-darkSlateBlue`}
@@ -299,10 +180,18 @@ const Overview: React.FC = (props) => {
 					<div className="orderly-py-4 orderly-mb-4 orderly-border-b orderly-border-semiTransparentWhite">
 						<div className="orderly-text-[13px] orderly-flex orderly-text-translucent orderly-gap-1 orderly-items-center">
 							<span>Total value</span>
-							<EyeIcon size={16} />
+							<span className="orderly-cursor-pointer" onClick={handleShowHideUSDC}>
+								{showValue ? <EyeIcon size={16} /> : <EyeOffIcon size={16} />}
+							</span>
 						</div>
 						<div className="orderly-text-paleLime orderly-bg-clip-text orderly-font-bold orderly-text-3xl">
-							{state.status === 0 ? <span className="orderly-text-[16px]">--</span> : dataUser.USDC}
+							{state.status === 0 ? (
+								<span className="orderly-text-[16px]">--</span>
+							) : showValue ? (
+								dataUser.USDC
+							) : (
+								'*****'
+							)}
 							<span className="orderly-text-white orderly-opacity-80 orderly-numeral-unit orderly-text-base orderly-h-9 orderly-ml-1">
 								USDC
 							</span>
@@ -311,7 +200,7 @@ const Overview: React.FC = (props) => {
 					{state.status === 0 ? (
 						<div className="orderly-w-full">
 							<AccountStatus
-								isApiKeyTab
+								hideChain
 								status={state.status}
 								address={state.address}
 								accountInfo={undefined}
@@ -329,11 +218,13 @@ const Overview: React.FC = (props) => {
 										<div className="orderly-text-xs orderly-text-translucent orderly-statistic-label">{data.title}</div>
 										<div className="orderly-text-white orderly-box orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap">
 											{index === 0 && (
-												<span className="orderly-opacity-55 orderly-text-lg orderly-font-semibold">{data.value}</span>
+												<span className="orderly-opacity-55 orderly-text-lg orderly-font-semibold">
+													{showValue ? data.value : '*****'}
+												</span>
 											)}
 											{index === 0 && (
 												<span className="orderly-opacity-55 orderly-text-sm orderly-font-semibold">
-													({data.value}%)
+													({showValue ? data.value + '%' : '*****'})
 												</span>
 											)}
 											{index === 1 && (
@@ -346,7 +237,11 @@ const Overview: React.FC = (props) => {
 													</div>
 												</LeverageDialog>
 											)}
-											{index === 2 && <span className="orderly-text-lg orderly-font-semibold">{data.value}</span>}
+											{index === 2 && (
+												<span className="orderly-text-lg orderly-font-semibold">
+													{showValue ? data.value : '*****'}
+												</span>
+											)}
 										</div>
 									</div>
 								);
@@ -387,15 +282,33 @@ const Overview: React.FC = (props) => {
 				<div className="orderly-grid orderly-grid-cols-3 orderly-gap-4 orderly-my-4">
 					<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-md orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-gradient-gunmetal orderly-w-full">
 						<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">7D ROI</div>
-						<div>--</div>
+						<div className="orderly-text-translucent">
+							{state.status === 0 ? (
+								<span className="orderly-text-[16px]">--</span>
+							) : showValue ? (
+								dataUser.USDC + '%'
+							) : (
+								'*****'
+							)}
+						</div>
 					</div>
 					<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-md orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-gradient-gunmetal orderly-w-full">
 						<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">7D PnL</div>
-						<div>--</div>
+						<div className="orderly-text-translucent">
+							{state.status === 0 ? (
+								<span className="orderly-text-[16px]">--</span>
+							) : showValue ? (
+								dataUser.USDC
+							) : (
+								'*****'
+							)}
+						</div>
 					</div>
 					<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-md orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-gradient-gunmetal orderly-w-full">
 						<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">7D Volume (USDC)</div>
-						<div>--</div>
+						<div className="orderly-text-translucent">
+							{state.status === 0 ? <span className="orderly-text-[16px]">--</span> : dataUser.USDC}
+						</div>
 					</div>
 				</div>
 
@@ -462,7 +375,7 @@ const Overview: React.FC = (props) => {
 					<InputDay />
 				</div>
 
-				<div className="orderly-mx-3 orderly-mb-6">{dataTab[index].component}</div>
+				<div className="">{dataTab[index].component}</div>
 			</div>
 		</div>
 	);

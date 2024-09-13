@@ -3,25 +3,33 @@ import React, { useMemo, useRef } from "react";
 import {
   useAccount,
   usePrivateInfiniteQuery,
-  useSymbolsInfo,
+  useQuery,
 } from "@orderly.network/hooks";
-import { Decimal } from "@orderly.network/utils";
-import { generateKeyFun, getAnnualRate, getInfiniteData } from "../utils";
+import {
+  formatTxID,
+  generateKeyFun,
+  getInfiniteData,
+  upperFirstLetter,
+} from "../utils";
 import { AccountStatusEnum } from "@orderly.network/types";
-import { useEndReached } from "@/app/components/listView/useEndReached";
-import { Column, Table } from "@/app/components/table";
-import { Numeral, Text } from "@/app/components/text";
-import { cn } from "@/app/components/utils/css";
 import { NetworkImage } from "@/app/components/assets/icons/networkImage";
+import { Tooltip } from "@/app/components/tooltip";
+import { Numeral } from "@/app/components/text/numeral";
+import { cn } from "@/app/components/utils/css";
+import { useEndReached } from "@/app/components/listView/useEndReached";
+import { Text } from "@/app/components/text";
+import { Column, Table } from "@/app/components/table";
 
+type DistributionProps = {};
 
-const FundingFee: React.FC = () => {
+const Distribution: React.FC<DistributionProps> = (props) => {
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   const { state } = useAccount();
-  const symbolInfo = useSymbolsInfo();
+
+  const { data: chains } = useQuery("/v1/public/chain_info");
 
   const { data, size, setSize, isLoading } = usePrivateInfiniteQuery(
-    generateKeyFun("/v1/funding_fee/history", { size: 100 }),
+    generateKeyFun("/v1/client/distribution_history", { size: 100 }),
     {
       initialSize: 1,
       formatter: (data) => data,
@@ -45,15 +53,13 @@ const FundingFee: React.FC = () => {
   const columns = useMemo<Column[]>(() => {
     return [
       {
-        title: "Instrument",
-        dataIndex: "symbol",
+        title: "Token",
+        dataIndex: "token",
         render(value, record, index) {
           return (
-            <div className=" orderly-flex orderly-items-center orderly-text-base-contrast-80">
-              <NetworkImage type="symbol" symbol={value} size="small" rounded />
-              <Text rule="symbol" className="orderly-ml-[6px]">
-                {value}
-              </Text>
+            <div className="orderly-flex orderly-items-center orderly-text-base-contrast-80">
+              <NetworkImage type={"token"} name={value} size="small" rounded />
+              <div className="orderly-ml-[6px]">{value}</div>
             </div>
           );
         },
@@ -74,57 +80,68 @@ const FundingFee: React.FC = () => {
         },
       },
       {
-        title: "Funding rate / Annual rate",
-        dataIndex: "funding_rate",
+        title: "Status",
+        dataIndex: "trans_status",
         render(value, record, index) {
-          const funding_period =
-            symbolInfo?.[record.symbol]?.("funding_period");
-          const percent = new Decimal(value).mul(100).toFixed(6);
-          const annualRate = getAnnualRate(value, funding_period);
+          const isEnd = ["COMPLETED", "CANCELED", "FAILED"].includes(value);
           return (
-            <div className="orderly-text-base-contrast-80">{`${percent}% / ${annualRate}%`}</div>
+            <div
+              className={
+                isEnd
+                  ? "orderly-text-base-contrast-54"
+                  : "orderly-text-base-contrast-98"
+              }
+            >
+              {upperFirstLetter(value)}
+            </div>
           );
         },
       },
       {
-        title: "Payment type",
-        dataIndex: "payment_type",
+        title: "Type",
+        dataIndex: "side",
         render(value, record, index) {
-          const map: any = {
-            Pay: "Paid",
-            Receive: "Received",
-          };
           return (
-            <div className="orderly-text-base-contrast-80">
-              {map[value] || value}
+            <div
+              className={
+                value === "DEPOSIT"
+                  ? "orderly-text-success-light"
+                  : "orderly-text-danger-light"
+              }
+            >
+              {upperFirstLetter(value)}
             </div>
           );
         },
       },
 
       {
-        title: "Funding fee (USDC)",
-        dataIndex: "funding_fee",
+        title: "Amount",
+        dataIndex: "amount",
         align: "right",
-        className: "orderly-w-[150px]",
+        className: "orderly-w-[120px]",
         render(value, record, index) {
-          const isReceived = record.payment_type === "Receive";
+          const isDeposit = record.side === "DEPOSIT";
           return (
             <div
               className={
-                isReceived
+                isDeposit
                   ? "orderly-text-success-light"
                   : "orderly-text-danger-light"
               }
             >
-              {isReceived ? "+" : "-"}
-              <Numeral precision={6}>{Math.abs(value)}</Numeral>
+              {isDeposit ? "+" : "-"}
+              <Numeral
+              // precision={base_dp}
+              >
+                {Math.abs(value)}
+              </Numeral>
             </div>
           );
         },
       },
     ];
-  }, [symbolInfo]);
+  }, [chains]);
 
   return (
     <div className={dataSource && dataSource.length > 0 ? "orderly-overflow-y-auto" : ""}>
@@ -137,8 +154,8 @@ const FundingFee: React.FC = () => {
           "orderly-h-[40px] orderly-text-base-contrast-54 orderly-bg-base-900",
           "orderly-border-b orderly-border-b-divider"
         )}
-        generatedRowKey={(record) => record.id}
-        onRow={(record) => ({
+        generatedRowKey={(record: any) => record.id}
+        onRow={(record: any) => ({
           className:
             "orderly-h-[40px] orderly-border-b-[1px] orderly-border-b-solid orderly-border-[rgba(255,255,255,0.04)]",
         })}
@@ -151,4 +168,4 @@ const FundingFee: React.FC = () => {
   );
 };
 
-export default FundingFee;
+export default Distribution;

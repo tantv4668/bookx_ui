@@ -32,8 +32,6 @@ export const AssetsProvider: FC<any> = (props) => {
 
 	const openDepositAndWithdraw = useCallback(
 		async (viewName: 'deposit' | 'withdraw') => {
-			console.log('??423');
-
 			let result;
 			if (matches) {
 				result = await modal.show(DepositAndWithdrawWithSheet, {
@@ -57,8 +55,6 @@ export const AssetsProvider: FC<any> = (props) => {
 	const ee = useEventEmitter();
 
 	const onWithdraw = useCallback(async () => {
-		console.log('??1');
-
 		return openDepositAndWithdraw('withdraw');
 	}, [matches]);
 

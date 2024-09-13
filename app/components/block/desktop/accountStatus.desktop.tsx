@@ -24,10 +24,10 @@ export const AccountStatus: FC<
 		className?: string;
 		dropMenuItem?: DesktopDropMenuItem[] | React.ReactNode;
 		onClickDropMenuItem?: (item: DesktopDropMenuItem) => void;
-		isApiKeyTab?: boolean;
+		hideChain?: boolean;
 	}
 > = (props) => {
-	const { status = AccountStatusEnum.NotConnected, isApiKeyTab = false } = props;
+	const { status = AccountStatusEnum.NotConnected, hideChain = false } = props;
 	const { account, state } = useAccount();
 	const [open, setOpen] = useState(false);
 	const { onWalletDisconnect } = useContext(OrderlyAppContext);
@@ -53,7 +53,7 @@ export const AccountStatus: FC<
 
 	return (
 		<div className={cn('orderly-h-full orderly-flex orderly-items-center orderly-space-x-2', props.className)}>
-			{!isApiKeyTab && <Chains disabled={status < AccountStatusEnum.NotConnected} className="orderly-rounded-full" />}
+			{!hideChain && <Chains disabled={status < AccountStatusEnum.NotConnected} className="orderly-rounded-full" />}
 			<DesktopWalletConnnectButton
 				status={status}
 				// @ts-ignore

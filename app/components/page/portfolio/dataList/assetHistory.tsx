@@ -27,12 +27,7 @@ const AssetHistory: React.FC<AssetHistoryProps> = (props) => {
 	const { data: chains } = useQuery('/v1/public/chain_info');
 
 	const { data, size, setSize, isLoading } = usePrivateInfiniteQuery(
-		generateKeyFun1(
-			`/v1/asset/history?size=100${
-				filterStartEndDay === null || filterStartEndDay[0] === null || filterStartEndDay[1] === null
-					? ''
-					: `&start_t=${filterStartEndDay[0]}&end_t=${filterStartEndDay[1]}`
-			}${filterSide === 'ALL' || filterSide === '' ? '' : `&side=${filterSide}`}`,
+		generateKeyFun1("/v1/asset/history?size=100",
 			{},
 		),
 		{

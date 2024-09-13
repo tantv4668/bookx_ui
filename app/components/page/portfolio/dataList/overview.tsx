@@ -1,39 +1,39 @@
 'use client';
+import { DepositsWithdrawalsIcon } from '@/app/components/assets/icons/DepositsWithdrawalsIcon';
+import { DistributionIcon } from '@/app/components/assets/icons/distributionIcon';
 import { EditIcon } from '@/app/components/assets/icons/editIcon';
 import { EyeIcon } from '@/app/components/assets/icons/eye';
-import { WithdrawIcon } from '@/app/components/assets/icons/withdrawIcon';
-import Button from '@/app/components/globals/button';
-import LineChartComponent from '@/app/components/lineChart';
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { getPreviousDate } from '@/app/components/utils/getPreviousDate';
-import { DepositsWithdrawalsIcon } from '@/app/components/assets/icons/DepositsWithdrawalsIcon';
+import { EyeOffIcon } from '@/app/components/assets/icons/eyeOff';
 import { FundingIcon } from '@/app/components/assets/icons/fundingIcon';
-import { DistributionIcon } from '@/app/components/assets/icons/distributionIcon';
-import { Select as SelectGlobals } from '@/app/components/globals/select';
+import { SelectDownIcon } from '@/app/components/assets/icons/selectDownIcon';
+import { WithdrawIcon } from '@/app/components/assets/icons/withdrawIcon';
 import BarChartComponent from '@/app/components/barChart';
-import InputDay from '@/app/components/globals/inputDay';
-import { AccountStatus } from '@/app/components/block/desktop/accountStatus.desktop';
-import { useAccount } from '@orderly.network/hooks';
-import { AccountStatusEnum } from '@/app/components/types/constants';
-import { showAccountConnectorModal } from '@/app/components/block/walletConnect';
-import { OrderlyAppContext } from '@orderly.network/react';
 import { LeverageDialog } from '@/app/components/block/accountStatus/full/leverageDialog';
 import { DepositAndWithdrawDialog } from '@/app/components/block/depositAndwithdraw/depositAndWithdrawDialog';
+import { AccountStatus } from '@/app/components/block/desktop/accountStatus.desktop';
+import { showAccountConnectorModal } from '@/app/components/block/walletConnect';
+import Button from '@/app/components/globals/button';
+import InputDay from '@/app/components/globals/inputDay';
+import { Select as SelectGlobals } from '@/app/components/globals/select';
+import LineChartComponent from '@/app/components/lineChart';
+import { AccountStatusEnum } from '@/app/components/types/constants';
+import { formatPreviousDate, getPreviousDate } from '@/app/components/utils/getPreviousDate';
+import { useAccount, useAccountInfo, useCollateral, usePositionStream, usePrivateQuery } from '@orderly.network/hooks';
+import { Numeral, OrderlyAppContext } from '@orderly.network/react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import Select, { components } from 'react-select';
+import AssetHistory from './assetHistory';
+import { colourStyles } from './colourStyles';
 import {
 	dataBar,
 	dataLine,
+	dayOptions,
 	depositsWithdrawalsOptions,
 	DistributionOptions,
-	dayOptions,
 	fundingOptions,
 } from './dataOverview';
-import Select, { components } from 'react-select';
-import { colourStyles } from './colourStyles';
-import AssetHistory from './assetHistory';
-import FundingFee from './fundingFee';
-import { EyeOffIcon } from '@/app/components/assets/icons/eyeOff';
 import Distribution from './distribution';
-import { SelectDownIcon } from '@/app/components/assets/icons/selectDownIcon';
+import FundingFee from './fundingFee';
 
 export enum EnumPortfolioTab {
 	DepositsWithdrawals = 'Deposits & Withdrawals',
@@ -46,8 +46,10 @@ const Overview: React.FC = (props) => {
 	const [index, setIndex] = useState<number>(0);
 	const [dayAssets, setDayAssets] = useState<string>('7D');
 	const [dayPerformance, setDayPerformance] = useState<string>('7D');
-	const [valueSelectTab, setValueSelectTab] = useState<string>('ALL');
 	const [valueSelectInput, setValueSelectInput] = useState<any>({ label: 'All', value: 'ALL' });
+	// const [dayAssets, setDayAssets] = useState<number>(7);
+	const [day, setDay] = useState<number>(7);
+	const [valueSelectTab, setValueSelectTab] = useState<string>('All');
 	const [searchFunding, setSearchFunding] = useState('');
 	const [filterFundingOptions, setFilterFundingOptions] = useState(fundingOptions);
 	const [showValue, setShowValue] = useState<boolean>(false);
@@ -55,6 +57,18 @@ const Overview: React.FC = (props) => {
 	const [filterStartEndDay, SetFilterSetStartEndDay] = useState<any>([null, null]);
 
 	const { state } = useAccount();
+
+	const { totalValue, availableBalance } = useCollateral({
+		dp: 2,
+	});
+
+	const [{ aggregated, totalUnrealizedROI }] = usePositionStream();
+
+	const { data: dataPerformance, error } = usePrivateQuery(
+		`/v1/client/statistics/daily?start_date=${formatPreviousDate(day)}&end_date=${formatPreviousDate(0)}`,
+	);
+
+	console.log('data', dataPerformance);
 
 	const { onWalletConnect, accountMenuItems, onClickAccountMenuItem } = useContext(OrderlyAppContext);
 
@@ -138,6 +152,11 @@ const Overview: React.FC = (props) => {
 		[valueSelectTab, filterStartEndDay, valueSelectInput],
 	);
 
+	const { data: info } = useAccountInfo();
+
+	// console.log('state', state);
+	// console.log('info', info);
+
 	const handleInputChangeSelectInput = (value: string) => {
 		setSearchFunding(value);
 
@@ -219,10 +238,13 @@ const Overview: React.FC = (props) => {
 							</span>
 						</div>
 						<div className="orderly-text-paleLime orderly-bg-clip-text orderly-font-bold orderly-text-3xl">
-							{state.status === 0 ? (
-								<span className="orderly-text-[16px]">--</span>
-							) : showValue ? (
-								dataUser.USDC
+							{showValue ? (
+								<Numeral
+									surfix={<span className={'orderly-text-base-contrast-36 orderly-font-semibold'}>USDC</span>}
+									className="desktop:orderly-font-semibold"
+								>
+									{totalValue}
+								</Numeral>
 							) : (
 								'*****'
 							)}
@@ -251,20 +273,28 @@ const Overview: React.FC = (props) => {
 									<div key={index} className="orderly-text-base orderly-flex orderly-flex-col orderly-items-start">
 										<div className="orderly-text-xs orderly-text-translucent orderly-statistic-label">{data.title}</div>
 										<div className="orderly-text-white orderly-box orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap">
-											{index === 0 && (
-												<span className="orderly-opacity-55 orderly-text-lg orderly-font-semibold">
-													{showValue ? data.value : '*****'}
-												</span>
-											)}
-											{index === 0 && (
-												<span className="orderly-opacity-55 orderly-text-sm orderly-font-semibold">
-													({showValue ? data.value + '%' : '*****'})
-												</span>
-											)}
+											{index === 0 &&
+												(showValue ? (
+													<>
+														<Numeral coloring>{aggregated.unrealPnL}</Numeral>
+														<Numeral
+															rule="percentages"
+															coloring
+															surfix=")"
+															prefix="("
+															className="orderly-text-4xs orderly-opacity-60"
+														>
+															{totalUnrealizedROI}
+														</Numeral>
+													</>
+												) : (
+													<span className="orderly-opacity-55 orderly-text-lg orderly-font-semibold">*****</span>
+												))}
+
 											{index === 1 && (
 												<LeverageDialog>
 													<div className="orderly-cursor-pointer orderly-text-white orderly-box orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap">
-														<span className="orderly-text-lg orderly-font-semibold">{data.value}x</span>
+														<span className="orderly-text-lg orderly-font-semibold">{info?.max_leverage}x</span>
 														<span className="orderly-opacity-55 orderly-text-lg orderly-font-semibold orderly-ml-1">
 															<EditIcon />
 														</span>
@@ -272,9 +302,13 @@ const Overview: React.FC = (props) => {
 												</LeverageDialog>
 											)}
 											{index === 2 && (
-												<span className="orderly-text-lg orderly-font-semibold">
-													{showValue ? data.value : '*****'}
-												</span>
+												<>
+													{showValue ? (
+														<Numeral>{availableBalance}</Numeral>
+													) : (
+														<span className="orderly-text-lg orderly-font-semibold">*****</span>
+													)}
+												</>
 											)}
 										</div>
 									</div>
@@ -291,12 +325,12 @@ const Overview: React.FC = (props) => {
 						</p>
 						<SelectGlobals
 							options={dayOptions}
-							value={dayAssets}
-							onChange={(e) => setDayAssets(e)}
+							value={day}
+							onChange={(e) => setDay(e)}
 							className="orderly-bg-[#1C1E22] orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-min-w-[56px] orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
 						/>
 					</div>
-					<LineChartComponent data={dataLine} startDay={startDay} />
+					{/* <LineChartComponent data={assetsChart} startDay={startDay} /> */}
 				</div>
 			</div>
 
@@ -307,8 +341,8 @@ const Overview: React.FC = (props) => {
 					</p>
 					<SelectGlobals
 						options={dayOptions}
-						value={dayPerformance}
-						onChange={(e) => setDayPerformance(e)}
+						value={day}
+						onChange={(e) => setDay(e)}
 						className="orderly-bg-[#1C1E22] orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-min-w-[56px] orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
 					/>
 				</div>

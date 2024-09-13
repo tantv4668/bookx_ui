@@ -61,7 +61,7 @@ export interface SelectProps
 	loading?: boolean;
 	label?: string;
 	options: SelectOption[];
-	onChange?: (value: string) => void;
+	onChange?: (value: number) => void;
 	contentClassName?: string;
 	//   className?: string;
 }

@@ -24,9 +24,9 @@ export const dataLine = [
 ];
 
 export const dayOptions = [
-	{ label: '7D', value: '7D' },
-	{ label: '30D', value: '30D' },
-	{ label: '90D', value: '90D' },
+	{ label: '7D', value: 7 },
+	{ label: '30D', value: 30 },
+	{ label: '90D', value: 90 },
 ];
 
 export const depositsWithdrawalsOptions = [

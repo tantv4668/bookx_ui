@@ -1,18 +1,21 @@
 'use client';
-import { useState } from 'react';
-import { AnyIfEmpty } from 'react-redux';
 import DateRangePicker from 'rsuite/DateRangePicker';
 
 import 'rsuite/DateRangePicker/styles/index.css';
 
-export default function InputDay() {
-	const [value, setValue] = useState<any>([null, null]);
+interface Props {
+	startEndDay: [Date, Date];
+	setStartEndDay: (value: any) => void;
+}
 
+export default function InputDay({ setStartEndDay, startEndDay }: Props) {
 	return (
 		<DateRangePicker
 			className="custom-date-range-picker"
-			value={value}
-			onChange={(value) => setValue(value)}
+			value={startEndDay}
+			onChange={(value: any) => {
+				setStartEndDay(value);
+			}}
 			placement="topStart"
 		/>
 	);

@@ -45,10 +45,13 @@ const Overview: React.FC = (props) => {
 	const [index, setIndex] = useState<number>(0);
 	const [dayAssets, setDayAssets] = useState<string>('7D');
 	const [dayPerformance, setDayPerformance] = useState<string>('7D');
-	const [valueSelectTab, setValueSelectTab] = useState<string>('All');
+	const [valueSelectTab, setValueSelectTab] = useState<string>('ALL');
+	const [valueSelectInput, setValueSelectInput] = useState<any>({ label: 'All', value: 'ALL' });
 	const [searchFunding, setSearchFunding] = useState('');
 	const [filterFundingOptions, setFilterFundingOptions] = useState(fundingOptions);
 	const [showValue, setShowValue] = useState<boolean>(false);
+	const [startEndDay, setStartEndDay] = useState<any>([null, null]);
+	const [filterStartEndDay, SetFilterSetStartEndDay] = useState<any>([null, null]);
 
 	const { state } = useAccount();
 
@@ -58,6 +61,20 @@ const Overview: React.FC = (props) => {
 		setShowValue(!showValue);
 		window.localStorage.setItem('showValue', JSON.stringify(!showValue));
 	};
+
+	const handleChangeSelectInput = (option: any) => {
+		setValueSelectInput(option);
+	};
+
+	useEffect(() => {
+		if (startEndDay === null) {
+			SetFilterSetStartEndDay([null, null]);
+		}
+		if (startEndDay !== null && (startEndDay[0] !== null || startEndDay[1] !== null)) {
+			const timestamps = startEndDay.map((date: Day) => new Date(date).getTime());
+			SetFilterSetStartEndDay(timestamps);
+		}
+	}, [startEndDay, SetFilterSetStartEndDay]);
 
 	useEffect(() => {
 		const showValueLocalStorage = window.localStorage.getItem('showValue');
@@ -102,22 +119,22 @@ const Overview: React.FC = (props) => {
 				title: 'Deposits & Withdrawals',
 				icon: <DepositsWithdrawalsIcon size={16} />,
 				value: EnumPortfolioTab.DepositsWithdrawals,
-				component: <AssetHistory />,
+				component: <AssetHistory filterStartEndDay={filterStartEndDay} filterSide={valueSelectTab} />,
 			},
 			{
 				title: 'Funding',
 				icon: <FundingIcon size={16} />,
 				value: EnumPortfolioTab.Funding,
-				component: <FundingFee />,
+				component: <FundingFee filterStartEndDay={filterStartEndDay} filterSymbol={valueSelectInput.value} />,
 			},
 			{
 				title: 'Distribution',
 				icon: <DistributionIcon size={16} />,
 				value: EnumPortfolioTab.Distribution,
-				component: <Distribution />,
+				component: <Distribution filterStartEndDay={filterStartEndDay} filterType={valueSelectTab} />,
 			},
 		],
-		[valueSelectTab],
+		[valueSelectTab, filterStartEndDay, valueSelectInput],
 	);
 
 	const handleInputChangeSelectInput = (value: string) => {
@@ -133,7 +150,10 @@ const Overview: React.FC = (props) => {
 
 	const handleActiveTab = (value: string) => {
 		setActiveTab(value);
-		setValueSelectTab('All');
+		setValueSelectTab('ALL');
+		SetFilterSetStartEndDay(null);
+		setStartEndDay([null, null]);
+		setValueSelectInput({ label: 'All', value: 'ALL' });
 	};
 
 	useEffect(() => {
@@ -370,9 +390,11 @@ const Overview: React.FC = (props) => {
 							inputValue={searchFunding}
 							placeholder="All"
 							styles={colourStyles}
+							value={valueSelectInput}
+							onChange={handleChangeSelectInput}
 						/>
 					)}
-					<InputDay />
+					<InputDay setStartEndDay={setStartEndDay} startEndDay={startEndDay} />
 				</div>
 
 				<div className="">{dataTab[index].component}</div>

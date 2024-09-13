@@ -1,194 +1,176 @@
-"use client";
-import React, { useMemo, useRef } from "react";
-import {
-  useAccount,
-  usePrivateInfiniteQuery,
-  useQuery,
-} from "@orderly.network/hooks";
-import {
-  formatTxID,
-  generateKeyFun,
-  getInfiniteData,
-  upperFirstLetter,
-} from "../utils";
-import { AccountStatusEnum } from "@orderly.network/types";
-import { NetworkImage } from "@/app/components/assets/icons/networkImage";
-import { Tooltip } from "@/app/components/tooltip";
-import { Numeral } from "@/app/components/text/numeral";
-import { cn } from "@/app/components/utils/css";
-import { useEndReached } from "@/app/components/listView/useEndReached";
-import { Text } from "@/app/components/text";
-import { Column, Table } from "@/app/components/table";
+'use client';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { useAccount, usePrivateInfiniteQuery, useQuery } from '@orderly.network/hooks';
+import { formatTxID, generateKeyFun, generateKeyFun1, getInfiniteData, upperFirstLetter } from '../utils';
+import { AccountStatusEnum } from '@orderly.network/types';
+import { NetworkImage } from '@/app/components/assets/icons/networkImage';
+import { Tooltip } from '@/app/components/tooltip';
+import { Numeral } from '@/app/components/text/numeral';
+import { cn } from '@/app/components/utils/css';
+import { useEndReached } from '@/app/components/listView/useEndReached';
+import { Text } from '@/app/components/text';
+import { Column, Table } from '@/app/components/table';
 
-type AssetHistoryProps = {};
+type AssetHistoryProps = {
+	filterStartEndDay: any;
+	filterSide: string;
+};
 
 const AssetHistory: React.FC<AssetHistoryProps> = (props) => {
-  const sentinelRef = useRef<HTMLDivElement | null>(null);
-  const { state } = useAccount();
+	const { filterStartEndDay, filterSide } = props;
 
-  const { data: chains } = useQuery("/v1/public/chain_info");
+	console.log('??filterStartEndDay', filterStartEndDay);
 
-  const { data, size, setSize, isLoading } = usePrivateInfiniteQuery(
-    generateKeyFun("/v1/asset/history", { size: 100 }),
-    {
-      initialSize: 1,
-      formatter: (data) => data,
-      revalidateOnFocus: false,
-    }
-  );
+	const sentinelRef = useRef<HTMLDivElement | null>(null);
+	const { state } = useAccount();
 
-  const dataSource = useMemo(() => {
-    if (state.status < AccountStatusEnum.EnableTrading) {
-      return [];
-    }
-    return getInfiniteData(data);
-  }, [state, data]);
+	const { data: chains } = useQuery('/v1/public/chain_info');
 
-  useEndReached(sentinelRef, () => {
-    if (!isLoading) {
-      setSize(size + 1);
-    }
-  });
+	const { data, size, setSize, isLoading } = usePrivateInfiniteQuery(
+		generateKeyFun1(
+			`/v1/asset/history?size=100${
+				filterStartEndDay === null || filterStartEndDay[0] === null || filterStartEndDay[1] === null
+					? ''
+					: `&start_t=${filterStartEndDay[0]}&end_t=${filterStartEndDay[1]}`
+			}${filterSide === 'ALL' || filterSide === '' ? '' : `&side=${filterSide}`}`,
+			{},
+		),
+		{
+			initialSize: 1,
+			formatter: (data) => data,
+			revalidateOnFocus: false,
+		},
+	);
 
-  const columns = useMemo<Column[]>(() => {
-    return [
-      {
-        title: "Token",
-        dataIndex: "token",
-        render(value, record, index) {
-          return (
-            <div className="orderly-flex orderly-items-center orderly-text-base-contrast-80">
-              <NetworkImage type={"token"} name={value} size="small" rounded />
-              <div className="orderly-ml-[6px]">{value}</div>
-            </div>
-          );
-        },
-      },
-      {
-        title: "Time",
-        dataIndex: "created_time",
-        render(value, record, index) {
-          return (
-            <Text
-              rule="date"
-              formatString="YYYY-MM-DD HH:mm:ss"
-              className="orderly-text-base-contrast-98 orderly-text-3xs"
-            >
-              {value}
-            </Text>
-          );
-        },
-      },
-      {
-        title: "TxID",
-        dataIndex: "tx_id",
-        render(value, record, index) {
-          if (!value) {
-            return <div className="orderly-text-base-contrast-54">-</div>;
-          }
-          const chainInfo = (chains as any[])?.find(
-            (item) => parseInt(record.chain_id) === parseInt(item.chain_id)
-          );
-          const explorer_base_url = chainInfo?.explorer_base_url;
-          const href = `${explorer_base_url}/tx/${value}`;
-          return (
-            <a href={href} target="_blank">
-              <Tooltip content={value} delayDuration={0}>
-                <span className="orderly-text-base-contrast-54 orderly-border-b-[1px] orderly-border-dashed orderly-border-base-contrast-54 orderly-cursor-pointer">
-                  {formatTxID(value)}
-                </span>
-              </Tooltip>
-            </a>
-          );
-        },
-      },
-      {
-        title: "Status",
-        dataIndex: "trans_status",
-        render(value, record, index) {
-          const isEnd = ["COMPLETED", "CANCELED", "FAILED"].includes(value);
-          return (
-            <div
-              className={
-                isEnd
-                  ? "orderly-text-base-contrast-54"
-                  : "orderly-text-base-contrast-98"
-              }
-            >
-              {upperFirstLetter(value)}
-            </div>
-          );
-        },
-      },
-      {
-        title: "Type",
-        dataIndex: "side",
-        render(value, record, index) {
-          return (
-            <div
-              className={
-                value === "DEPOSIT"
-                  ? "orderly-text-success-light"
-                  : "orderly-text-danger-light"
-              }
-            >
-              {upperFirstLetter(value)}
-            </div>
-          );
-        },
-      },
+	const dataSource = useMemo(() => {
+		if (state.status < AccountStatusEnum.EnableTrading) {
+			return [];
+		}
+		return getInfiniteData(data);
+	}, [state, data]);
 
-      {
-        title: "Amount",
-        dataIndex: "amount",
-        align: "right",
-        className: "orderly-w-[120px]",
-        render(value, record, index) {
-          const isDeposit = record.side === "DEPOSIT";
-          return (
-            <div
-              className={
-                isDeposit
-                  ? "orderly-text-success-light"
-                  : "orderly-text-danger-light"
-              }
-            >
-              {isDeposit ? "+" : "-"}
-              <Numeral
-              // precision={base_dp}
-              >
-                {Math.abs(value)}
-              </Numeral>
-            </div>
-          );
-        },
-      },
-    ];
-  }, [chains]);
+	useEndReached(sentinelRef, () => {
+		if (!isLoading) {
+			setSize(size + 1);
+		}
+	});
 
-  return (
-    <div className={dataSource && dataSource.length > 0 ? "orderly-overflow-y-auto" : ""}>
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        loading={isLoading}
-        className="orderly-text-2xs orderly-min-h-[300px]"
-        headerClassName={cn(
-          "orderly-h-[40px] orderly-text-base-contrast-54 orderly-bg-base-900",
-          "orderly-border-b orderly-border-b-divider"
-        )}
-        generatedRowKey={(record: any) => record.id}
-        onRow={(record: any) => ({
-          className:
-            "orderly-h-[40px] orderly-border-b-[1px] orderly-border-b-solid orderly-border-[rgba(255,255,255,0.04)]",
-        })}
-      />
-      <div
-        ref={sentinelRef}
-        className="orderly-relative orderly-invisible orderly-h-[1px] orderly-top-[-300px]"
-      />
-    </div>
-  );
+	const columns = useMemo<Column[]>(() => {
+		return [
+			{
+				title: 'Token',
+				dataIndex: 'token',
+				render(value, record, index) {
+					return (
+						<div className="orderly-flex orderly-items-center orderly-text-base-contrast-80">
+							<NetworkImage type={'token'} name={value} size="small" rounded />
+							<div className="orderly-ml-[6px]">{value}</div>
+						</div>
+					);
+				},
+			},
+			{
+				title: 'Time',
+				dataIndex: 'created_time',
+				render(value, record, index) {
+					return (
+						<Text
+							rule="date"
+							formatString="YYYY-MM-DD HH:mm:ss"
+							className="orderly-text-base-contrast-98 orderly-text-3xs"
+						>
+							{value}
+						</Text>
+					);
+				},
+			},
+			{
+				title: 'TxID',
+				dataIndex: 'tx_id',
+				render(value, record, index) {
+					if (!value) {
+						return <div className="orderly-text-base-contrast-54">-</div>;
+					}
+					const chainInfo = (chains as any[])?.find((item) => parseInt(record.chain_id) === parseInt(item.chain_id));
+					const explorer_base_url = chainInfo?.explorer_base_url;
+					const href = `${explorer_base_url}/tx/${value}`;
+					return (
+						<a href={href} target="_blank">
+							<Tooltip content={value} delayDuration={0}>
+								<span className="orderly-text-base-contrast-54 orderly-border-b-[1px] orderly-border-dashed orderly-border-base-contrast-54 orderly-cursor-pointer">
+									{formatTxID(value)}
+								</span>
+							</Tooltip>
+						</a>
+					);
+				},
+			},
+			{
+				title: 'Status',
+				dataIndex: 'trans_status',
+				render(value, record, index) {
+					const isEnd = ['COMPLETED', 'CANCELED', 'FAILED'].includes(value);
+					return (
+						<div className={isEnd ? 'orderly-text-base-contrast-54' : 'orderly-text-base-contrast-98'}>
+							{upperFirstLetter(value)}
+						</div>
+					);
+				},
+			},
+			{
+				title: 'Type',
+				dataIndex: 'side',
+				render(value, record, index) {
+					return (
+						<div className={value === 'DEPOSIT' ? 'orderly-text-success-light' : 'orderly-text-danger-light'}>
+							{upperFirstLetter(value)}
+						</div>
+					);
+				},
+			},
+
+			{
+				title: 'Amount',
+				dataIndex: 'amount',
+				align: 'right',
+				className: 'orderly-w-[120px]',
+				render(value, record, index) {
+					const isDeposit = record.side === 'DEPOSIT';
+					return (
+						<div className={isDeposit ? 'orderly-text-success-light' : 'orderly-text-danger-light'}>
+							{isDeposit ? '+' : '-'}
+							<Numeral
+							// precision={base_dp}
+							>
+								{Math.abs(value)}
+							</Numeral>
+						</div>
+					);
+				},
+			},
+		];
+	}, [chains]);
+
+	return (
+		<div className={dataSource && dataSource.length > 0 ? 'orderly-overflow-y-auto' : ''}>
+			<Table
+				dataSource={dataSource}
+				columns={columns}
+				loading={isLoading}
+				className="orderly-text-2xs orderly-min-h-[300px]"
+				headerClassName={cn(
+					'orderly-h-[40px] orderly-text-base-contrast-54 orderly-bg-base-900',
+					'orderly-border-b orderly-border-b-divider',
+				)}
+				generatedRowKey={(record: any) => record.id}
+				onRow={(record: any) => ({
+					className:
+						'orderly-h-[40px] orderly-border-b-[1px] orderly-border-b-solid orderly-border-[rgba(255,255,255,0.04)]',
+				})}
+			/>
+			<div ref={sentinelRef} className="orderly-relative orderly-invisible orderly-h-[1px] orderly-top-[-300px]" />
+		</div>
+	);
 };
 
 export default AssetHistory;

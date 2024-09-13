@@ -13,6 +13,7 @@ import { OrderlyAppContext } from '@orderly.network/react';
 import { showAccountConnectorModal } from '@/app/components/block/walletConnect';
 import { AccountStatusEnum } from '@/app/components/types/constants';
 import { Column, Table } from '@/app/components/table';
+import { shortenAddress } from '@/app/components/utils/string';
 
 const ApiKey: React.FC = (props) => {
 	// const { data, size, setSize, isLoading } = usePrivateInfiniteQuery(
@@ -93,11 +94,11 @@ const ApiKey: React.FC = (props) => {
 			<div className="orderly-grid orderly-grid-cols-2 orderly-gap-4 orderly-mb-4">
 				<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-xl orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-eerieBlack orderly-w-full">
 					<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">Account ID</div>
-					<div>--</div>
+					<div>{(state.accountId && shortenAddress(state.accountId)) || '--'}</div>
 				</div>
 				<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-xl orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-eerieBlack orderly-w-full">
 					<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">UID</div>
-					<div>--</div>
+					<div>{state.userId || '--'}</div>
 				</div>
 			</div>
 

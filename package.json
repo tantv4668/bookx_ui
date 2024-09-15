@@ -63,6 +63,7 @@
 		"react-app-protect": "^1.0.8",
 		"react-date-range": "^2.0.1",
 		"react-dom": "^18.2.0",
+		"react-fast-marquee": "^1.6.5",
 		"react-hot-toast": "^2.4.1",
 		"react-intl": "^6.6.8",
 		"react-modal": "^3.14.4",

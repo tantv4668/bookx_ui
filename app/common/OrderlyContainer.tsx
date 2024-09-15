@@ -14,6 +14,7 @@ import { TopLeftNavbar } from '../components/layout/topLeftNavbar';
 // import { CustomContractManager } from './CustomContract';
 // import { ARBITRUM_TESTNET_CHAINID, MANTLE_TESTNET_CHAINID } from '@orderly.network/types';
 export type NetworkId = 'testnet' | 'mainnet';
+import Marquee from 'react-fast-marquee';
 
 const HostEnvMap: Record<string, ENV_NAME> = {
 	'dev-sdk-demo.orderly.network': 'dev',
@@ -111,8 +112,10 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 								<TopLeftNavbar />
 							</div>
 						</div>
-						<div className="orderly-w-full orderly-min-h-10 orderly-bg-lightPurple orderly-text-[#16141C] orderly-px-3 orderly-text-center orderly-flex orderly-justify-center orderly-items-center orderly-text-[15px] orderly-font-[600]">
-							BookX Alpha Launch 💸 Free Trading: Zero Maker Fees 💸 From September 16th to October 7th
+						<div className="orderly-w-full orderly-min-h-10 orderly-bg-lightPurple orderly-text-[#16141C] orderly-text-center orderly-flex orderly-justify-center orderly-items-center orderly-text-[15px] orderly-font-[600]">
+							<Marquee>
+								BookX Alpha Launch 💸 Free Trading: Zero Maker Fees 💸 From September 16th to October 7th
+							</Marquee>
 						</div>
 					</div>
 				}

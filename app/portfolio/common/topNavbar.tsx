@@ -3,7 +3,6 @@ import { FC, ReactNode, useCallback, useContext, useEffect, useState } from 'rea
 import { StatusContext, WsNetworkStatus, useAccount, useMaintenanceStatus } from '@orderly.network/hooks';
 import TopTips from '@/app/components/block/accountStatus/sections/topTips';
 import { showAccountConnectorModal } from '@/app/components/block/walletConnect';
-// import { OrderlyAppContext } from '@/app/components/provider';
 import { AccountStatus } from '@/app/components/block/desktop/accountStatus.desktop';
 import { Logo } from '@/app/components/logo';
 import { AccountStatusEnum } from '@/app/components/types/constants';
@@ -43,7 +42,8 @@ export const TopNavbar: FC = (props) => {
 			{topBar || (
 				<div className="orderly-h-[48px] orderly-flex">
 					<div className="orderly-flex orderly-flex-1 orderly-items-center">
-						<Logo />
+						{/* <Logo /> */}
+						{/* <LogoIcon className="orderly-w-[157px] orderly-h-[28px] orderly-mx-3" /> */}
 						{left}
 						<div>{nav}</div>
 					</div>
@@ -61,7 +61,7 @@ export const TopNavbar: FC = (props) => {
 					)}
 				</div>
 			)}
-			{/* <TopTips /> */}
+			<TopTips />
 		</>
 	);
 };

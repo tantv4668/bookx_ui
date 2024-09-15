@@ -110,7 +110,7 @@ const FundingFee: React.FC<Props> = ({ filterSymbol, filterStartEndDay }) => {
 				render(value, record, index) {
 					const isReceived = record.payment_type === 'Receive';
 					return (
-						<div className={isReceived ? 'orderly-text-success-light' : 'orderly-text-danger-light'}>
+						<div className={isReceived ? 'orderly-text-paleLime' : 'orderly-text-lightPurple'}>
 							{isReceived ? '+' : '-'}
 							<Numeral precision={6}>{Math.abs(value)}</Numeral>
 						</div>

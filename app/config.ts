@@ -53,10 +53,10 @@ export function OrderlyConfig(ctx?: { url: string; domain: string }) {
 			brokerName: 'BookX',
 			appIcons: {
 				main: {
-					img: '/bookxLogo.png',
+					// component: LogoIcon,
 				},
 				secondary: {
-					img: '/bookxLogo.png',
+					// component: LogoIcon,
 				},
 			},
 			chainFilter: { mainnet: [Arbitrum, Optimism, Base, Ethereum] },

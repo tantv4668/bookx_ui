@@ -87,7 +87,7 @@ export const Chains: FC<ChainsProps> = (props) => {
 						loading={settingChain}
 						disabled={disabled}
 						className={cn(
-							'orderly-border-primary orderly-gap-1 orderly-text-base-contrast orderly-h-[30px] hover:orderly-text-primary-light hover:orderly-bg-transparent active:orderly-bg-transparent',
+							'orderly-text-[13px] orderly-border-primary orderly-gap-1 orderly-text-base-contrast orderly-h-[30px] hover:orderly-text-primary-light hover:orderly-bg-transparent active:orderly-bg-transparent',
 							props.className,
 						)}
 						onClick={() => {

@@ -81,7 +81,7 @@ export const DataList = () => {
 			<div className="orderly-flex orderly-w-full">
 				<div
 					style={{
-						minHeight: errors?.ChainNetworkNotSupport ? 'calc(100vh - 162px)' : 'calc(100vh - 116px)',
+						minHeight: errors?.ChainNetworkNotSupport ? 'calc(100vh - 214px)' : 'calc(100vh - 168px)',
 					}}
 					className={`orderly-w-[${
 						!showTab ? 'auto' : '184px'

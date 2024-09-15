@@ -17,7 +17,7 @@ const Portfolio: FC = (props) => {
 				<TopNavbar />
 			</Header>
 
-			<TopTips />
+			{/* <TopTips /> */}
 
 			<Layout>
 				<Content className="orderly-bg-richBlack orderly-overflow-hidden orderly-pb-[32px]">

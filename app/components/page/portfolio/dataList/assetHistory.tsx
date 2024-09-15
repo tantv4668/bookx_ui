@@ -27,9 +27,7 @@ const AssetHistory: React.FC<AssetHistoryProps> = (props) => {
 	const { data: chains } = useQuery('/v1/public/chain_info');
 
 	const { data, size, setSize, isLoading } = usePrivateInfiniteQuery(
-		generateKeyFun1("/v1/asset/history?size=100",
-			{},
-		),
+		generateKeyFun1('/v1/asset/history?size=100', {}),
 		{
 			initialSize: 1,
 			formatter: (data) => data,
@@ -117,7 +115,7 @@ const AssetHistory: React.FC<AssetHistoryProps> = (props) => {
 				dataIndex: 'side',
 				render(value, record, index) {
 					return (
-						<div className={value === 'DEPOSIT' ? 'orderly-text-success-light' : 'orderly-text-danger-light'}>
+						<div className={value === 'DEPOSIT' ? 'orderly-text-paleLime' : 'orderly-text-lightPurple'}>
 							{upperFirstLetter(value)}
 						</div>
 					);
@@ -132,7 +130,7 @@ const AssetHistory: React.FC<AssetHistoryProps> = (props) => {
 				render(value, record, index) {
 					const isDeposit = record.side === 'DEPOSIT';
 					return (
-						<div className={isDeposit ? 'orderly-text-success-light' : 'orderly-text-danger-light'}>
+						<div className={isDeposit ? 'orderly-text-paleLime' : 'orderly-text-lightPurple'}>
 							{isDeposit ? '+' : '-'}
 							<Numeral
 							// precision={base_dp}

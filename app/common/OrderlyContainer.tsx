@@ -9,6 +9,8 @@ import { _orderlySymbolKey } from '../constant';
 import { useRouter } from 'next/navigation';
 import Protect from 'react-app-protect';
 import 'react-app-protect/dist/index.css';
+import { LogoIcon } from '../components/assets/icons/logo';
+import { TopLeftNavbar } from '../components/layout/topLeftNavbar';
 // import { CustomContractManager } from './CustomContract';
 // import { ARBITRUM_TESTNET_CHAINID, MANTLE_TESTNET_CHAINID } from '@orderly.network/types';
 export type NetworkId = 'testnet' | 'mainnet';
@@ -92,7 +94,28 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 					// 	</div>
 					// ),
 					nav: <NavbarTab />,
+					left: (
+						<div className="orderly-flex orderly-items-center">
+							<LogoIcon className="orderly-w-[157px] orderly-h-[28px] orderly-mx-3" />
+						</div>
+					),
 				}}
+				topBar={
+					<div>
+						<div className="orderly-flex orderly-border-b orderly-border-semiTransparentWhite orderly-mb-3">
+							<div className="orderly-flex orderly-items-center">
+								<LogoIcon className="orderly-w-[157px] orderly-h-[28px] orderly-mx-3" />
+							</div>
+							<NavbarTab />
+							<div className="orderly-ml-[auto]">
+								<TopLeftNavbar />
+							</div>
+						</div>
+						<div className="orderly-w-full orderly-min-h-10 orderly-bg-lightPurple orderly-text-[#16141C] orderly-px-3 orderly-text-center orderly-flex orderly-justify-center orderly-items-center orderly-text-[15px] orderly-font-[600]">
+							BookX Alpha Launch 💸 Free Trading: Zero Maker Fees 💸 From September 16th to October 7th
+						</div>
+					</div>
+				}
 				referral={{
 					saveRefCode: true,
 					onBoundRefCode: (success: boolean, error: any) => {

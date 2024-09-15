@@ -98,7 +98,7 @@ const Distribution: React.FC<DistributionProps> = (props) => {
 				dataIndex: 'side',
 				render(value, record, index) {
 					return (
-						<div className={value === 'DEPOSIT' ? 'orderly-text-success-light' : 'orderly-text-danger-light'}>
+						<div className={value === 'DEPOSIT' ? 'orderly-text-paleLime' : 'orderly-text-lightPurple'}>
 							{upperFirstLetter(value)}
 						</div>
 					);
@@ -113,7 +113,7 @@ const Distribution: React.FC<DistributionProps> = (props) => {
 				render(value, record, index) {
 					const isDeposit = record.side === 'DEPOSIT';
 					return (
-						<div className={isDeposit ? 'orderly-text-success-light' : 'orderly-text-danger-light'}>
+						<div className={isDeposit ? 'orderly-text-paleLime' : 'orderly-text-lightPurple'}>
 							{isDeposit ? '+' : '-'}
 							<Numeral
 							// precision={base_dp}

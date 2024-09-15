@@ -67,7 +67,7 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
 
 	const chainWarningMessage = useMemo(() => {
 		if (!chainNotSupport) return '';
-		return 'Please connect to a supported network.';
+		return 'Please connect to a supported network sdsfsdf.';
 	}, [chainNotSupport, chain?.info?.network_infos?.name]);
 
 	const actionButton = useMemo(() => {

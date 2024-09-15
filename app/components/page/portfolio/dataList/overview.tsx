@@ -208,7 +208,7 @@ const Overview: React.FC = (props) => {
 									disabled={state.status === 0}
 									className={`${
 										state.status === 4 && 'hover:orderly-opacity-70'
-									} orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors orderly-px-3 orderly-rounded-md orderly-h-8 orderly-text-sm hover:orderly-text-black active:orderly-bg-base-4/50 !orderly-bg-lightPurple hover:orderly-bg-lightPurple orderly-text-black disabled:orderly-cursor-not-allowed disabled:orderly-bg-darkSlateBlue disabled:orderly-text-translucent !disabled:hover:orderly-bg-darkSlateBlue`}
+									} orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors orderly-px-3 orderly-rounded-md orderly-h-8 orderly-text-[14px] hover:orderly-text-black active:orderly-bg-base-4/50 !orderly-bg-lightPurple hover:orderly-bg-lightPurple orderly-text-black disabled:orderly-cursor-not-allowed disabled:orderly-bg-darkSlateBlue disabled:orderly-text-translucent !disabled:hover:orderly-bg-darkSlateBlue`}
 								>
 									<WithdrawIcon />
 									Withdraw
@@ -220,7 +220,7 @@ const Overview: React.FC = (props) => {
 									disabled={state.status === 0}
 									className={`${
 										state.status === 4 && 'hover:orderly-opacity-70'
-									}  orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors orderly-px-3 orderly-rounded-md orderly-h-8 orderly-text-sm hover:orderly-text-black active:orderly-bg-primary/50 !orderly-bg-paleLime hover:orderly-bg-paleLime orderly-text-black disabled:orderly-cursor-not-allowed disabled:orderly-bg-darkSlateBlue disabled:orderly-text-translucent !disabled:hover:orderly-bg-darkSlateBlue`}
+									}  orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors orderly-px-3 orderly-rounded-md orderly-h-8 orderly-text-[14px] hover:orderly-text-black active:orderly-bg-primary/50 !orderly-bg-paleLime hover:orderly-bg-paleLime orderly-text-black disabled:orderly-cursor-not-allowed disabled:orderly-bg-darkSlateBlue disabled:orderly-text-translucent !disabled:hover:orderly-bg-darkSlateBlue`}
 								>
 									<span className="orderly-rotate-180">
 										<WithdrawIcon />
@@ -237,10 +237,10 @@ const Overview: React.FC = (props) => {
 								{showValue ? <EyeIcon size={16} /> : <EyeOffIcon size={16} />}
 							</span>
 						</div>
-						<div className="orderly-text-paleLime orderly-bg-clip-text orderly-font-bold orderly-text-3xl">
+						<div className="orderly-text-paleLime orderly-bg-clip-text orderly-font-bold orderly-text-[28px]">
 							{showValue ? (
 								<Numeral
-									surfix={<span className={'orderly-text-base-contrast-36 orderly-font-semibold'}>USDC</span>}
+									// surfix={<span className={'orderly-text-base-contrast-36 orderly-font-semibold'}>USDC</span>}
 									className="desktop:orderly-font-semibold"
 								>
 									{totalValue}
@@ -271,18 +271,22 @@ const Overview: React.FC = (props) => {
 							{dataUser.info.map((data, index) => {
 								return (
 									<div key={index} className="orderly-text-base orderly-flex orderly-flex-col orderly-items-start">
-										<div className="orderly-text-xs orderly-text-translucent orderly-statistic-label">{data.title}</div>
+										<div className="orderly-text-[13px] orderly-text-translucent orderly-statistic-label">
+											{data.title}
+										</div>
 										<div className="orderly-text-white orderly-box orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap">
 											{index === 0 &&
 												(showValue ? (
 													<>
-														<Numeral coloring>{aggregated.unrealPnL}</Numeral>
+														<Numeral className="orderly-text-[18px]" coloring>
+															{aggregated.unrealPnL}
+														</Numeral>
 														<Numeral
 															rule="percentages"
 															coloring
 															surfix=")"
 															prefix="("
-															className="orderly-text-4xs orderly-opacity-60"
+															className="orderly-text-[14px] orderly-opacity-60"
 														>
 															{totalUnrealizedROI}
 														</Numeral>
@@ -294,7 +298,7 @@ const Overview: React.FC = (props) => {
 											{index === 1 && (
 												<LeverageDialog>
 													<div className="orderly-cursor-pointer orderly-text-white orderly-box orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap">
-														<span className="orderly-text-lg orderly-font-semibold">{info?.max_leverage}x</span>
+														<span className="orderly-text-[18px] orderly-font-semibold">{info?.max_leverage}x</span>
 														<span className="orderly-opacity-55 orderly-text-lg orderly-font-semibold orderly-ml-1">
 															<EditIcon />
 														</span>
@@ -304,7 +308,7 @@ const Overview: React.FC = (props) => {
 											{index === 2 && (
 												<>
 													{showValue ? (
-														<Numeral>{availableBalance}</Numeral>
+														<Numeral className="orderly-text-[18px]">{availableBalance}</Numeral>
 													) : (
 														<span className="orderly-text-lg orderly-font-semibold">*****</span>
 													)}
@@ -349,7 +353,7 @@ const Overview: React.FC = (props) => {
 
 				<div className="orderly-grid orderly-grid-cols-3 orderly-gap-4 orderly-my-4">
 					<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-md orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-gradient-gunmetal orderly-w-full">
-						<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">7D ROI</div>
+						<div className="orderly-text-[13px] orderly-opacity-35 orderly-leading-5">7D ROI</div>
 						<div className="orderly-text-translucent">
 							{state.status === 0 ? (
 								<span className="orderly-text-[16px]">--</span>
@@ -361,7 +365,7 @@ const Overview: React.FC = (props) => {
 						</div>
 					</div>
 					<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-md orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-gradient-gunmetal orderly-w-full">
-						<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">7D PnL</div>
+						<div className="orderly-text-[13px] orderly-opacity-35 orderly-leading-5">7D PnL</div>
 						<div className="orderly-text-translucent">
 							{state.status === 0 ? (
 								<span className="orderly-text-[16px]">--</span>
@@ -373,7 +377,7 @@ const Overview: React.FC = (props) => {
 						</div>
 					</div>
 					<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-md orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-gradient-gunmetal orderly-w-full">
-						<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">7D Volume (USDC)</div>
+						<div className="orderly-text-[13px] orderly-opacity-35 orderly-leading-5">7D Volume (USDC)</div>
 						<div className="orderly-text-translucent">
 							{state.status === 0 ? <span className="orderly-text-[16px]">--</span> : dataUser.USDC}
 						</div>
@@ -382,7 +386,7 @@ const Overview: React.FC = (props) => {
 
 				<div className="orderly-grid orderly-grid-cols-2 orderly-gap-4">
 					<div>
-						<p className="orderly-mb-3 orderly-card-header-title orderly-font-semibold orderly-leading-none orderly-tracking-tight orderly-text-sm">
+						<p className="orderly-mb-3 orderly-card-header-title orderly-font-semibold orderly-leading-none orderly-tracking-tight orderly-text-[14px]">
 							Daily PnL
 						</p>
 						<div className="orderly-box orderly-rounded-md orderly-border orderly-border-semiTransparentWhite">
@@ -391,7 +395,7 @@ const Overview: React.FC = (props) => {
 					</div>
 
 					<div>
-						<p className="orderly-mb-3 orderly-card-header-title orderly-font-semibold orderly-leading-none orderly-tracking-tight orderly-text-sm">
+						<p className="orderly-mb-3 orderly-card-header-title orderly-font-semibold orderly-leading-none orderly-tracking-tight orderly-text-[14px]">
 							Cumulative PnL
 						</p>
 						<div className="orderly-box orderly-rounded-md orderly-border orderly-border-semiTransparentWhite">

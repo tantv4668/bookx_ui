@@ -44,8 +44,6 @@ export enum EnumPortfolioTab {
 const Overview: React.FC = (props) => {
 	const [activeTab, setActiveTab] = useState<string>(EnumPortfolioTab.DepositsWithdrawals);
 	const [index, setIndex] = useState<number>(0);
-	const [dayAssets, setDayAssets] = useState<string>('7D');
-	const [dayPerformance, setDayPerformance] = useState<string>('7D');
 	const [valueSelectInput, setValueSelectInput] = useState<any>({ label: 'All', value: 'ALL' });
 	// const [dayAssets, setDayAssets] = useState<number>(7);
 	const [day, setDay] = useState<number>(7);
@@ -64,11 +62,48 @@ const Overview: React.FC = (props) => {
 
 	const [{ aggregated, totalUnrealizedROI }] = usePositionStream();
 
-	const { data: dataPerformance, error } = usePrivateQuery(
+	const { data: dataPerformance, error } = usePrivateQuery<any>(
 		`/v1/client/statistics/daily?start_date=${formatPreviousDate(day)}&end_date=${formatPreviousDate(0)}`,
 	);
 
-	console.log('data', dataPerformance);
+	const { totalRoi, totalPnl, totalVolume, pnlArray, accountValueArray, cumulativePnLArray } = useMemo(() => {
+		const accountValueArray: any = [];
+		const pnlArray: any = [];
+		const cumulativePnLArray: any = [];
+		let cumulativePnL = 0;
+		let totalPnl = 0;
+		let totalVolume = 0;
+		let totalRoi = 0;
+
+		if (dataPerformance) {
+			dataPerformance.forEach((item: any) => {
+				pnlArray.push({
+					name: item.date,
+					value: item.pnl,
+				});
+
+				totalPnl += item.pnl;
+
+				accountValueArray.push({
+					name: item.date,
+					value: item.account_value,
+				});
+
+				totalVolume += item.perp_volume;
+
+				cumulativePnL += item.pnl;
+				cumulativePnLArray.push({
+					name: item.date,
+					value: cumulativePnL,
+				});
+			});
+
+			const initialInvestment = dataPerformance[dataPerformance.length - 1]?.account_value || 0;
+			totalRoi = initialInvestment !== 0 ? (totalPnl / initialInvestment) * 100 : 0;
+		}
+
+		return { pnlArray, accountValueArray, cumulativePnLArray, totalRoi, totalPnl, totalVolume };
+	}, [dataPerformance]);
 
 	const { onWalletConnect, accountMenuItems, onClickAccountMenuItem } = useContext(OrderlyAppContext);
 
@@ -334,7 +369,7 @@ const Overview: React.FC = (props) => {
 							className="orderly-bg-[#1C1E22] orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-min-w-[56px] orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
 						/>
 					</div>
-					{/* <LineChartComponent data={assetsChart} startDay={startDay} /> */}
+					<LineChartComponent data={accountValueArray} startDay={startDay} />
 				</div>
 			</div>
 
@@ -353,33 +388,41 @@ const Overview: React.FC = (props) => {
 
 				<div className="orderly-grid orderly-grid-cols-3 orderly-gap-4 orderly-my-4">
 					<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-md orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-gradient-gunmetal orderly-w-full">
-						<div className="orderly-text-[13px] orderly-opacity-35 orderly-leading-5">7D ROI</div>
+						<div className="orderly-text-[13px] orderly-opacity-35 orderly-leading-5">{day}D ROI</div>
 						<div className="orderly-text-translucent">
 							{state.status === 0 ? (
 								<span className="orderly-text-[16px]">--</span>
 							) : showValue ? (
-								dataUser.USDC + '%'
+								<Numeral rule="percentages" coloring className="orderly-text-[18px]">
+									{totalRoi}
+								</Numeral>
 							) : (
 								'*****'
 							)}
 						</div>
 					</div>
 					<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-md orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-gradient-gunmetal orderly-w-full">
-						<div className="orderly-text-[13px] orderly-opacity-35 orderly-leading-5">7D PnL</div>
+						<div className="orderly-text-[13px] orderly-opacity-35 orderly-leading-5">{day}D PnL</div>
 						<div className="orderly-text-translucent">
 							{state.status === 0 ? (
 								<span className="orderly-text-[16px]">--</span>
 							) : showValue ? (
-								dataUser.USDC
+								<Numeral className="orderly-text-[18px]">{totalPnl}</Numeral>
 							) : (
 								'*****'
 							)}
 						</div>
 					</div>
 					<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-md orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-gradient-gunmetal orderly-w-full">
-						<div className="orderly-text-[13px] orderly-opacity-35 orderly-leading-5">7D Volume (USDC)</div>
+						<div className="orderly-text-[13px] orderly-opacity-35 orderly-leading-5">{day}D Volume (USDC)</div>
 						<div className="orderly-text-translucent">
-							{state.status === 0 ? <span className="orderly-text-[16px]">--</span> : dataUser.USDC}
+							{state.status === 0 ? (
+								<span className="orderly-text-[16px]">--</span>
+							) : showValue ? (
+								<Numeral className="orderly-text-[18px]">{totalVolume}</Numeral>
+							) : (
+								'*****'
+							)}
 						</div>
 					</div>
 				</div>
@@ -390,7 +433,7 @@ const Overview: React.FC = (props) => {
 							Daily PnL
 						</p>
 						<div className="orderly-box orderly-rounded-md orderly-border orderly-border-semiTransparentWhite">
-							<BarChartComponent data={dataBar} height={184} startDay={startDay} />
+							<BarChartComponent data={pnlArray} height={184} startDay={startDay} />
 						</div>
 					</div>
 
@@ -399,7 +442,7 @@ const Overview: React.FC = (props) => {
 							Cumulative PnL
 						</p>
 						<div className="orderly-box orderly-rounded-md orderly-border orderly-border-semiTransparentWhite">
-							<LineChartComponent data={dataLine} height={184} startDay={startDay} />
+							<LineChartComponent data={cumulativePnLArray} height={184} startDay={startDay} />
 						</div>
 					</div>
 				</div>

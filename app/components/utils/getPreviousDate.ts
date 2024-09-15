@@ -16,5 +16,5 @@ export const formatPreviousDate = (days: number) => {
 	const day = String(previousDate.getDate()).padStart(2, '0');
 	const year = previousDate.getFullYear();
 
-	return `${month}-${day}-${year}`;
+	return `${year}-${month}-${day}`;
 };

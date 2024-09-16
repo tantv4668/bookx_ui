@@ -17,7 +17,7 @@ import InputDay from '@/app/components/globals/inputDay';
 import { Select as SelectGlobals } from '@/app/components/globals/select';
 import LineChartComponent from '@/app/components/lineChart';
 import { AccountStatusEnum } from '@/app/components/types/constants';
-import { formatPreviousDate, getPreviousDate } from '@/app/components/utils/getPreviousDate';
+import { formatPreviousDate } from '@/app/components/utils/getPreviousDate';
 import { useAccount, useAccountInfo, useCollateral, usePositionStream, usePrivateQuery } from '@orderly.network/hooks';
 import { Numeral, OrderlyAppContext } from '@orderly.network/react';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
@@ -160,8 +160,6 @@ const Overview: React.FC = (props) => {
 			},
 		],
 	};
-
-	const startDay = getPreviousDate(7);
 
 	const dataTab = useMemo(
 		() => [
@@ -369,7 +367,7 @@ const Overview: React.FC = (props) => {
 							className="orderly-bg-[#1C1E22] orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-min-w-[56px] orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
 						/>
 					</div>
-					<LineChartComponent data={accountValueArray} startDay={startDay} />
+					<LineChartComponent data={accountValueArray} startDay={day} />
 				</div>
 			</div>
 
@@ -433,7 +431,7 @@ const Overview: React.FC = (props) => {
 							Daily PnL
 						</p>
 						<div className="orderly-box orderly-rounded-md orderly-border orderly-border-semiTransparentWhite">
-							<BarChartComponent data={pnlArray} height={184} startDay={startDay} />
+							<BarChartComponent data={pnlArray} height={184} startDay={day} />
 						</div>
 					</div>
 
@@ -442,7 +440,7 @@ const Overview: React.FC = (props) => {
 							Cumulative PnL
 						</p>
 						<div className="orderly-box orderly-rounded-md orderly-border orderly-border-semiTransparentWhite">
-							<LineChartComponent data={cumulativePnLArray} height={184} startDay={startDay} />
+							<LineChartComponent data={cumulativePnLArray} height={184} startDay={day} />
 						</div>
 					</div>
 				</div>

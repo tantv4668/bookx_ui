@@ -2,6 +2,7 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { CustomTooltip } from '../globals/CustomTooltip';
+import { getPreviousDate } from '../utils/getPreviousDate';
 
 const BarChartComponent = ({ data, height, startDay }: any) => {
 	return (
@@ -21,7 +22,9 @@ const BarChartComponent = ({ data, height, startDay }: any) => {
 					stroke="#ffffff1f"
 					dataKey="name"
 					tick={({ x, y, payload, index }) => {
-						const newX = index === 0 ? x + 5 : x + 15;
+						// console.log('??index', index, x);
+
+						const newX = index === 0 ? x : x + 15;
 						return (
 							<g transform={`translate(${newX},${y})`}>
 								<text
@@ -32,7 +35,7 @@ const BarChartComponent = ({ data, height, startDay }: any) => {
 									fontSize={10}
 									fill="#8A8B8D"
 								>
-									{index === 0 ? startDay : index === data.length - 1 ? 'Now' : ''}
+									{index === 0 ? getPreviousDate(startDay) : index === data.length - 1 ? 'Now' : ''}
 								</text>
 							</g>
 						);

@@ -15,6 +15,7 @@ import { TopLeftNavbar } from '../components/layout/topLeftNavbar';
 // import { ARBITRUM_TESTNET_CHAINID, MANTLE_TESTNET_CHAINID } from '@orderly.network/types';
 export type NetworkId = 'testnet' | 'mainnet';
 import Marquee from 'react-fast-marquee';
+import Link from 'next/link';
 
 const HostEnvMap: Record<string, ENV_NAME> = {
 	'dev-sdk-demo.orderly.network': 'dev',
@@ -47,6 +48,8 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 
 	const configStore = new CustomConfigStore({ networkId, env });
 	// const contracts = new CustomContractManager(configStore);
+
+	const symbol = localStorage.getItem(_orderlySymbolKey) ?? 'PERP_ETH_USDC';
 
 	return (
 		<ConnectorProvider options={onboard as any}>
@@ -88,25 +91,15 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 				// 	],
 				// 	testnet: [],
 				// }}
-				topBarProps={{
-					// left: (
-					// 	<div className="orderly-h-[48px] orderly-p-3">
-					// 		<img className="orderly-w-[160px] orderly-h-[28px]" src="/bookxLogo.png" />
-					// 	</div>
-					// ),
-					nav: <NavbarTab />,
-					left: (
-						<div className="orderly-flex orderly-items-center">
-							<LogoIcon className="orderly-w-[157px] orderly-h-[28px] orderly-mx-3" />
-						</div>
-					),
-				}}
 				topBar={
 					<div>
 						<div className="orderly-flex orderly-border-b orderly-border-semiTransparentWhite orderly-mb-3">
 							<div className="orderly-flex orderly-items-center">
-								<LogoIcon className="orderly-w-[157px] orderly-h-[28px] orderly-mx-3" />
+								<Link href={`/perp/${symbol}`}>
+									<LogoIcon className="orderly-w-[157px] orderly-h-[28px] orderly-mx-3" />
+								</Link>
 							</div>
+
 							<NavbarTab />
 							<div className="orderly-ml-[auto]">
 								<TopLeftNavbar />

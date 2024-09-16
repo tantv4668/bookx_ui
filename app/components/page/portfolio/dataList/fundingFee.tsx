@@ -22,8 +22,8 @@ const FundingFee: React.FC<Props> = ({ filterSymbol, filterStartEndDay }) => {
 
 	const { data, size, setSize, isLoading } = usePrivateInfiniteQuery(
 		generateKeyFun1(
-			`/v1/funding_fee/history?size=100${
-				filterStartEndDay === null || (filterStartEndDay[0] === null || filterStartEndDay[1] === null)
+			`/v1/funding_fee/history?${
+				filterStartEndDay === null || filterStartEndDay[0] === null || filterStartEndDay[1] === null
 					? ''
 					: `&start_t=${filterStartEndDay[0]}&end_t=${filterStartEndDay[1]}`
 			}${filterSymbol === 'ALL' || filterSymbol === '' ? '' : `&symbol=${filterSymbol}`}`,

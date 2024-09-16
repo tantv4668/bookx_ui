@@ -180,6 +180,7 @@ const config: Config = {
 				semiTransparentWhite: '#ffffff1f',
 				lightGoldenrod: '#FFCF73',
 				lightPurple: '#ac93db',
+				red: '#ff686b',
 			},
 			width: {
 				'fill-available': '-webkit-fill-available',

@@ -1,22 +1,11 @@
 'use client';
 import { cva, VariantProps, cx } from 'class-variance-authority';
-import {
-	FC,
-	SelectHTMLAttributes,
-	useCallback,
-	useEffect,
-	useMemo,
-	useState,
-	// useId,
-} from 'react';
+import { FC, SelectHTMLAttributes, useEffect, useMemo, useState } from 'react';
 
-// import { ActionSheet } from "@/sheet/actionSheet/actionSheet";
-// import { ChevronDown } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../../dropdown/dropdown';
 import React from 'react';
 import { cn } from '../../utils/css';
 import { ArrowIcon } from '../../assets/icons/arrow';
-// import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@orderly.network/react';
 
 export type SelectOption = {
 	value: string | number;
@@ -61,7 +50,7 @@ export interface SelectProps
 	loading?: boolean;
 	label?: string;
 	options: SelectOption[];
-	onChange?: (value: number) => void;
+	onChange?: (value: any) => void;
 	contentClassName?: string;
 	//   className?: string;
 }

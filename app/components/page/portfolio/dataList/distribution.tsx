@@ -25,7 +25,7 @@ const Distribution: React.FC<DistributionProps> = (props) => {
 
 	const { data, size, setSize, isLoading } = usePrivateInfiniteQuery(
 		generateKeyFun1(
-			`/v1/client/distribution_history?size=100${
+			`/v1/client/distribution_history?${
 				filterStartEndDay === null || filterStartEndDay[0] === null || filterStartEndDay[1] === null
 					? ''
 					: `&start_t=${filterStartEndDay[0]}&end_t=${filterStartEndDay[1]}`

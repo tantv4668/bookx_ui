@@ -47,7 +47,7 @@ const Overview: React.FC = (props) => {
 	const [valueSelectInput, setValueSelectInput] = useState<any>({ label: 'All', value: 'ALL' });
 	// const [dayAssets, setDayAssets] = useState<number>(7);
 	const [day, setDay] = useState<number>(7);
-	const [valueSelectTab, setValueSelectTab] = useState<string>('All');
+	const [valueSelectTab, setValueSelectTab] = useState<string>('ALL');
 	const [searchFunding, setSearchFunding] = useState('');
 	const [filterFundingOptions, setFilterFundingOptions] = useState(fundingOptions);
 	const [showValue, setShowValue] = useState<boolean>(false);

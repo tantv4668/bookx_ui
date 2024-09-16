@@ -35,7 +35,14 @@ export function generateKeyFun1(urlPrefix: string, args: { size?: number; side?:
 		// reached the end
 		if (previousPageData && !previousPageData.rows?.length) return null;
 
-		return `${urlPrefix}`;
+		const { size = 100 } = args;
+
+		const search = new URLSearchParams([
+			['size', size.toString()],
+			['page', `${pageIndex + 1}`],
+		]);
+
+		return `${urlPrefix}&${search}`;
 	};
 }
 

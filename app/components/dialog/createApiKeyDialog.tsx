@@ -23,10 +23,7 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 
 	const { account, state } = useAccount();
 
-	console.log('??', account.wallet?.chainId.toString());
-
 	const handleCheckedChange = (name: string, e: boolean | string) => {
-		setCheckIP(true);
 		setFormData({ ...formData, [name]: e });
 	};
 
@@ -35,27 +32,14 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 	// const [mutate] = useMutation(`v1/get_account?address=${state.address}&broker_id=book_x`);
 
 	const onSubmit = useCallback(async () => {
-		const ipPattern = /^(\d{1,3}\.){3}\d{1,3}$/;
-		if (typeof formData.ip === 'string' && ipPattern.test(formData.ip)) {
-			setCheckIP(true);
-			try {
-				const data = await mutate();
-				// withdraw()
-				console.log('??data', data);
-			} catch (err) {
-				console.error('Error:', err);
-			}
-			// const parts = formData.ip.split('.');
-			// if (parts.every((part) => parseInt(part, 10) >= 0 && parseInt(part, 10) <= 255)) {
-			// 	setCheckIP(true);
-			// 	try {
-			// 		const data = await mutate();
-			// 		console.log('??data', data);
-			// 	} catch (err) {
-			// 		console.error('Error:', err);
-			// 	}
-			// } else setCheckIP(false);
-		} else setCheckIP(false);
+		setCheckIP(true);
+		try {
+			const data = await mutate();
+			// withdraw()
+			console.log('??data', data);
+		} catch (err) {
+			console.error('Error:', err);
+		}
 	}, []);
 
 	return (
@@ -81,17 +65,9 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 							className={cn(
 								'orderly-input',
 								'orderly-bg-[#4c4464] orderly-text-[12px] orderly-text-white orderly-p-3 orderly-flex-1 focus-visible:orderly-outline-none orderly-h-full orderly-w-full orderly-peer placeholder:orderly-text-base-contrast-20 placeholder:orderly-text-xs orderly-tabular-nums',
-								`orderly-rounded-xl orderly-w-full orderly-border-0 focus:orderly-border ${
-									!checkIP && 'orderly-border orderly-border-red'
-								} orderly-outline-none orderly-placeholder-translucent focus:orderly-border-lightPurple`,
+								`orderly-rounded-xl orderly-w-full orderly-border-0 focus:orderly-border orderly-outline-none orderly-placeholder-translucent focus:orderly-border-lightPurple`,
 							)}
 						/>
-						{!checkIP && (
-							<div className="orderly-text-red orderly-text-[13px] orderly-flex orderly-gap-1 orderly-items-center">
-								<div className="orderly-h-1 orderly-w-1 orderly-rounded-[50%] orderly-bg-red" /> IP restriction format
-								is incorrect.
-							</div>
-						)}
 						<div className="orderly-flex-1 orderly-mb-1 orderly-mt-6 orderly-text-[13px]">Permissions</div>
 						<div className="orderly-flex orderly-gap-6 orderly-items-center">
 							<div className="orderly-flex orderly-gap-2 orderly-items-center">

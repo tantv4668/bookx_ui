@@ -14,7 +14,7 @@ const BarChartComponent = ({ data, height, startDay }: any) => {
 					left: -15,
 					bottom: 10,
 				}}
-				barCategoryGap="0%"
+				barCategoryGap="5%"
 			>
 				<CartesianGrid strokeDasharray="0 0" stroke="#ffffff1f" vertical={false} />
 				<XAxis

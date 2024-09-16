@@ -391,9 +391,12 @@ const Overview: React.FC = (props) => {
 							{state.status === 0 ? (
 								<span className="orderly-text-[16px]">--</span>
 							) : showValue ? (
-								<Numeral rule="percentages" coloring className="orderly-text-[18px]">
-									{totalRoi}
-								</Numeral>
+								<div className="orderly-flex orderly-items-center">
+									{totalRoi > 0 ? <span className="orderly-text-paleLime -orderly-mt-[2px]">+</span> : ''}
+									<Numeral coloring className="orderly-text-[18px]">
+										{totalRoi}
+									</Numeral>
+								</div>
 							) : (
 								'*****'
 							)}
@@ -405,7 +408,12 @@ const Overview: React.FC = (props) => {
 							{state.status === 0 ? (
 								<span className="orderly-text-[16px]">--</span>
 							) : showValue ? (
-								<Numeral className="orderly-text-[18px]">{totalPnl}</Numeral>
+								<div className="orderly-flex orderly-items-center">
+									{totalPnl > 0 ? <span className="orderly-text-paleLime -orderly-mt-[2px]">+</span> : ''}
+									<Numeral coloring className="orderly-text-[18px]">
+										{totalPnl}
+									</Numeral>
+								</div>
 							) : (
 								'*****'
 							)}

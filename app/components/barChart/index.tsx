@@ -2,7 +2,7 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { CustomTooltip } from '../globals/CustomTooltip';
-import { getPreviousDate } from '../utils/getPreviousDate';
+import { getPreviousDate, formatDate } from '../utils/getPreviousDate';
 
 const BarChartComponent = ({ data, height, startDay }: any) => {
 	return (
@@ -21,28 +21,46 @@ const BarChartComponent = ({ data, height, startDay }: any) => {
 				<XAxis
 					stroke="#ffffff1f"
 					dataKey="name"
-					tick={({ x, y, payload, index }) => {
-						// console.log('??index', index, x);
+					interval={0}
+					// tick={({ x, y, payload, index }) => {
 
-						const newX = index === 0 ? x : x + 15;
-						return (
-							<g transform={`translate(${newX},${y})`}>
-								<text
-									x={0}
-									y={0}
-									dy={16}
-									textAnchor={index === 0 ? 'end' : index === data.length - 1 ? 'start' : 'middle'}
-									fontSize={10}
-									fill="#8A8B8D"
-								>
-									{index === 0 ? getPreviousDate(startDay) : index === data.length - 1 ? 'Now' : ''}
-								</text>
-							</g>
-						);
+					// 	const newX = index === 0 ? x : x + 15;
+					// 	return (
+					// 		<g transform={`translate(${newX},${y})`}>
+					// 			<text
+					// 				x={0}
+					// 				y={0}
+					// 				dy={16}
+					// 				textAnchor={index === 0 ? 'end' : index === data.length - 1 ? 'start' : 'middle'}
+					// 				fontSize={10}
+					// 				fill="#8A8B8D"
+					// 			>
+					// 				{index === 0
+					// 					? formatDate(data[data.length - 1].name) || getPreviousDate(startDay)
+					// 					: index === data.length - 1
+					// 					? 'Now'
+					// 					: ''}
+					// 			</text>
+					// 		</g>
+					// 	);
+					// }}
+					tickFormatter={(tick, index) => {
+						if (index === data.length - 1) {
+							return 'Now';
+						}
+						if (index === 0) {
+							return formatDate(data[data.length - 1].name) || getPreviousDate(startDay);
+						} else if (index === data.length - 1) {
+							return 'Now';
+						} else return '';
 					}}
+					tick={{ fontSize: 10, fill: '#8A8B8D' }}
 					tickLine={false}
+					dy={8}
 					// interval="preserveStartEnd"
 					padding={{ left: 0, right: 0 }}
+					allowDuplicatedCategory={false}
+					// preserveStartEnd
 				/>
 				<YAxis
 					stroke="none"

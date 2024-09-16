@@ -2,7 +2,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { CustomTooltip } from '../globals/CustomTooltip';
-import { getPreviousDate } from '../utils/getPreviousDate';
+import { formatDate, getPreviousDate } from '../utils/getPreviousDate';
 
 const LineChartComponent = ({ data, height, startDay }: any) => {
 	const maxY = Math.max(...data.map((d: any) => d.value));
@@ -39,13 +39,18 @@ const LineChartComponent = ({ data, height, startDay }: any) => {
 									fontSize={10}
 									fill="#8A8B8D"
 								>
-									{index === 0 ? getPreviousDate(startDay) : index === data.length - 1 ? 'Now' : ''}
+									{index === 0
+										? formatDate(data[data.length - 1].name) || getPreviousDate(startDay)
+										: index === data.length - 1
+										? 'Now'
+										: ''}
 								</text>
 							</g>
 						);
 					}}
 					tickLine={false}
-					interval="preserveStartEnd"
+					// interval="preserveStartEnd"
+					interval={0}
 					padding={{ left: 0, right: 0 }}
 				/>
 				<YAxis

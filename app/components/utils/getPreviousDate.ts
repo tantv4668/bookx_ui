@@ -18,3 +18,10 @@ export const formatPreviousDate = (days: number) => {
 
 	return `${year}-${month}-${day}`;
 };
+
+export const formatDate = (dateString: string) => {
+	const [year, month, day] = dateString.split('-');
+	const formattedDay = parseInt(day, 10);
+	const formattedMonth = parseInt(month, 10);
+	return `${formattedDay}/${formattedMonth}/${year}`;
+};

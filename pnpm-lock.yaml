@@ -11,6 +11,9 @@ importers:
       '@date-fns/utc':
         specifier: ^1.2.0
         version: 1.2.0
+      '@noble/ed25519':
+        specifier: ^2.1.0
+        version: 2.1.0
       '@orderly.network/core':
         specifier: 1.5.12
         version: 1.5.12(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -131,12 +134,18 @@ importers:
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
       eslint-plugin-fp:
         specifier: ^2.3.0
         version: 2.3.0(eslint@7.32.0)
       ethereum-blockies-base64:
         specifier: ^1.0.2
         version: 1.0.2
+      ethers:
+        specifier: ^6.13.2
+        version: 6.13.2(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       icon:
         specifier: link:@/icon
         version: link:@/icon

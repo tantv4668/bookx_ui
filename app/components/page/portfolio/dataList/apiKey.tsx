@@ -2,7 +2,7 @@
 import { RightIcon } from '@/app/components/assets/icons/rightIcon';
 import Button from '@/app/components/globals/button';
 import { cn } from '@/app/components/utils/css';
-import { useAccount } from '@orderly.network/hooks';
+import { useAccount, usePrivateQuery } from '@orderly.network/hooks';
 import React, { useMemo } from 'react';
 import { Text } from '@/app/components/text';
 import { Column, Table } from '@/app/components/table';
@@ -25,6 +25,12 @@ const ApiKey: React.FC = (props) => {
 	const isLoading: boolean = false; //get api
 
 	const { state } = useAccount();
+
+	const { data: dataPerformance } = usePrivateQuery<any>(
+		`/v1/client/key_info?keyStatus=ACTIVE`,
+	);
+
+	console.log("dataPerformance", dataPerformance)
 
 	const handleCopyID = (accountId: string) => {
 		navigator.clipboard.writeText(accountId).then(() => {

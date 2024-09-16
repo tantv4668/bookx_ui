@@ -6,6 +6,14 @@ import { Input } from '../globals/input';
 import { cn } from '../utils/css';
 import { Checkbox } from '../globals/checkbox';
 import { useAccount, useMutation, useQuery } from '@orderly.network/hooks';
+import { encodeBase58, ethers } from 'ethers';
+import { getPublicKeyAsync, utils } from '@noble/ed25519';
+
+declare global {
+	interface Window {
+		ethereum: any;
+	}
+}
 
 interface Props {}
 
@@ -15,31 +23,120 @@ const defaultForm = {
 	trading: true,
 };
 
+const MESSAGE_TYPES = {
+	EIP712Domain: [
+		{ name: 'name', type: 'string' },
+		{ name: 'version', type: 'string' },
+		{ name: 'chainId', type: 'uint256' },
+		{ name: 'verifyingContract', type: 'address' },
+	],
+	AddOrderlyKey: [
+		{ name: 'brokerId', type: 'string' },
+		{ name: 'chainId', type: 'uint256' },
+		{ name: 'orderlyKey', type: 'string' },
+		{ name: 'scope', type: 'string' },
+		{ name: 'timestamp', type: 'uint64' },
+		{ name: 'expiration', type: 'uint64' },
+	],
+};
+
+const OFF_CHAIN_DOMAIN = {
+	name: 'Orderly',
+	version: '1',
+	chainId: 421614,
+	verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+};
+
+const BASE_URL = 'https://testnet-api-evm.orderly.org';
+const BROKER_ID = 'book_x';
+const CHAIN_ID = 421614;
+
 export const CreateApiKeyDialog: FC<any> = (props) => {
 	const [open, setOpen] = useState(false);
 	const [checkIP, setCheckIP] = useState(true);
 	const [formData, setFormData] = useState(defaultForm);
 	// const [account, setAccount] = useState<any>();
 
-	const { account, state } = useAccount();
+	const { account, state, createOrderlyKey } = useAccount();
 
 	const handleCheckedChange = (name: string, e: boolean | string) => {
 		setFormData({ ...formData, [name]: e });
 	};
 
-	const { mutate } = useQuery(`/v1/get_account?address=${state.address}&broker_id=book_x`);
+	const [createOrderlyKy] = useMutation('/v1/orderly_key', 'POST');
 
-	// const [mutate] = useMutation(`v1/get_account?address=${state.address}&broker_id=book_x`);
+	const [setIp] = useMutation('/v1/client/set_orderly_key_ip_restriction', 'POST');
 
 	const onSubmit = useCallback(async () => {
-		setCheckIP(true);
 		try {
-			const data = await mutate();
-			// withdraw()
-			console.log('??data', data);
-		} catch (err) {
-			console.error('Error:', err);
+			if (!window.ethereum) {
+				console.error('MetaMask is not installed');
+				return;
+			}
+
+			const provider = new ethers.BrowserProvider(window.ethereum);
+			await provider.send('eth_requestAccounts', []);
+			const signer = await provider.getSigner();
+
+			const privateKey = utils.randomPrivateKey();
+			const orderlyKey = `ed25519:${encodeBase58(await getPublicKeyAsync(privateKey))}`;
+			const timestamp = Math.floor(Date.now() / 1000);
+			const addKeyMessage = {
+				brokerId: BROKER_ID,
+				chainId: CHAIN_ID,
+				orderlyKey,
+				scope: 'read,trading',
+				tag: 'manualCreated',
+				timestamp,
+				expiration: timestamp + 1 * 60 * 60 * 24 * 365, // 1 year
+			};
+
+			const typedData = {
+				domain: OFF_CHAIN_DOMAIN,
+				types: {
+					EIP712Domain: MESSAGE_TYPES.EIP712Domain,
+					AddOrderlyKey: MESSAGE_TYPES.AddOrderlyKey,
+				},
+				primaryType: 'AddOrderlyKey',
+				message: addKeyMessage,
+			};
+
+			const signature = await window.ethereum.request({
+				method: 'eth_signTypedData_v4',
+				params: [await signer.getAddress(), JSON.stringify(typedData)],
+			});
+
+			const userAddress = await signer.getAddress();
+
+			const data = await createOrderlyKy({
+				message: addKeyMessage,
+				signature,
+				userAddress: userAddress,
+			});
+
+			data &&
+				(await setIp({
+					ip_restriction_list: '5.5.5.5',
+					orderly_key: orderlyKey,
+				}));
+
+			// const keyRes = await fetch(`${BASE_URL}/v1/orderly_key`, {
+			// 	method: 'POST',
+			// 	headers: {
+			// 		'Content-Type': 'application/json',
+			// 	},
+			// 	body: JSON.stringify({
+			// 		message: addKeyMessage,
+			// 		signature,
+			// 		userAddress: await signer.getAddress(),
+			// 	}),
+			// });
+
+			console.log('addAccessKey', data);
+		} catch (error) {
+			console.error('Error creating Orderly key:', error);
 		}
+		// const res = await createOrderlyKey(true);
 	}, []);
 
 	return (

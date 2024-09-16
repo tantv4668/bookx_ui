@@ -1,12 +1,24 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { CustomTooltip } from '../globals/CustomTooltip';
 import { getPreviousDate, formatDate } from '../utils/getPreviousDate';
 
 const BarChartComponent = ({ data, height, startDay }: any) => {
+	const divRef: any = useRef(null);
+	const [width, setWidth] = useState(0);
+
+	const chartWidth = width || 0;
+	const barCount = data.length || 0;
+	const barWidth = chartWidth / barCount;
+
+	useEffect(() => {
+		if (divRef.current) {
+			setWidth(divRef?.current.offsetWidth);
+		}
+	}, []);
 	return (
-		<ResponsiveContainer width="100%" height={height || 152}>
+		<ResponsiveContainer width="100%" height={height || 152} ref={divRef}>
 			<BarChart
 				data={data}
 				margin={{
@@ -22,45 +34,30 @@ const BarChartComponent = ({ data, height, startDay }: any) => {
 					stroke="#ffffff1f"
 					dataKey="name"
 					interval={0}
-					// tick={({ x, y, payload, index }) => {
-
-					// 	const newX = index === 0 ? x : x + 15;
-					// 	return (
-					// 		<g transform={`translate(${newX},${y})`}>
-					// 			<text
-					// 				x={0}
-					// 				y={0}
-					// 				dy={16}
-					// 				textAnchor={index === 0 ? 'end' : index === data.length - 1 ? 'start' : 'middle'}
-					// 				fontSize={10}
-					// 				fill="#8A8B8D"
-					// 			>
-					// 				{index === 0
-					// 					? formatDate(data[data.length - 1].name) || getPreviousDate(startDay)
-					// 					: index === data.length - 1
-					// 					? 'Now'
-					// 					: ''}
-					// 			</text>
-					// 		</g>
-					// 	);
-					// }}
-					tickFormatter={(tick, index) => {
-						if (index === data.length - 1) {
-							return 'Now';
-						}
-						if (index === 0) {
-							return formatDate(data[data.length - 1].name) || getPreviousDate(startDay);
-						} else if (index === data.length - 1) {
-							return 'Now';
-						} else return '';
+					tick={({ x, y, payload, index }) => {
+						const newX = index === 0 ? x - barWidth / 2 : x;
+						return (
+							<g transform={`translate(${newX},${y})`}>
+								<text
+									x={0}
+									y={0}
+									dy={16}
+									textAnchor={index === 0 ? 'start' : index === data.length - 1 ? 'start' : 'middle'}
+									fontSize={10}
+									fill="#8A8B8D"
+								>
+									{index === 0
+										? formatDate(data[data.length - 1].name) || getPreviousDate(startDay)
+										: index === data.length - 1
+										? 'Now'
+										: ''}
+								</text>
+							</g>
+						);
 					}}
-					tick={{ fontSize: 10, fill: '#8A8B8D' }}
 					tickLine={false}
-					dy={8}
-					// interval="preserveStartEnd"
 					padding={{ left: 0, right: 0 }}
 					allowDuplicatedCategory={false}
-					// preserveStartEnd
 				/>
 				<YAxis
 					stroke="none"

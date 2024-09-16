@@ -19,6 +19,7 @@ const NavbarTab: React.FC = () => {
 	const [activeTab, setActiveTab] = useState('trade');
 	const router = useRouter();
 	const pathname = usePathname();
+	const isProd = process.env.NEXT_PUBLIC_IS_PROD === 'true';
 
 	const tabs = useMemo<Tab[]>(
 		() => [
@@ -40,6 +41,7 @@ const NavbarTab: React.FC = () => {
 				value: 'Docs',
 				path: () => 'https://docs.bookx.trade',
 			},
+			{ title: !isProd ? 'Mainnet' : 'Testnet', value: !isProd ? 'Mainnet' : 'Testnet', path: () => !isProd ? 'https://app.bookx.trade' : 'https://testnet-app.bookx.trade' },
 			// {
 			// 	title: 'Referral',
 			// 	value: 'referral',
@@ -70,11 +72,10 @@ const NavbarTab: React.FC = () => {
 				return (
 					<div
 						key={tab.value}
-						className={`${
-							activeTab === tab.value
-								? 'orderly-text-[rgba(255,255,255,0.98)]'
-								: 'orderly-text-[rgba(255,255,255,0.54)]'
-						} hover:orderly-text-[rgba(255,255,255,0.98)] orderly-cursor-pointer orderly-ml-[40px]`}
+						className={`${activeTab === tab.value
+							? 'orderly-text-[rgba(255,255,255,0.98)]'
+							: 'orderly-text-[rgba(255,255,255,0.54)]'
+							} hover:orderly-text-[rgba(255,255,255,0.98)] orderly-cursor-pointer orderly-ml-[40px]`}
 						onClick={() => {
 							onTabChange?.(tab);
 						}}

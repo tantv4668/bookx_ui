@@ -31,7 +31,7 @@ type OrderlyContainerProps = PropsWithChildren<{
 const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 	const networkId = (localStorage.getItem('orderly-networkId') ?? 'mainnet') as NetworkId;
 	const router = useRouter();
-
+	const isProd = process.env.NEXT_PUBLIC_IS_PROD === 'true';
 	const { onboard, app } = OrderlyConfig();
 
 	const onChainChanged = useCallback(
@@ -63,34 +63,19 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 				onChainChanged={onChainChanged}
 				footerStatusBarProps={app.footerStatusBarProps}
 				shareOptions={app.shareOptions}
-				// chainFilter={{
-				// 	mainnet: [
-				// 		{
-				// 			id: 5000,
-				// 			chainInfo: {
-				// 			  chainId: `0x${(5000).toString(16)}`,
-				// 			  chainName: "Mantle",
-				// 			  nativeCurrency: {
-				// 				name: "MNT",
-				// 				symbol: "MNT",
-				// 				decimals: 6,
-				// 				fix: 4,
-				// 			  },
-				// 			  rpcUrls: ["https://rpc.mantle.xyz/"],
-				// 			  blockExplorerUrls: ["https://mantlescan.xyz/"],
-				// 			},
-				// 			minGasBalance: 0.0002,
-				// 			minCrossGasBalance: 0.002,
-				// 			maxPrepayCrossGas: 0.03,
-				// 			blockExplorerName: "Mantle",
-				// 			chainName: "Mantle",
-				// 			chainNameShort: "Mantle",
-				// 			requestRpc: "https://rpc.mantle.xyz/",
-				// 			chainLogo: "",
-				// 		  }
-				// 	],
-				// 	testnet: [],
-				// }}
+				chainFilter={isProd ? {
+					testnet: [],
+				} : {
+					mainnet: [],
+				}}
+				topBarProps={{
+					nav: <NavbarTab />,
+					left: (
+						<div className="orderly-flex orderly-items-center">
+							<LogoIcon className="orderly-w-[157px] orderly-h-[28px] orderly-mx-3" />
+						</div>
+					),
+				}}
 				topBar={
 					<div>
 						<div className="orderly-flex orderly-border-b orderly-border-semiTransparentWhite orderly-mb-3">
@@ -125,22 +110,10 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 					},
 				}}
 				theme={undefined}
-				// chainFilter={
-				// 	{
-				// 		mainnet: [{ id: 42161 }, { id: 8453 }, { id: 10 }, { id: 169 }],
-				// 		testnet: [{ id: 421614 }, { id: 421613 }],
-				// 	} as any
-				// }
-				// chainFilter={{
-				// 	mainnet: [],
-				// 	testnet: [{ id: ARBITRUM_TESTNET_CHAINID }, { id: MANTLE_TESTNET_CHAINID }],
-				// }}
 			>
-				<Protect sha512="7696b2234e4fb4883e4c344cbae61219c639881075f199a18759fffa56a08c66014b1eb3b270ace3e9ce0b15f669a48bac245e3a1021ed9961307a85b56add97">
-					{props.children}
-				</Protect>
+				{props.children}
 			</OrderlyAppProvider>
-		</ConnectorProvider>
+		</ConnectorProvider >
 	);
 };
 

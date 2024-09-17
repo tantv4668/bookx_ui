@@ -26,11 +26,11 @@ const ApiKey: React.FC = (props) => {
 
 	const { state } = useAccount();
 
-	const { data: dataPerformance } = usePrivateQuery<any>(
+	const { data: dataAPIKeys } = usePrivateQuery<any>(
 		`/v1/client/key_info?keyStatus=ACTIVE`,
 	);
 
-	console.log("dataPerformance", dataPerformance)
+	console.log("dataAPIKeys", dataAPIKeys)
 
 	const handleCopyID = (accountId: string) => {
 		navigator.clipboard.writeText(accountId).then(() => {
@@ -44,21 +44,21 @@ const ApiKey: React.FC = (props) => {
 				title: 'API key	',
 				dataIndex: 'api_key	',
 				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{record.orderly_key}</Text>;
 				},
 			},
 			{
 				title: 'Permission type',
 				dataIndex: 'permission_type	',
 				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{record.scope}</Text>;
 				},
 			},
 			{
 				title: 'Restricted IP',
 				dataIndex: 'restricted_ip',
 				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{value}</Text>;
+					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{record.ip_restriction_list.toString()}</Text>;
 				},
 			},
 			{
@@ -71,7 +71,7 @@ const ApiKey: React.FC = (props) => {
 							formatString="YYYY-MM-DD HH:mm:ss"
 							className="orderly-text-base-contrast-98 orderly-text-3xs"
 						>
-							{value}
+							{record.expiration}
 						</Text>
 					);
 				},
@@ -121,11 +121,10 @@ const ApiKey: React.FC = (props) => {
 					<Button
 						disabled={state.status === 0}
 						type="button"
-						className={`orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors disabled:orderly-cursor-not-allowed disabled:orderly-bg-base-3 disabled:orderly-text-translucent orderly-px-4 orderly-rounded-md orderly-h-8 orderly-text-sm active:orderly-bg-base-4/50 ${
-							state.status === 0
-								? '!orderly-bg-blueGray !orderly-text-primary-contrast'
-								: 'orderly-text-black !orderly-bg-paleLime hover:orderly-opacity-70 hover:orderly-text-black hover:orderly-bg-paleLime'
-						}`}
+						className={`orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors disabled:orderly-cursor-not-allowed disabled:orderly-bg-base-3 disabled:orderly-text-translucent orderly-px-4 orderly-rounded-md orderly-h-8 orderly-text-sm active:orderly-bg-base-4/50 ${state.status === 0
+							? '!orderly-bg-blueGray !orderly-text-primary-contrast'
+							: 'orderly-text-black !orderly-bg-paleLime hover:orderly-opacity-70 hover:orderly-text-black hover:orderly-bg-paleLime'
+							}`}
 					>
 						<span className="orderly-text-sm">+</span>
 						Create API key
@@ -133,9 +132,9 @@ const ApiKey: React.FC = (props) => {
 				</CreateApiKeyDialog>
 			</div>
 
-			<div className={dataSource && dataSource.length > 0 ? 'orderly-overflow-y-auto' : ''}>
+			<div className={dataAPIKeys && dataAPIKeys.length > 0 ? 'orderly-overflow-y-auto' : ''}>
 				<Table
-					dataSource={dataSource}
+					dataSource={dataAPIKeys}
 					columns={columns}
 					loading={isLoading}
 					className="orderly-text-2xs order"

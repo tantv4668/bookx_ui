@@ -120,17 +120,17 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 					orderly_key: orderlyKey,
 				}));
 
-			// const keyRes = await fetch(`${BASE_URL}/v1/orderly_key`, {
-			// 	method: 'POST',
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 	},
-			// 	body: JSON.stringify({
-			// 		message: addKeyMessage,
-			// 		signature,
-			// 		userAddress: await signer.getAddress(),
-			// 	}),
-			// });
+			const keyRes = await fetch(`${BASE_URL}/v1/orderly_key`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					message: addKeyMessage,
+					signature,
+					userAddress: await signer.getAddress(),
+				}),
+			});
 
 			console.log('addAccessKey', data);
 		} catch (error) {

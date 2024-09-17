@@ -87,23 +87,23 @@ const ApiKey: React.FC = (props) => {
 
 			<div className="orderly-grid orderly-grid-cols-2 orderly-gap-4 orderly-mb-4">
 				<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-xl orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-eerieBlack orderly-w-full">
-					<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">Account ID</div>
+					<div className="orderly-text-[13px] orderly-opacity-35 orderly-leading-5">Account ID</div>
 					<div className="orderly-flex orderly-gap-2 orderly-items-center">
 						{(state.accountId && shortenAddress(state.accountId)) || '--'}
 						{state.accountId && (
-							<span onClick={() =>state.accountId && handleCopyID(state.accountId)} className="orderly-cursor-pointer">
+							<span onClick={() => state.accountId && handleCopyID(state.accountId)} className="orderly-cursor-pointer">
 								<CopyIDIcon />
 							</span>
 						)}
 					</div>
 				</div>
 				<div className="orderly-box orderly-px-4 orderly-py-2 orderly-border orderly-border-semiTransparentWhite orderly-rounded-xl orderly-gradient-neutral orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-flex-nowrap orderly-bg-eerieBlack orderly-w-full">
-					<div className="orderly-text-xs orderly-opacity-35 orderly-leading-5">UID</div>
+					<div className="orderly-text-[13px] orderly-opacity-35 orderly-leading-5">UID</div>
 					<div>{state.userId || '--'}</div>
 				</div>
 			</div>
 
-			<div className="orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap orderly-text-sm orderly-border-b-2 orderly-border-semiTransparentWhite orderly-pb-4 orderly-gap-4">
+			<div className="orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap orderly-text-[14px] orderly-border-b-2 orderly-border-semiTransparentWhite orderly-pb-4 orderly-gap-4">
 				<div className="orderly-flex orderly-flex-col orderly-items-start orderly-justify-start orderly-gap-1 orderly-w-full">
 					<div className="orderly-text-translucent">
 						Create API keys to suit your trading needs. For your security, don't share your API keys with anyone.
@@ -113,7 +113,7 @@ const ApiKey: React.FC = (props) => {
 						target="_blank"
 						className="orderly-text-lightPurple orderly-box orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-flex-nowrap  orderly-fill-primary-light orderly-cursor-pointer orderly-text-2xs md:orderly-text-xs xl:orderly-text-sm"
 					>
-						<span>Read API guide</span>
+						<span className="orderly-text-[14px]">Read API guide</span>
 						<RightIcon />
 					</Link>
 				</div>
@@ -133,7 +133,7 @@ const ApiKey: React.FC = (props) => {
 				</CreateApiKeyDialog>
 			</div>
 
-			<div className={dataSource && dataSource.length > 0 ? "orderly-overflow-y-auto" : ""}>
+			<div className={dataSource && dataSource.length > 0 ? 'orderly-overflow-y-auto' : ''}>
 				<Table
 					dataSource={dataSource}
 					columns={columns}

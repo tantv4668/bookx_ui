@@ -2,9 +2,10 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { CustomTooltip } from '../globals/CustomTooltip';
-import { formatDate, getPreviousDate } from '../utils/getPreviousDate';
+import { formatPreviousDate } from '../utils/getPreviousDate';
 
-const LineChartComponent = ({ data, height, startDay }: any) => {
+const LineChartComponent = ({ data, height, startDay, isAssets, isPerformance }: any) => {
+	const reversedData = [...data].reverse();
 	const maxY = Math.max(...data.map((d: any) => d.value));
 
 	const ticks = [];
@@ -15,7 +16,7 @@ const LineChartComponent = ({ data, height, startDay }: any) => {
 	return (
 		<ResponsiveContainer width="100%" height={height || 152}>
 			<LineChart
-				data={data}
+				data={reversedData}
 				margin={{
 					top: 10,
 					right: 20,
@@ -40,7 +41,7 @@ const LineChartComponent = ({ data, height, startDay }: any) => {
 									fill="#8A8B8D"
 								>
 									{index === 0
-										? formatDate(data[data.length - 1].name) || getPreviousDate(startDay)
+										? data[data.length - 1].name || formatPreviousDate(startDay)
 										: index === data.length - 1
 										? 'Now'
 										: ''}
@@ -69,7 +70,7 @@ const LineChartComponent = ({ data, height, startDay }: any) => {
 				<Tooltip
 					contentStyle={{ backgroundColor: '#333', color: '#fff', borderRadius: '8px', border: 'none' }}
 					itemStyle={{ color: '#FFD700' }}
-					content={<CustomTooltip />}
+					content={<CustomTooltip className={`${isAssets && 'orderly-text-white'}`} isPerformance={isPerformance} />}
 				/>
 				<Line type="monotone" dataKey="value" stroke="#E1F578" dot={false} />
 			</LineChart>

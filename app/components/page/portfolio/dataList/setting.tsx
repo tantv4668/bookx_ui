@@ -34,7 +34,7 @@ const Setting: React.FC = (props) => {
 			<div className="orderly-pt-4 orderly-flex orderly-flex-row orderly-items-center orderly-justify-start orderly-gap-4 orderly-font-semibold !orderly-w-full">
 				<div className="orderly-box orderly-flex orderly-flex-col orderly-items-start orderly-justify-start !orderly-w-full">
 					<div className="orderly-text-white orderly-opacity-80">Cancel open orders during system upgrade</div>
-					<div className="orderly-text-sm orderly-text-translucent !orderly-w-full">
+					<div className="orderly-text-[14px] orderly-text-translucent !orderly-w-full">
 						During the upgrade period, all open orders will be cancelled to manage your risk in case of high market
 						volatility.
 					</div>

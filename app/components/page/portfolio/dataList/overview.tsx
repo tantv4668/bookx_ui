@@ -367,7 +367,7 @@ const Overview: React.FC = (props) => {
 							className="orderly-bg-[#1C1E22] orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-min-w-[56px] orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 orderly-font-semibold focus:orderly-ring-transparent orderly-cursor-auto"
 						/>
 					</div>
-					<LineChartComponent data={accountValueArray} startDay={day} />
+					<LineChartComponent data={accountValueArray} startDay={day} isAssets />
 				</div>
 			</div>
 
@@ -396,6 +396,17 @@ const Overview: React.FC = (props) => {
 									<Numeral coloring className="orderly-text-[18px]">
 										{totalRoi}
 									</Numeral>
+									<span
+										className={` ${
+											totalRoi === 0
+												? 'orderly-text-translucent'
+												: totalRoi > 0
+												? 'orderly-text-paleLime'
+												: 'orderly-text-lightPurple'
+										}`}
+									>
+										%
+									</span>
 								</div>
 							) : (
 								'*****'
@@ -425,7 +436,7 @@ const Overview: React.FC = (props) => {
 							{state.status === 0 ? (
 								<span className="orderly-text-[16px]">--</span>
 							) : showValue ? (
-								<Numeral className="orderly-text-[18px]">{totalVolume}</Numeral>
+								<Numeral className="orderly-text-[18px] orderly-text-white">{totalVolume}</Numeral>
 							) : (
 								'*****'
 							)}
@@ -448,7 +459,7 @@ const Overview: React.FC = (props) => {
 							Cumulative PnL
 						</p>
 						<div className="orderly-box orderly-rounded-md orderly-border orderly-border-semiTransparentWhite">
-							<LineChartComponent data={cumulativePnLArray} height={184} startDay={day} />
+							<LineChartComponent data={cumulativePnLArray} height={184} startDay={day} isPerformance />
 						</div>
 					</div>
 				</div>

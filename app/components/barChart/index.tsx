@@ -2,9 +2,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { CustomTooltip } from '../globals/CustomTooltip';
-import { getPreviousDate, formatDate } from '../utils/getPreviousDate';
+import { formatPreviousDate } from '../utils/getPreviousDate';
 
 const BarChartComponent = ({ data, height, startDay }: any) => {
+	const reversedData = [...data].reverse();
 	const divRef: any = useRef(null);
 	const [width, setWidth] = useState(0);
 
@@ -20,7 +21,7 @@ const BarChartComponent = ({ data, height, startDay }: any) => {
 	return (
 		<ResponsiveContainer width="100%" height={height || 152} ref={divRef}>
 			<BarChart
-				data={data}
+				data={reversedData}
 				margin={{
 					top: 10,
 					right: 20,
@@ -47,7 +48,7 @@ const BarChartComponent = ({ data, height, startDay }: any) => {
 									fill="#8A8B8D"
 								>
 									{index === 0
-										? formatDate(data[data.length - 1].name) || getPreviousDate(startDay)
+										? data[data.length - 1].name || formatPreviousDate(startDay)
 										: index === data.length - 1
 										? 'Now'
 										: ''}
@@ -75,7 +76,7 @@ const BarChartComponent = ({ data, height, startDay }: any) => {
 				<Tooltip
 					contentStyle={{ backgroundColor: '#333', color: '#fff', borderRadius: '8px', border: 'none' }}
 					itemStyle={{ color: '#FFD700' }}
-					content={<CustomTooltip />}
+					content={<CustomTooltip isPerformance />}
 				/>
 				<Bar
 					dataKey="value"

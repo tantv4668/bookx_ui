@@ -41,7 +41,16 @@ const NavbarTab: React.FC = () => {
 				value: 'Docs',
 				path: () => 'https://docs.bookx.trade',
 			},
-			{ title: !isProd ? 'Mainnet' : 'Testnet', value: !isProd ? 'Mainnet' : 'Testnet', path: () => !isProd ? 'https://app.bookx.trade' : 'https://testnet-app.bookx.trade' },
+			{
+				title: 'Feedback',
+				value: 'Feedback',
+				path: () => 'https://bit.ly/bookx-feedback',
+			},
+			{
+				title: !isProd ? 'Mainnet' : 'Testnet',
+				value: !isProd ? 'Mainnet' : 'Testnet',
+				path: () => (!isProd ? 'https://app.bookx.trade' : 'https://testnet-app.bookx.trade'),
+			},
 			// {
 			// 	title: 'Referral',
 			// 	value: 'referral',
@@ -57,7 +66,7 @@ const NavbarTab: React.FC = () => {
 	);
 
 	const onTabChange = (tab: Tab) => {
-		tab.title !== 'Docs' ? router.push(tab.path()) : window.open(tab.path(), '_blank');
+		tab.title !== 'Docs' && tab.title !== 'Feedback' ? router.push(tab.path()) : window.open(tab.path(), '_blank');
 	};
 
 	useEffect(() => {
@@ -72,10 +81,11 @@ const NavbarTab: React.FC = () => {
 				return (
 					<div
 						key={tab.value}
-						className={`${activeTab === tab.value
-							? 'orderly-text-[rgba(255,255,255,0.98)]'
-							: 'orderly-text-[rgba(255,255,255,0.54)]'
-							} hover:orderly-text-[rgba(255,255,255,0.98)] orderly-cursor-pointer orderly-ml-[40px]`}
+						className={`${
+							activeTab === tab.value
+								? 'orderly-text-[rgba(255,255,255,0.98)]'
+								: 'orderly-text-[rgba(255,255,255,0.54)]'
+						} hover:orderly-text-[rgba(255,255,255,0.98)] orderly-cursor-pointer orderly-ml-[40px]`}
 						onClick={() => {
 							onTabChange?.(tab);
 						}}

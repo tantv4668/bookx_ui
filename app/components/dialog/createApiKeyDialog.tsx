@@ -15,7 +15,7 @@ declare global {
 	}
 }
 
-interface Props {}
+interface Props { }
 
 const defaultForm = {
 	ip: '',
@@ -80,7 +80,7 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 
 			const privateKey = utils.randomPrivateKey();
 			const orderlyKey = `ed25519:${encodeBase58(await getPublicKeyAsync(privateKey))}`;
-			const timestamp = Math.floor(Date.now() / 1000);
+			const timestamp = Date.now();
 			const addKeyMessage = {
 				brokerId: BROKER_ID,
 				chainId: CHAIN_ID,

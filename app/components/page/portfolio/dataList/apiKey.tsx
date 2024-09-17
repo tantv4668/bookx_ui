@@ -45,7 +45,7 @@ const ApiKey: React.FC = (props) => {
 							<Text className="orderly-text-translucentWhite_80 orderly-text-3xs">
 								{convertString(record.orderly_key ? record.orderly_key.split(':')[1] : record.orderly_key)}
 							</Text>
-							<span onClick={() => handleCopy(record.orderly_key)} className="orderly-cursor-pointer">
+							<span onClick={() => handleCopy(record.orderly_key ? record.orderly_key.split(':')[1] : record.orderly_key)} className="orderly-cursor-pointer">
 								<CopyIDIcon />
 							</span>
 						</div>

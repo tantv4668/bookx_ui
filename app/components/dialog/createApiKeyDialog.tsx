@@ -261,8 +261,13 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 								<div>
 									<div className="orderly-flex-1 orderly-mb-1 orderly-text-[13px]">API key</div>
 									<div className="orderly-text-white orderly-text-[14px] orderly-flex orderly-items-center orderly-gap-1 orderly-justify-between">
-										<div className="orderly-max-w-[300px] orderly-break-words">{keyData}</div>
-										<span onClick={() => handleCopy(keyData)} className="orderly-cursor-pointer">
+										<div className="orderly-max-w-[300px] orderly-break-words">
+											{keyData ? keyData.split(':')[1] : keyData}
+										</div>
+										<span
+											onClick={() => handleCopy(keyData ? keyData.split(':')[1] : keyData)}
+											className="orderly-cursor-pointer"
+										>
 											<CopyIDIcon />
 										</span>
 									</div>
@@ -300,7 +305,7 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 									id="orderly-leverage-dialog-save"
 									fullWidth
 									onClick={() => {
-										const text = `{"key": "${keyData}", "ip": "${formData.ip}", "permissions": "${
+										const text = `{"key": "${keyData ? keyData.split(':')[1] : keyData}", "ip": "${formData.ip}", "permissions": "${
 											formData.read
 												? 'Read'
 												: '' + (formData.trading && formData.read ? ', ' : '') + formData.trading

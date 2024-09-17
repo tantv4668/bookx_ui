@@ -146,6 +146,7 @@ export interface ButtonProps
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   asChild?: boolean;
+  hover?: string;
 }
 
 /**
@@ -170,6 +171,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       leftIcon,
       rightIcon,
       asChild = false,
+      hover,
       ...props
     },
     ref
@@ -197,7 +199,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             fullWidth,
           }),
           className,
-          `orderly-button orderly-button-variant-${variant} orderly-button-color-${color} orderly-button-size-${size} orderly-button-full-width-${fullWidth}`
+          `orderly-button orderly-button-variant-${variant} orderly-button-color-${color} orderly-button-size-${size} orderly-button-full-width-${fullWidth} ${hover}`
         )}
         disabled={Boolean(disabled)}
         {...props}

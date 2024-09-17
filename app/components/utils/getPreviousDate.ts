@@ -21,5 +21,7 @@ export const formatPreviousDate = (days: number) => {
 
 export const formatDate = (dateString: string) => {
 	const [year, month, day] = dateString.split('-');
-	return `${year}/${month}/${year}`;
+	return `${year}/${month}/${day}`;
 };
+
+

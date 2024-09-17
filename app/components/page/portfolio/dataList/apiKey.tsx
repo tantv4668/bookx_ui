@@ -11,29 +11,25 @@ import Link from 'next/link';
 import { CreateApiKeyDialog } from '@/app/components/dialog/createApiKeyDialog';
 import { CopyIDIcon } from '@/app/components/assets/icons/copyIDIcon';
 import { toast } from '../../../toast';
+import { convertString } from '@/app/components/utils/convertString';
+import { convertText } from '@/app/components/utils/convertText';
+import { DeleteDialog } from '@/app/components/dialog/deleteDialog';
 
 const ApiKey: React.FC = (props) => {
-	// const { data, size, setSize, isLoading } = usePrivateInfiniteQuery(
-	// generateKeyFun("/v1/asset/history", { size: 100 }),
-	// {
-	//   initialSize: 1,
-	//   formatter: (data) => data,
-	//   revalidateOnFocus: false,
-	// }
-	// );
-	const dataSource: any = []; //get api
-	const isLoading: boolean = false; //get api
+	const isLoading: boolean = false;
 
 	const { state } = useAccount();
 
-	const { data: dataAPIKeys } = usePrivateQuery<any>(
-		`/v1/client/key_info?keyStatus=ACTIVE`,
-	);
-
-	console.log("dataAPIKeys", dataAPIKeys)
+	const { data: dataAPIKeys, mutate } = usePrivateQuery<any>(`/v1/client/key_info?keyStatus=ACTIVE`);
 
 	const handleCopyID = (accountId: string) => {
 		navigator.clipboard.writeText(accountId).then(() => {
+			toast.success('Copied to clipboard');
+		});
+	};
+
+	const handleCopy = (content: any) => {
+		navigator.clipboard.writeText(content).then(() => {
 			toast.success('Copied to clipboard');
 		});
 	};
@@ -44,21 +40,48 @@ const ApiKey: React.FC = (props) => {
 				title: 'API key	',
 				dataIndex: 'api_key	',
 				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{record.orderly_key}</Text>;
+					return (
+						<div className="orderly-flex orderly-gap-1 orderly-items-center orderly-text-translucentWhite_80 orderly-px-2">
+							<Text className="orderly-text-translucentWhite_80 orderly-text-3xs">
+								{convertString(record.orderly_key)}
+							</Text>
+							<span onClick={() => handleCopy(record.orderly_key)} className="orderly-cursor-pointer">
+								<CopyIDIcon />
+							</span>
+						</div>
+					);
 				},
 			},
 			{
 				title: 'Permission type',
 				dataIndex: 'permission_type	',
 				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{record.scope}</Text>;
+					return (
+						<Text className="orderly-text-translucentWhite_80 orderly-text-3xs orderly-px-3">
+							{convertText(record.scope)}
+						</Text>
+					);
 				},
 			},
 			{
 				title: 'Restricted IP',
 				dataIndex: 'restricted_ip',
 				render(value, record, index) {
-					return <Text className="orderly-text-base-contrast-98 orderly-text-3xs">{record.ip_restriction_list.toString()}</Text>;
+					return (
+						<div className="orderly-flex orderly-gap-1 orderly-items-center orderly-text-translucentWhite_80 orderly-px-2">
+							<Text className="orderly-text-translucentWhite_80 orderly-text-3xs">
+								{record.ip_restriction_list.toString()}
+							</Text>
+							{record.ip_restriction_list.toString() && (
+								<span
+									onClick={() => handleCopy(record.ip_restriction_list.toString())}
+									className="orderly-cursor-pointer"
+								>
+									<CopyIDIcon />
+								</span>
+							)}
+						</div>
+					);
 				},
 			},
 			{
@@ -68,11 +91,35 @@ const ApiKey: React.FC = (props) => {
 					return (
 						<Text
 							rule="date"
-							formatString="YYYY-MM-DD HH:mm:ss"
-							className="orderly-text-base-contrast-98 orderly-text-3xs"
+							formatString="YYYY-MM-DD"
+							className="orderly-text-translucentWhite_80 orderly-text-3xs orderly-px-2"
 						>
 							{record.expiration}
 						</Text>
+					);
+				},
+			},
+
+			{
+				title: '',
+				dataIndex: '',
+				render(value, record, index) {
+					return (
+						<div className="orderly-flex orderly-items-center orderly-justify-end orderly-w-full orderly-gap-2 orderly-pt-3">
+							<CreateApiKeyDialog isEdit record={record} mutate={mutate}>
+								<Button
+									onClick={() => {}}
+									className="!orderly-w-[37px] orderly-text-[12px] orderly-h-6 !orderly-px-2 !orderly-py-0"
+								>
+									Edit
+								</Button>
+							</CreateApiKeyDialog>
+							<DeleteDialog record={record} mutate={mutate}>
+								<Button className="!orderly-w-[50px] orderly-h-6 !orderly-bg-[#4A5369] orderly-text-[12px] !orderly-px-2 !orderly-py-0">
+									Delete
+								</Button>
+							</DeleteDialog>
+						</div>
 					);
 				},
 			},
@@ -121,10 +168,11 @@ const ApiKey: React.FC = (props) => {
 					<Button
 						disabled={state.status === 0}
 						type="button"
-						className={`orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors disabled:orderly-cursor-not-allowed disabled:orderly-bg-base-3 disabled:orderly-text-translucent orderly-px-4 orderly-rounded-md orderly-h-8 orderly-text-sm active:orderly-bg-base-4/50 ${state.status === 0
-							? '!orderly-bg-blueGray !orderly-text-primary-contrast'
-							: 'orderly-text-black !orderly-bg-paleLime hover:orderly-opacity-70 hover:orderly-text-black hover:orderly-bg-paleLime'
-							}`}
+						className={`orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors disabled:orderly-cursor-not-allowed disabled:orderly-bg-base-3 disabled:orderly-text-translucent orderly-px-4 orderly-rounded-md orderly-h-8 orderly-text-sm active:orderly-bg-base-4/50 ${
+							state.status === 0
+								? '!orderly-bg-blueGray !orderly-text-primary-contrast'
+								: 'orderly-text-black !orderly-bg-paleLime hover:orderly-opacity-70 hover:orderly-text-black hover:orderly-bg-paleLime'
+						}`}
 					>
 						<span className="orderly-text-sm">+</span>
 						Create API key

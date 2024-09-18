@@ -100,3 +100,22 @@ export const fundingOptions = [
 	{ label: 'ZK', value: 'PERP_ZK_USDC' },
 	{ label: 'ZRO', value: 'PERP_ZRO_USDC' },
 ];
+
+export const pageOptions = [
+	{
+		label: '10',
+		value: 10,
+	},
+	{
+		label: '20',
+		value: 20,
+	},
+	{
+		label: '50',
+		value: 50,
+	},
+	{
+		label: '100',
+		value: 100,
+	},
+];

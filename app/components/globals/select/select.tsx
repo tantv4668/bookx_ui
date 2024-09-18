@@ -52,10 +52,20 @@ export interface SelectProps
 	options: SelectOption[];
 	onChange?: (value: any) => void;
 	contentClassName?: string;
+	isPage?: boolean;
 	//   className?: string;
 }
 
-const Select: FC<SelectProps> = ({ className, contentClassName, size, disabled, color, fullWidth, ...props }) => {
+const Select: FC<SelectProps> = ({
+	className,
+	contentClassName,
+	size,
+	disabled,
+	color,
+	fullWidth,
+	isPage,
+	...props
+}) => {
 	const [open, setOpen] = useState(false);
 	const [width, setWidth] = useState(0);
 	// const uid = useId();
@@ -118,7 +128,11 @@ const Select: FC<SelectProps> = ({ className, contentClassName, size, disabled, 
 						// open && 'orderly-bg-base-600',
 					)}
 				>
-					<div className="orderly-flex-1 orderly-text-[13px] desktop:orderly-text-2xs orderly-text-inherit">
+					<div
+						className={`orderly-flex-1 orderly-text-[13px] desktop:orderly-text-2xs orderly-text-inherit ${
+							isPage && '!orderly-text-[12px]'
+						}`}
+					>
 						{typeof label !== 'undefined' && <>{label}</>}
 					</div>
 

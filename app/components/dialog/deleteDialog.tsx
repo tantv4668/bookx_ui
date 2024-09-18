@@ -3,6 +3,7 @@ import { FC, useState } from 'react';
 import { Dialog, DialogBody, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './dialog';
 import Button from '../globals/button';
 import { useMutation } from '@orderly.network/hooks';
+import { convertString } from '../utils/convertString';
 
 declare global {
 	interface Window {
@@ -37,11 +38,17 @@ export const DeleteDialog: FC<any> = (props) => {
 					className="orderly-max-w-[360px]"
 				>
 					<DialogHeader>
-						<DialogTitle>Delete API key</DialogTitle>
+						<DialogTitle className="!orderly-text-[14px]">Delete API key</DialogTitle>
 					</DialogHeader>
 					<DialogBody>
 						<div className="orderly-py-5 orderly-text-[13px]">
-							Delete your API key <span className="orderly-text-[#608CFF]">{props.key}</span> ?
+							Delete your API key{' '}
+							<span className="orderly-text-[#608CFF]">
+								{convertString(
+									props?.record?.orderly_key ? props?.record?.orderly_key.split(':')[1] : props?.record?.orderly_key,
+								)}
+							</span>{' '}
+							?
 						</div>
 						<div className="orderly-flex orderly-items-center orderly-w-full orderly-gap-2 orderly-pt-3">
 							<Button

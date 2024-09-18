@@ -21,7 +21,7 @@ const Checkbox = React.forwardRef<
 			)}
 			{...props}
 		>
-			{props.checked ? <CheckIcon size={20} /> : <UncheckIcon size={20} />}
+			{props.checked ? <CheckIcon disabled={props?.disabled} size={20} /> : <UncheckIcon size={20} />}
 			{/* <CheckboxPrimitive.Indicator
         className={cn(
           "orderly-flex orderly-items-center orderly-justify-center orderly-text-base-100 orderly-w-[20px] orderly-h-[20px]"

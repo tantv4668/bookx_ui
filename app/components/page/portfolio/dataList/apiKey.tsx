@@ -3,7 +3,7 @@ import { RightIcon } from '@/app/components/assets/icons/rightIcon';
 import Button from '@/app/components/globals/button';
 import { cn } from '@/app/components/utils/css';
 import { useAccount, usePrivateQuery } from '@orderly.network/hooks';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Text } from '@/app/components/text';
 import { Column, Table } from '@/app/components/table';
 import { shortenAddress } from '@/app/components/utils/string';
@@ -14,13 +14,21 @@ import { toast } from '../../../toast';
 import { convertString } from '@/app/components/utils/convertString';
 import { convertText } from '@/app/components/utils/convertText';
 import { DeleteDialog } from '@/app/components/dialog/deleteDialog';
+import { Select } from '@/app/components/globals/select';
+import { pageOptions } from './dataOverview';
 
 const ApiKey: React.FC = (props) => {
 	const isLoading: boolean = false;
 
+	const [numberPage, setNumberPage] = useState<number>(10);
+
 	const { state } = useAccount();
 
 	const { data: dataAPIKeys, mutate } = usePrivateQuery<any>(`/v1/client/key_info?keyStatus=ACTIVE`);
+
+	const dataSource = dataAPIKeys
+		? dataAPIKeys.filter((dataAPIKey: any) => dataAPIKey.key_status === 'ACTIVE').slice(0, +numberPage)
+		: dataAPIKeys;
 
 	const handleCopyID = (accountId: string) => {
 		navigator.clipboard.writeText(accountId).then(() => {
@@ -45,7 +53,10 @@ const ApiKey: React.FC = (props) => {
 							<Text className="orderly-text-translucentWhite_80 orderly-text-3xs">
 								{convertString(record.orderly_key ? record.orderly_key.split(':')[1] : record.orderly_key)}
 							</Text>
-							<span onClick={() => handleCopy(record.orderly_key ? record.orderly_key.split(':')[1] : record.orderly_key)} className="orderly-cursor-pointer">
+							<span
+								onClick={() => handleCopy(record.orderly_key ? record.orderly_key.split(':')[1] : record.orderly_key)}
+								className="orderly-cursor-pointer"
+							>
 								<CopyIDIcon />
 							</span>
 						</div>
@@ -105,17 +116,17 @@ const ApiKey: React.FC = (props) => {
 				dataIndex: '',
 				render(value, record, index) {
 					return (
-						<div className="orderly-flex orderly-items-center orderly-justify-end orderly-w-full orderly-gap-2 orderly-pt-3">
+						<div className="orderly-flex orderly-items-center orderly-justify-end orderly-w-full orderly-gap-2">
 							<CreateApiKeyDialog isEdit record={record} mutate={mutate}>
 								<Button
 									onClick={() => {}}
-									className="!orderly-w-[37px] orderly-text-[12px] orderly-h-6 !orderly-px-2 !orderly-py-0"
+									className="!orderly-w-[37px] !orderly-text-[13px] orderly-h-6 !orderly-px-2 !orderly-py-0"
 								>
 									Edit
 								</Button>
 							</CreateApiKeyDialog>
 							<DeleteDialog record={record} mutate={mutate}>
-								<Button className="!orderly-w-[50px] orderly-h-6 !orderly-bg-[#4A5369] orderly-text-[12px] !orderly-px-2 !orderly-py-0">
+								<Button className="!orderly-w-[50px] orderly-h-6 !orderly-bg-[#4A5369] !orderly-text-[13px] !orderly-px-2 !orderly-py-0">
 									Delete
 								</Button>
 							</DeleteDialog>
@@ -124,7 +135,7 @@ const ApiKey: React.FC = (props) => {
 				},
 			},
 		];
-	}, []);
+	}, [dataAPIKeys]);
 
 	return (
 		<div className="orderly-card-root orderly-card orderly-rounded-xl orderly-shadow orderly-text-white orderly-p-6 orderly-bg-gunmetal">
@@ -182,7 +193,7 @@ const ApiKey: React.FC = (props) => {
 
 			<div className={dataAPIKeys && dataAPIKeys.length > 0 ? 'orderly-overflow-y-auto' : ''}>
 				<Table
-					dataSource={dataAPIKeys}
+					dataSource={dataSource}
 					columns={columns}
 					loading={isLoading}
 					className="orderly-text-2xs order"
@@ -197,6 +208,18 @@ const ApiKey: React.FC = (props) => {
 					})}
 				/>
 			</div>
+			{dataAPIKeys && dataAPIKeys.length > 0 && (
+				<div className="orderly-flex orderly-py-2 orderly-mx-3 orderly-gap-2 orderly-items-center">
+					<p className="!orderly-text-[12px] orderly-text-translucent">Rows per page</p>
+					<Select
+						isPage
+						options={pageOptions}
+						value={numberPage}
+						onChange={(e) => setNumberPage(e)}
+						className="!orderly-bg-[#1C1E22] !orderly-font-[400] orderly-min-w-[54px] !orderly-text-[12px] orderly-border orderly-text-translucent orderly-border-semiTransparentWhite orderly-flex orderly-group orderly-items-center orderly-justify-between orderly-rounded-md orderly-px-2 orderly-space-x-1 orderly-shadow-sm focus:orderly-outline-none focus:orderly-ring-1 disabled:orderly-cursor-not-allowed disabled:orderly-opacity-50 [&>span]:orderly-line-clamp-1 orderly-h-6 focus:orderly-ring-transparent orderly-cursor-auto"
+					/>
+				</div>
+			)}
 		</div>
 	);
 };

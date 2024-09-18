@@ -1,5 +1,5 @@
 'use client';
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { Dialog, DialogBody, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './dialog';
 import Button from '../globals/button';
 import { cn } from '../utils/css';
@@ -47,7 +47,7 @@ const BROKER_ID = 'book_x';
 
 export const CreateApiKeyDialog: FC<any> = (props) => {
 	const defaultForm = {
-		ip: props?.isEdit && props?.record?.scope ? props?.record?.ip_restriction_list : '',
+		ip: props?.isEdit && props?.record?.scope ? props?.record?.ip_restriction_list[0] : '',
 		read: props?.isEdit && props?.record?.scope ? props?.record?.scope.includes('read') : true,
 		trading: props?.isEdit && props?.record?.scope ? props?.record?.scope.includes('trading') : true,
 	};
@@ -59,6 +59,10 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 	const { account } = useAccount();
 
 	const CHAIN_ID = account.wallet?.chainId.toString();
+
+	useEffect(() => {
+		setFormData(defaultForm);
+	}, []);
 
 	const handleCheckedChange = (name: string, e: boolean | string) => {
 		setFormData({ ...formData, [name]: e });
@@ -141,8 +145,6 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 				setOpenShowKey(true);
 				setOpen(false);
 			}
-
-			console.log('??addAccessKey', data);
 		} catch (error) {
 			console.error('Error creating Orderly key:', error);
 		}
@@ -174,7 +176,7 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 	};
 
 	const handleClose = () => {
-		setFormData(defaultForm);
+		setFormData({ ...defaultForm, ip: formData.ip });
 		setKeyData('');
 		setOpenShowKey(false);
 		setOpen(false);
@@ -191,7 +193,7 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 					className="orderly-max-w-[360px]"
 				>
 					<DialogHeader>
-						<DialogTitle>Create API key</DialogTitle>
+						<DialogTitle className="!orderly-text-[14px]">Create API key</DialogTitle>
 					</DialogHeader>
 					<DialogBody>
 						<div className="orderly-text-base-contrast-54 orderly-py-5 desktop:orderly-text-xs">
@@ -231,7 +233,9 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 						</div>
 						<div className="orderly-flex orderly-justify-center orderly-w-full">
 							<Button
-								disabled={(!formData.trading && !formData.read) || formData.ip === props?.record?.ip_restriction_list}
+								disabled={
+									(!formData.trading && !formData.read) || formData.ip === props?.record?.ip_restriction_list[0]
+								}
 								id="orderly-leverage-dialog-save"
 								fullWidth
 								onClick={() => (props?.isEdit ? handleEdit() : onSubmit())}
@@ -287,11 +291,9 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 									<div className="orderly-flex-1 orderly-mb-1 orderly-text-[13px]">Permissions</div>
 									<div className="orderly-text-white orderly-text-[14px] orderly-flex orderly-items-center orderly-gap-1">
 										<div>
-											{formData.read
-												? 'Read'
-												: '' + (formData.trading && formData.read ? ', ' : '') + formData.trading
-												? 'Trading'
-												: ''}
+											{(formData.read ? 'Read' : '') +
+												(formData.trading && formData.read ? ', ' : '') +
+												(formData.trading ? 'Trading' : '')}
 										</div>
 									</div>
 								</div>
@@ -305,7 +307,9 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 									id="orderly-leverage-dialog-save"
 									fullWidth
 									onClick={() => {
-										const text = `{"key": "${keyData ? keyData.split(':')[1] : keyData}", "ip": "${formData.ip}", "permissions": "${
+										const text = `{"key": "${keyData ? keyData.split(':')[1] : keyData}", "ip": "${
+											formData.ip
+										}", "permissions": "${
 											formData.read
 												? 'Read'
 												: '' + (formData.trading && formData.read ? ', ' : '') + formData.trading

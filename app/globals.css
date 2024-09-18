@@ -289,3 +289,8 @@
 .rs-calendar-table-cell-in-range::before {
 	background-color: #333948 !important;
 }
+
+.custom-tooltip {
+  position: fixed;
+  z-index: 1;
+}

@@ -35,14 +35,6 @@ const MESSAGE_TYPES = {
 	],
 };
 
-const OFF_CHAIN_DOMAIN = {
-	name: 'Orderly',
-	version: '1',
-	chainId: 421614,
-	verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-};
-
-const BASE_URL = 'https://testnet-api-evm.orderly.org';
 const BROKER_ID = 'book_x';
 
 export const CreateApiKeyDialog: FC<any> = (props) => {
@@ -57,6 +49,10 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 	const [keyData, setKeyData] = useState<any>('');
 
 	const { account } = useAccount();
+
+	const isProd = process.env.NEXT_PUBLIC_IS_PROD === 'true';
+
+	const BASE_URL = isProd ? 'https://api-evm.orderly.org' : 'https://testnet-api-evm.orderly.org';
 
 	const CHAIN_ID = account.wallet?.chainId.toString();
 
@@ -97,6 +93,13 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 				tag: 'manualCreated',
 				timestamp,
 				expiration: timestamp + 1 * 60 * 60 * 24 * 365, // 1 year
+			};
+
+			const OFF_CHAIN_DOMAIN = {
+				name: 'Orderly',
+				version: '1',
+				chainId: CHAIN_ID,
+				verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
 			};
 
 			const typedData = {

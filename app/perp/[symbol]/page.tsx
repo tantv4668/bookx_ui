@@ -33,7 +33,7 @@ export default function PerpPage({ params }: { params: { slug: string } }) {
 				localStorage.setItem(_orderlySymbolKey, symbol.symbol);
 				router.push(`/perp/${symbol.symbol}`);
 
-				updateTitle(symbol.symbol);
+				updateTitle(`${symbol.symbol} | BookX: Multi-chain Unified Perpetual DEX`);
 			}}
 		/>
 	);

@@ -19,6 +19,7 @@ const NavbarTab: React.FC = () => {
 	const [activeTab, setActiveTab] = useState('trade');
 	const router = useRouter();
 	const pathname = usePathname();
+	const isProd = process.env.NEXT_PUBLIC_IS_PROD === 'true';
 
 	const tabs = useMemo<Tab[]>(
 		() => [
@@ -35,6 +36,21 @@ const NavbarTab: React.FC = () => {
 				value: 'portfolio',
 				path: () => '/portfolio',
 			},
+			{
+				title: 'Docs',
+				value: 'Docs',
+				path: () => 'https://docs.bookx.trade',
+			},
+			{
+				title: 'Feedback',
+				value: 'Feedback',
+				path: () => 'https://bit.ly/bookx-feedback',
+			},
+			{
+				title: !isProd ? 'Mainnet' : 'Testnet',
+				value: !isProd ? 'Mainnet' : 'Testnet',
+				path: () => (!isProd ? 'https://app.bookx.trade' : 'https://testnet-app.bookx.trade'),
+			},
 			// {
 			// 	title: 'Referral',
 			// 	value: 'referral',
@@ -50,7 +66,7 @@ const NavbarTab: React.FC = () => {
 	);
 
 	const onTabChange = (tab: Tab) => {
-		router.push(tab.path());
+		tab.title !== 'Docs' && tab.title !== 'Feedback' ? router.push(tab.path()) : window.open(tab.path(), '_blank');
 	};
 
 	useEffect(() => {

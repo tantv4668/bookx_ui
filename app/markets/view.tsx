@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { MarketsFull } from '@orderly.network/react';
 

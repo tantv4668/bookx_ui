@@ -30,7 +30,7 @@ export function OrderlyConfig(ctx?: { url: string; domain: string }) {
 			],
 			appMetadata: {
 				name: 'Orderly',
-				icon: '/bookxLogo.png',
+				icon: '/bookxIcon.png',
 				description: 'Orderly',
 				recommendedInjectedWallets: [
 					{ name: 'Coinbase', url: 'https://wallet.coinbase.com/' },
@@ -49,32 +49,35 @@ export function OrderlyConfig(ctx?: { url: string; domain: string }) {
 			},
 		},
 		app: {
-			brokerId: 'bookx',
-			brokerName: 'Orderly',
+			brokerId: 'book_x',
+			brokerName: 'BookX',
 			appIcons: {
-				// main: {
-				// 	img: '/bookxLogo.png',
-				// },
-				// secondary: {
-				// 	img: '/bookxLogo.png',
-				// },
+				main: {
+					// component: LogoIcon,
+				},
+				secondary: {
+					// component: LogoIcon,
+				},
 			},
 			chainFilter: { mainnet: [Arbitrum, Optimism, Base, Ethereum] },
 			enableSwapDeposit: false,
 			footerStatusBarProps: {
-				xUrl: 'https://twitter.com/OrderlyNetwork',
-				telegramUrl: 'https://orderly.network',
-				discordUrl: 'https://discord.com/invite/orderlynetwork',
+				xUrl: 'https://x.com/BookX_Trade',
+				telegramUrl: 'https://t.me/BookX_Community',
+				// discordUrl: 'https://discord.com/invite/orderlynetwork',
 			},
 			shareOptions: {
 				pnl: {
 					backgroundImages: [
-						'/images/poster.jpg',
-						// '/images/poster_bg_2.png',
-						// '/images/poster_bg_3.png',
-						// '/images/poster_bg_4.png',
-						// '/images/poster_bg_5.png',
-						// '/images/poster_bg_6.png',
+						'/images/3-min.png',
+						'/images/4-min.png',
+						'/images/5-min.png',
+						'/images/6-min.png',
+						'/images/7-min.png',
+						'/images/8-min.png',
+						'/images/9-min.png',
+						'/images/10-min.png',
+						'/images/11-min.png',
 					],
 				},
 			},
@@ -86,13 +89,13 @@ export function OrderlyConfig(ctx?: { url: string; domain: string }) {
 			overrides: {
 				// 	'paneProperties.backgroundType': 'solid',
 				// 	'paneProperties.background': '#1D1A26',
-				'mainSeriesProperties.candleStyle.upColor': '#2f9c95',
-				'mainSeriesProperties.candleStyle.downColor': '#ff686b',
-				'mainSeriesProperties.candleStyle.borderColor': '#2f9c95',
-				'mainSeriesProperties.candleStyle.borderUpColor': '#2f9c95',
-				'mainSeriesProperties.candleStyle.borderDownColor': '#ff686b',
-				'mainSeriesProperties.candleStyle.wickUpColor': '#2f9c95',
-				'mainSeriesProperties.candleStyle.wickDownColor': '#ff686b',
+				'mainSeriesProperties.candleStyle.upColor': '#e1f578',
+				'mainSeriesProperties.candleStyle.downColor': '#ac93db',
+				'mainSeriesProperties.candleStyle.borderColor': '#e1f578',
+				'mainSeriesProperties.candleStyle.borderUpColor': '#e1f578',
+				'mainSeriesProperties.candleStyle.borderDownColor': '#ac93db',
+				'mainSeriesProperties.candleStyle.wickUpColor': '#e1f578',
+				'mainSeriesProperties.candleStyle.wickDownColor': '#ac93db',
 				// 	// GRID lines
 				// 	'paneProperties.vertGridProperties.color': '#26232F',
 				// 	'paneProperties.horzGridProperties.color': '#26232F',

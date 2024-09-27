@@ -7,9 +7,15 @@ import { CustomConfigStore, ENV_NAME } from './CustomConfigStore';
 import NavbarTab from './NavbarTab';
 import { _orderlySymbolKey } from '../constant';
 import { useRouter } from 'next/navigation';
-import { CustomContractManager } from './CustomContract';
-import { ARBITRUM_TESTNET_CHAINID, MANTLE_TESTNET_CHAINID } from '@orderly.network/types';
+import Protect from 'react-app-protect';
+import 'react-app-protect/dist/index.css';
+import { LogoIcon } from '../components/assets/icons/logo';
+import { TopLeftNavbar } from '../components/layout/topLeftNavbar';
+// import { CustomContractManager } from './CustomContract';
+// import { ARBITRUM_TESTNET_CHAINID, MANTLE_TESTNET_CHAINID } from '@orderly.network/types';
 export type NetworkId = 'testnet' | 'mainnet';
+import Marquee from 'react-fast-marquee';
+import Link from 'next/link';
 
 const HostEnvMap: Record<string, ENV_NAME> = {
 	'dev-sdk-demo.orderly.network': 'dev',
@@ -25,7 +31,7 @@ type OrderlyContainerProps = PropsWithChildren<{
 const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 	const networkId = (localStorage.getItem('orderly-networkId') ?? 'mainnet') as NetworkId;
 	const router = useRouter();
-
+	const isProd = process.env.NEXT_PUBLIC_IS_PROD === 'true';
 	const { onboard, app } = OrderlyConfig();
 
 	const onChainChanged = useCallback(
@@ -41,7 +47,9 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 	const env = networkId === 'mainnet' ? 'prod' : HostEnvMap[window.location.hostname] || 'staging';
 
 	const configStore = new CustomConfigStore({ networkId, env });
-	const contracts = new CustomContractManager(configStore);
+	// const contracts = new CustomContractManager(configStore);
+
+	const symbol = localStorage.getItem(_orderlySymbolKey) ?? 'PERP_ETH_USDC';
 
 	return (
 		<ConnectorProvider options={onboard as any}>
@@ -55,42 +63,40 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 				onChainChanged={onChainChanged}
 				footerStatusBarProps={app.footerStatusBarProps}
 				shareOptions={app.shareOptions}
-				// chainFilter={{
-				// 	mainnet: [
-				// 		{
-				// 			id: 5000,
-				// 			chainInfo: {
-				// 			  chainId: `0x${(5000).toString(16)}`,
-				// 			  chainName: "Mantle",
-				// 			  nativeCurrency: {
-				// 				name: "MNT",
-				// 				symbol: "MNT",
-				// 				decimals: 6,
-				// 				fix: 4,
-				// 			  },
-				// 			  rpcUrls: ["https://rpc.mantle.xyz/"],
-				// 			  blockExplorerUrls: ["https://mantlescan.xyz/"],
-				// 			},
-				// 			minGasBalance: 0.0002,
-				// 			minCrossGasBalance: 0.002,
-				// 			maxPrepayCrossGas: 0.03,
-				// 			blockExplorerName: "Mantle",
-				// 			chainName: "Mantle",
-				// 			chainNameShort: "Mantle",
-				// 			requestRpc: "https://rpc.mantle.xyz/",
-				// 			chainLogo: "",
-				// 		  }
-				// 	],
-				// 	testnet: [],
-				// }}
+				chainFilter={isProd ? {
+					testnet: [],
+				} : {
+					mainnet: [],
+				}}
 				topBarProps={{
+					nav: <NavbarTab />,
 					left: (
-						<div className="orderly-h-[48px] orderly-p-3">
-							<img className="orderly-w-[160px] orderly-h-[28px]" src="/bookxLogo.png" />
+						<div className="orderly-flex orderly-items-center">
+							<LogoIcon className="orderly-w-[157px] orderly-h-[28px] orderly-mx-3" />
 						</div>
 					),
-					nav: <NavbarTab />,
 				}}
+				topBar={
+					<div>
+						<div className="orderly-flex orderly-border-b orderly-border-semiTransparentWhite orderly-mb-3">
+							<div className="orderly-flex orderly-items-center">
+								<Link href={`/perp/${symbol}`}>
+									<LogoIcon className="orderly-w-[157px] orderly-h-[28px] orderly-mx-3" />
+								</Link>
+							</div>
+
+							<NavbarTab />
+							<div className="orderly-ml-[auto]">
+								<TopLeftNavbar />
+							</div>
+						</div>
+						<div className="orderly-w-full orderly-min-h-10 orderly-bg-lightPurple orderly-text-[#16141C] orderly-text-center orderly-flex orderly-justify-center orderly-items-center orderly-text-[15px] orderly-font-[600]">
+							<Marquee>
+								BookX Alpha Launch 💸 Free Trading: Zero Maker Fees 💸 From September 16th to October 7th
+							</Marquee>
+						</div>
+					</div>
+				}
 				referral={{
 					saveRefCode: true,
 					onBoundRefCode: (success: boolean, error: any) => {
@@ -104,20 +110,10 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 					},
 				}}
 				theme={undefined}
-				// chainFilter={
-				// 	{
-				// 		mainnet: [{ id: 42161 }, { id: 8453 }, { id: 10 }, { id: 169 }],
-				// 		testnet: [{ id: 421614 }, { id: 421613 }],
-				// 	} as any
-				// }
-				// chainFilter={{
-				// 	mainnet: [],
-				// 	testnet: [{ id: ARBITRUM_TESTNET_CHAINID }, { id: MANTLE_TESTNET_CHAINID }],
-				// }}
 			>
 				{props.children}
 			</OrderlyAppProvider>
-		</ConnectorProvider>
+		</ConnectorProvider >
 	);
 };
 

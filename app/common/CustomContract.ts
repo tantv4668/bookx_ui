@@ -38,7 +38,7 @@ const MantleSepolia = {
 };
 
 export class CustomContractManager extends BaseContractManager {
-	constructor(props) {
+	constructor(props: any) {
 		super(props);
 	}
 

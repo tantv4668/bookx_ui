@@ -37,6 +37,11 @@ const NavbarTab: React.FC = () => {
 				path: () => '/portfolio',
 			},
 			{
+				title: 'Affiliate',
+				value: 'referral',
+				path: () => '/referral/dashboard',
+			},
+			{
 				title: 'Docs',
 				value: 'Docs',
 				path: () => 'https://docs.bookx.trade',
@@ -51,16 +56,6 @@ const NavbarTab: React.FC = () => {
 				value: !isProd ? 'Mainnet' : 'Testnet',
 				path: () => (!isProd ? 'https://app.bookx.trade' : 'https://testnet-app.bookx.trade'),
 			},
-			// {
-			// 	title: 'Referral',
-			// 	value: 'referral',
-			// 	path: () => '/referral/dashboard',
-			// },
-			// {
-			// 	title: 'Markets',
-			// 	value: 'markets',
-			// 	path: () => '/markets',
-			// },
 		],
 		[],
 	);
@@ -70,9 +65,15 @@ const NavbarTab: React.FC = () => {
 	};
 
 	useEffect(() => {
-		setActiveTab(pathname === '/portfolio' ? 'portfolio' : pathname === '/trade' ? 'trade' : 'markets');
-
-		console.log('pathname', pathname);
+		setActiveTab(
+			pathname === '/portfolio'
+				? 'portfolio'
+				: pathname === '/referral'
+				? 'referral'
+				: pathname === '/referral/dashboard'
+				? 'referral'
+				: 'trade',
+		);
 	}, [pathname]);
 
 	return (

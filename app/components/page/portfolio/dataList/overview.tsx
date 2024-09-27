@@ -10,8 +10,7 @@ import { WithdrawIcon } from '@/app/components/assets/icons/withdrawIcon';
 import BarChartComponent from '@/app/components/barChart';
 import { LeverageDialog } from '@/app/components/block/accountStatus/full/leverageDialog';
 import { DepositAndWithdrawDialog } from '@/app/components/block/depositAndwithdraw/depositAndWithdrawDialog';
-import { AccountStatus } from '@/app/components/block/desktop/accountStatus.desktop';
-import { showAccountConnectorModal } from '@/app/components/block/walletConnect';
+import { showAccountConnectorModal, WalletConnectSheet } from '@/app/components/block/walletConnect';
 import Button from '@/app/components/globals/button';
 import InputDay from '@/app/components/globals/inputDay';
 import { Select as SelectGlobals } from '@/app/components/globals/select';
@@ -20,17 +19,16 @@ import { AccountStatusEnum } from '@/app/components/types/constants';
 import { formatPreviousDate } from '@/app/components/utils/getPreviousDate';
 import { useAccount, useAccountInfo, useCollateral, usePositionStream, usePrivateQuery } from '@orderly.network/hooks';
 import { Numeral, OrderlyAppContext } from '@orderly.network/react';
+import { StatusGuardButton } from '@orderly.network/react/esm/block/accountStatus';
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import Select, { components } from 'react-select';
 import AssetHistory from './assetHistory';
 import { colourStyles } from './colourStyles';
 import {
-	dataBar,
-	dataLine,
 	dayOptions,
 	depositsWithdrawalsOptions,
 	DistributionOptions,
-	fundingOptions,
+	fundingOptions
 } from './dataOverview';
 import Distribution from './distribution';
 import FundingFee from './fundingFee';
@@ -286,9 +284,9 @@ const Overview: React.FC = (props) => {
 							</span>
 						</div>
 					</div>
-					{state.status === 0 ? (
+					{state.status < 5 ? (
 						<div className="orderly-w-full">
-							<AccountStatus
+							{/* <AccountStatus
 								hideChain
 								status={state.status}
 								address={state.address}
@@ -297,7 +295,8 @@ const Overview: React.FC = (props) => {
 								onConnect={onConnect}
 								dropMenuItem={accountMenuItems}
 								onClickDropMenuItem={onClickAccountMenuItem}
-							/>
+							/> */}
+							<StatusGuardButton />
 						</div>
 					) : (
 						<div className="orderly-box orderly-grid orderly-grid-cols-3 orderly-h-12 orderly-gap-3">

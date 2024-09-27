@@ -1,20 +1,20 @@
 'use client';
-import { FC, ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import type { Column } from './col';
-import { TableHeader } from './thead';
-import { ColGroup } from './colgroup';
-import { TableProvider } from './tableContext';
 import { useAccount, useDebouncedCallback } from '@orderly.network/hooks';
-import { FixedDivide } from './fixedDivide';
-import { TBody, TBodyProps } from './tbody';
-import { Spinner } from '../spinner';
-import { EmptyView } from '../listView/emptyView';
-import { cn } from '../utils/css';
-import { EndReachedBox } from '../listView/endReachedBox';
-import { AccountStatus } from '../block/desktop/accountStatus.desktop';
 import { OrderlyAppContext } from '@orderly.network/react';
+import { StatusGuardButton } from '@orderly.network/react/esm/block/accountStatus';
+import { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { showAccountConnectorModal } from '../block/walletConnect';
+import { EmptyView } from '../listView/emptyView';
+import { EndReachedBox } from '../listView/endReachedBox';
+import { Spinner } from '../spinner';
 import { AccountStatusEnum } from '../types/constants';
+import { cn } from '../utils/css';
+import type { Column } from './col';
+import { ColGroup } from './colgroup';
+import { FixedDivide } from './fixedDivide';
+import { TableProvider } from './tableContext';
+import { TBody, TBodyProps } from './tbody';
+import { TableHeader } from './thead';
 
 export interface TableProps<RecordType> extends TBodyProps<RecordType> {
 	columns: Column<RecordType>[];
@@ -64,22 +64,19 @@ export const Table = <RecordType extends unknown>(props: TableProps<RecordType>)
 		}
 
 		let content: ReactNode = <Spinner />;
-		if (state.status === 0) {
+		if (state.status < 5) {
 			return (
 				<div className="orderly-flex orderly-flex-col orderly-gap-4 orderly-justify-center orderly-items-center orderly-mt-8 orderly-mb-4">
-					<AccountStatus
-						hideChain
-						status={state.status}
-						address={state.address}
-						accountInfo={undefined}
-						className="orderly-mr-3"
-						onConnect={onConnect}
-						dropMenuItem={accountMenuItems}
-						onClickDropMenuItem={onClickAccountMenuItem}
-					/>
-					<div className="orderly-text-[12px] orderly-white orderly-opacity-35 orderly-box orderly-leading-none">
-						Please Connect wallet before starting to trade
+					<div className="orderly-max-w-fit">
+						<StatusGuardButton />
 					</div>
+					{state.status < 5 && (
+						<div className="orderly-text-[12px] orderly-white orderly-opacity-35 orderly-box orderly-leading-none">
+							{state.status < 2
+								? 'Please Connect wallet before starting to trade'
+								: 'Please enable trading before starting to trade'}
+						</div>
+					)}
 				</div>
 			);
 		}

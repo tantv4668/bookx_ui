@@ -26,9 +26,13 @@ const ApiKey: React.FC = (props) => {
 
 	const { data: dataAPIKeys, mutate } = usePrivateQuery<any>(`/v1/client/key_info?keyStatus=ACTIVE`);
 
-	const dataSource = dataAPIKeys
-		? dataAPIKeys.filter((dataAPIKey: any) => dataAPIKey.key_status === 'ACTIVE').slice(0, +numberPage)
-		: dataAPIKeys;
+	const dataSource = useMemo(() => {
+		return dataAPIKeys
+			? dataAPIKeys
+					.filter((dataAPIKey: any) => dataAPIKey.key_status === 'ACTIVE' && dataAPIKey.tag === 'manualCreated')
+					.slice(0, +numberPage)
+			: dataAPIKeys;
+	}, [dataAPIKeys]);
 
 	const handleCopyID = (accountId: string) => {
 		navigator.clipboard.writeText(accountId).then(() => {

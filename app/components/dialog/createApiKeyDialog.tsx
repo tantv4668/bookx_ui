@@ -9,6 +9,7 @@ import { encodeBase58, ethers } from 'ethers';
 import { getPublicKeyAsync, utils } from '@noble/ed25519';
 import { toast } from '../toast';
 import { CopyIDIcon } from '../assets/icons/copyIDIcon';
+import base58 from 'bs58';
 
 declare global {
 	interface Window {
@@ -47,6 +48,7 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 	const [openShowKey, setOpenShowKey] = useState(false);
 	const [formData, setFormData] = useState(defaultForm);
 	const [keyData, setKeyData] = useState<any>('');
+	const [secretKey, setSecretKey] = useState<any>('');
 
 	const { account } = useAccount();
 
@@ -80,6 +82,7 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 			const signer = await provider.getSigner();
 
 			const privateKey = utils.randomPrivateKey();
+			const base58Key = base58.encode(privateKey);
 			const orderlyKey = `ed25519:${encodeBase58(await getPublicKeyAsync(privateKey))}`;
 			const timestamp = Date.now();
 			const addKeyMessage = {
@@ -145,6 +148,7 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 
 			if (data?.success && keyRes) {
 				setKeyData(data.data.orderly_key);
+				setSecretKey(base58Key);
 				setOpenShowKey(true);
 				setOpen(false);
 			}
@@ -181,6 +185,7 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 	const handleClose = () => {
 		setFormData({ ...defaultForm, ip: formData.ip });
 		setKeyData('');
+		setSecretKey('');
 		setOpenShowKey(false);
 		setOpen(false);
 	};
@@ -275,6 +280,15 @@ export const CreateApiKeyDialog: FC<any> = (props) => {
 											onClick={() => handleCopy(keyData ? keyData.split(':')[1] : keyData)}
 											className="orderly-cursor-pointer"
 										>
+											<CopyIDIcon />
+										</span>
+									</div>
+								</div>
+								<div>
+									<div className="orderly-flex-1 orderly-mb-1 orderly-text-[13px]">Secret key </div>
+									<div className="orderly-text-white orderly-text-[14px] orderly-flex orderly-items-center orderly-gap-1 orderly-justify-between">
+										<div className="orderly-max-w-[300px] orderly-break-words">{secretKey && secretKey}</div>
+										<span onClick={() => handleCopy(secretKey && secretKey)} className="orderly-cursor-pointer">
 											<CopyIDIcon />
 										</span>
 									</div>

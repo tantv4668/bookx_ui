@@ -125,6 +125,9 @@ importers:
       axios:
         specifier: ^1.6.2
         version: 1.7.4
+      bs58:
+        specifier: ^6.0.0
+        version: 6.0.0
       chroma-js:
         specifier: ^3.1.1
         version: 3.1.1
@@ -3835,6 +3838,9 @@ packages:
   base-x@4.0.0:
     resolution: {integrity: sha512-FuwxlW4H5kh37X/oW59pwTzzTKRzfrrQwhmyspRM7swOEZcHtDZSCt45U6oKgtuFE+WYPblePMVIPR4RZrh/hw==}
 
+  base-x@5.0.0:
+    resolution: {integrity: sha512-sMW3VGSX1QWVFA6l8U62MLKz29rRfpTlYdCqLdpLo1/Yd4zZwSbnUaDfciIAowAqvq7YFnWq9hrhdg1KYgc1lQ==}
+
   base64-arraybuffer@1.0.2:
     resolution: {integrity: sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==}
     engines: {node: '>= 0.6.0'}
@@ -3969,6 +3975,9 @@ packages:
 
   bs58@5.0.0:
     resolution: {integrity: sha512-r+ihvQJvahgYT50JD05dyJNKlmmSlMoOGwn1lCcEzanPglg7TxYjioQUYehQ9mAR/+hOSd2jRc/Z2y5UxBymvQ==}
+
+  bs58@6.0.0:
+    resolution: {integrity: sha512-PD0wEnEYg6ijszw/u8s+iI3H17cTymlrwkKhDhPZq+Sokl3AU4htyBFTjAeNAlCCmg0f53g6ih3jATyCKftTfw==}
 
   bs58check@2.1.2:
     resolution: {integrity: sha512-0TS1jicxdU09dwJMNZtVAfzPi6Q6QeN0pM1Fkzrjn+XYHvzMKPU3pHVpva+769iNVSfIYWf7LJ6WR+BuuMf8cA==}
@@ -14777,6 +14786,8 @@ snapshots:
 
   base-x@4.0.0: {}
 
+  base-x@5.0.0: {}
+
   base64-arraybuffer@1.0.2: {}
 
   base64-js@1.5.1: {}
@@ -14937,6 +14948,10 @@ snapshots:
   bs58@5.0.0:
     dependencies:
       base-x: 4.0.0
+
+  bs58@6.0.0:
+    dependencies:
+      base-x: 5.0.0
 
   bs58check@2.1.2:
     dependencies:

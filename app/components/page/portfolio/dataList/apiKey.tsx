@@ -181,7 +181,7 @@ const ApiKey: React.FC = (props) => {
 				</div>
 				<CreateApiKeyDialog>
 					<Button
-						disabled={state.status === 0}
+						disabled={state.status < 5}
 						type="button"
 						className={`orderly-button orderly-inline-flex orderly-items-center orderly-justify-center orderly-whitespace-nowrap orderly-transition-colors disabled:orderly-cursor-not-allowed disabled:orderly-bg-base-3 disabled:orderly-text-translucent orderly-px-4 orderly-rounded-md orderly-h-8 orderly-text-sm active:orderly-bg-base-4/50 ${
 							state.status === 0

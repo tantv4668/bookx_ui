@@ -63,11 +63,15 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 				onChainChanged={onChainChanged}
 				footerStatusBarProps={app.footerStatusBarProps}
 				shareOptions={app.shareOptions}
-				chainFilter={isProd ? {
-					testnet: [],
-				} : {
-					mainnet: [],
-				}}
+				chainFilter={
+					isProd
+						? {
+								testnet: [],
+						  }
+						: {
+								mainnet: [],
+						  }
+				}
 				topBarProps={{
 					nav: <NavbarTab />,
 					left: (
@@ -91,9 +95,7 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 							</div>
 						</div>
 						<div className="orderly-w-full orderly-min-h-10 orderly-bg-lightPurple orderly-text-[#16141C] orderly-text-center orderly-flex orderly-justify-center orderly-items-center orderly-text-[15px] orderly-font-[600]">
-							<Marquee>
-								BookX Alpha Launch 💸 Free Trading: Zero Maker Fees 💸 From September 16th to October 7th
-							</Marquee>
+							<Marquee>Become BookX affiliate and get up to 60% trading fee commission 💸</Marquee>
 						</div>
 					</div>
 				}
@@ -113,7 +115,7 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 			>
 				{props.children}
 			</OrderlyAppProvider>
-		</ConnectorProvider >
+		</ConnectorProvider>
 	);
 };
 

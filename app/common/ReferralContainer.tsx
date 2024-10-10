@@ -6,11 +6,22 @@ import { TopNavbar } from '../portfolio/common/topNavbar';
 import { Content } from '../components/layout/content';
 import { Footer } from '../components/layout/footer';
 import { SystemStatusBar } from '../components/block/systemStatusBar';
+import { useEffect } from 'react';
 
 const ReferralContainer: React.FC = (props) => {
 	const router = useRouter();
 	const isProd = process.env.NEXT_PUBLIC_IS_PROD === 'true';
 	const referralLinkUrl = isProd ? 'https://app.bookx.trade' : 'https://testnet-app.bookx.trade';
+
+	useEffect(() => {
+		const element = Array.from(document.querySelectorAll('div')).find(
+			(el) => el.textContent !== null && el.textContent.trim() === '0%~20%',
+		);
+
+		if (element) {
+			element.textContent = '0%~20%++';
+		}
+	});
 
 	return (
 		<Layout>
@@ -23,7 +34,7 @@ const ReferralContainer: React.FC = (props) => {
 						becomeAnAffiliateUrl="https://bit.ly/bookx-affiliate"
 						learnAffiliateUrl="https://docs.bookx.trade/trading-basics/affiliates"
 						referralLinkUrl={referralLinkUrl}
-						bindReferralCodeState={(isSuccess, error, hide, params) => {
+						bindReferralCodeState={(isSuccess, _error, hide, params) => {
 							if (isSuccess) {
 								// push to dashboard page
 								router.push(getFullPath('/referral/dashboard', params));

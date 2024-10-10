@@ -47,6 +47,11 @@ const NavbarTab: React.FC = () => {
 				path: () => 'https://docs.bookx.trade',
 			},
 			{
+				title: 'Rewards',
+				value: 'Rewards',
+				path: () => ' https://app.orderly.network/tradingRewards',
+			},
+			{
 				title: 'Feedback',
 				value: 'Feedback',
 				path: () => 'https://bit.ly/bookx-feedback',
@@ -61,7 +66,9 @@ const NavbarTab: React.FC = () => {
 	);
 
 	const onTabChange = (tab: Tab) => {
-		tab.title !== 'Docs' && tab.title !== 'Feedback' ? router.push(tab.path()) : window.open(tab.path(), '_blank');
+		tab.title !== 'Docs' && tab.title !== 'Feedback' && tab.title !== 'Rewards'
+			? router.push(tab.path())
+			: window.open(tab.path(), '_blank');
 	};
 
 	useEffect(() => {

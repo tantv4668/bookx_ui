@@ -7,12 +7,9 @@ import { CustomConfigStore, ENV_NAME } from './CustomConfigStore';
 import NavbarTab from './NavbarTab';
 import { _orderlySymbolKey } from '../constant';
 import { useRouter } from 'next/navigation';
-import Protect from 'react-app-protect';
 import 'react-app-protect/dist/index.css';
 import { LogoIcon } from '../components/assets/icons/logo';
 import { TopLeftNavbar } from '../components/layout/topLeftNavbar';
-// import { CustomContractManager } from './CustomContract';
-// import { ARBITRUM_TESTNET_CHAINID, MANTLE_TESTNET_CHAINID } from '@orderly.network/types';
 export type NetworkId = 'testnet' | 'mainnet';
 import Marquee from 'react-fast-marquee';
 import Link from 'next/link';
@@ -47,7 +44,6 @@ const OrderlyContainer: React.FC<OrderlyContainerProps> = (props) => {
 	const env = networkId === 'mainnet' ? 'prod' : HostEnvMap[window.location.hostname] || 'staging';
 
 	const configStore = new CustomConfigStore({ networkId, env });
-	// const contracts = new CustomContractManager(configStore);
 
 	const symbol = localStorage.getItem(_orderlySymbolKey) ?? 'PERP_ETH_USDC';
 

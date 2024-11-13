@@ -1,3 +1,5 @@
+'use client';
+
 import { ReferralProvider } from '@orderly.network/referral';
 import { useRouter } from 'next/navigation';
 import { Layout } from '../components/layout';

@@ -42,6 +42,11 @@ const NavbarTab: React.FC = () => {
 				path: () => '/referral/dashboard',
 			},
 			{
+				title: 'Swap',
+				value: 'swap',
+				path: () => '/swap',
+			},
+			{
 				title: 'Rewards',
 				value: 'Rewards',
 				path: () => ' https://app.orderly.network/tradingRewards',
@@ -79,6 +84,8 @@ const NavbarTab: React.FC = () => {
 				? 'referral'
 				: pathname === '/referral/dashboard'
 				? 'referral'
+				: pathname === '/swap'
+				? 'swap'
 				: 'trade',
 		);
 	}, [pathname]);
